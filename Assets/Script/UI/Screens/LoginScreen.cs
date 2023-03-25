@@ -70,11 +70,11 @@ public class LoginScreen : IScreen
     {
         if (toggle.isOn)
         {
-            password_IF.contentType = InputField.ContentType.Standard;
+            password_IF.contentType = InputField.ContentType.Password; 
         }
         else
         {
-            password_IF.contentType = InputField.ContentType.Password;
+            password_IF.contentType = InputField.ContentType.Standard;
         }
         password_IF.ForceLabelUpdate();
     }
