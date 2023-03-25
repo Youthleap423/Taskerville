@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<projectSettings>
+  <projectSetting name="com.google.external-dependency-managerAnalyticsCookie" value="abda706eaa0145179be524e0d2ede0bc" />
+  <projectSetting name="com.google.external-dependency-managerAnalyticsEnabled" value="True" />
+  <projectSetting name="com.google.firebaseAnalyticsCookie" value="9f6be6ca79334f3b887778f27a7eec25" />
+  <projectSetting name="com.google.firebaseAnalyticsEnabled" value="True" />
+  <projectSetting name="Google.IOSResolver.AutoPodToolInstallInEditor" value="True" />
+  <projectSetting name="Google.IOSResolver.CocoapodsIntegrationMethod" value="2" />
+  <projectSetting name="Google.IOSResolver.PodfileAddUseFrameworks" value="True" />
+  <projectSetting name="Google.IOSResolver.PodfileAllowPodsInMultipleTargets" value="True" />
+  <projectSetting name="Google.IOSResolver.PodfileAlwaysAddMainTarget" value="True" />
+  <projectSetting name="Google.IOSResolver.PodfileEnabled" value="True" />
+  <projectSetting name="Google.IOSResolver.PodfileStaticLinkFrameworks" value="False" />
+  <projectSetting name="Google.IOSResolver.PodToolExecutionViaShellEnabled" value="True" />
+  <projectSetting name="Google.IOSResolver.VerboseLoggingEnabled" value="False" />
+  <projectSetting name="Google.PackageManagerResolver.VerboseLoggingEnabled" value="False" />
+  <projectSetting name="Google.VersionHandler.VerboseLoggingEnabled" value="False" />
+  <projectSetting name="GooglePlayServices.PromptBeforeAutoResolution" value="False" />
+  <projectSetting name="GooglePlayServices.UseJetifier" value="True" />
+</projectSettings>

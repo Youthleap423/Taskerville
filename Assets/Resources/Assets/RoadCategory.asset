@@ -1,0 +1,202 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1871346d246841f1a18077cd591838c0, type: 3}
+  m_Name: RoadCategory
+  m_EditorClassIdentifier: 
+  storeCategoryId: roads
+  category:
+  - Description: Road_H
+    GoldAmount: 20
+    LumberAmount: 20
+    StoneAmount: 20
+    IronAmount: 0
+    TimeToBuild: 0
+    XpAward: 0
+    HP: 0
+    UpRatio: 0
+    IdOfStoreIcon: road1
+    IdOfModelIcon: road1
+    MaxCountOfThisItem: 20000
+    groundMaterial: Grass
+    isStatic: 0
+    isDemolishable: 1
+    name: Road
+    id: 1
+    asset:
+    - {fileID: 7382695067879673954, guid: 7ed8674482a5541ae9f5cee856caef65, type: 3}
+    grass:
+    - {fileID: 7131706045639831120, guid: f89778df6dc804be983b5a2d7a579b21, type: 3}
+    structureType: Road
+    prodType: 3
+    prodPerHour: 0
+    storeType: 0
+    storeResource: 3
+    storeCap: 0
+    damagePoints: 0
+    fireRate: 0
+    type: 28
+    buildingIndex: 0
+  - Description: Road_V
+    GoldAmount: 20
+    LumberAmount: 20
+    StoneAmount: 20
+    IronAmount: 0
+    TimeToBuild: 0
+    XpAward: 0
+    HP: 0
+    UpRatio: 0
+    IdOfStoreIcon: road1
+    IdOfModelIcon: road1
+    MaxCountOfThisItem: 20000
+    groundMaterial: Grass
+    isStatic: 0
+    isDemolishable: 1
+    name: Road
+    id: 2
+    asset:
+    - {fileID: 3354663143834319813, guid: 6bfe5ca26860c4f568a47a01f9cf5286, type: 3}
+    grass:
+    - {fileID: 7131706045639831120, guid: f89778df6dc804be983b5a2d7a579b21, type: 3}
+    structureType: Road
+    prodType: 3
+    prodPerHour: 0
+    storeType: 0
+    storeResource: 3
+    storeCap: 0
+    damagePoints: 0
+    fireRate: 0
+    type: 28
+    buildingIndex: 0
+  - Description: Road_SW_Curve
+    GoldAmount: 20
+    LumberAmount: 20
+    StoneAmount: 20
+    IronAmount: 0
+    TimeToBuild: 0
+    XpAward: 0
+    HP: 0
+    UpRatio: 0
+    IdOfStoreIcon: road1
+    IdOfModelIcon: road1
+    MaxCountOfThisItem: 20000
+    groundMaterial: Grass
+    isStatic: 0
+    isDemolishable: 1
+    name: Road
+    id: 3
+    asset:
+    - {fileID: 8969828563302372278, guid: 19d1117fc473c48538beebcac5c53521, type: 3}
+    grass:
+    - {fileID: 7131706045639831120, guid: f89778df6dc804be983b5a2d7a579b21, type: 3}
+    structureType: Road
+    prodType: 3
+    prodPerHour: 0
+    storeType: 0
+    storeResource: 3
+    storeCap: 0
+    damagePoints: 0
+    fireRate: 0
+    type: 28
+    buildingIndex: 0
+  - Description: Road_SE_Curve
+    GoldAmount: 20
+    LumberAmount: 20
+    StoneAmount: 20
+    IronAmount: 0
+    TimeToBuild: 0
+    XpAward: 0
+    HP: 0
+    UpRatio: 0
+    IdOfStoreIcon: road1
+    IdOfModelIcon: road1
+    MaxCountOfThisItem: 20000
+    groundMaterial: Grass
+    isStatic: 0
+    isDemolishable: 1
+    name: Road
+    id: 4
+    asset:
+    - {fileID: 1742105293300589374, guid: 951602134094b4aa88c4aa674c955706, type: 3}
+    grass:
+    - {fileID: 7131706045639831120, guid: f89778df6dc804be983b5a2d7a579b21, type: 3}
+    structureType: Road
+    prodType: 3
+    prodPerHour: 0
+    storeType: 0
+    storeResource: 3
+    storeCap: 0
+    damagePoints: 0
+    fireRate: 0
+    type: 28
+    buildingIndex: 0
+  - Description: Road_NW_Curve
+    GoldAmount: 20
+    LumberAmount: 20
+    StoneAmount: 20
+    IronAmount: 0
+    TimeToBuild: 0
+    XpAward: 0
+    HP: 0
+    UpRatio: 0
+    IdOfStoreIcon: road1
+    IdOfModelIcon: road1
+    MaxCountOfThisItem: 20000
+    groundMaterial: Grass
+    isStatic: 0
+    isDemolishable: 1
+    name: Road
+    id: 5
+    asset:
+    - {fileID: 2149592267782789059, guid: 4e6eaf615554f4569aa5fbddaadfe230, type: 3}
+    grass:
+    - {fileID: 7131706045639831120, guid: f89778df6dc804be983b5a2d7a579b21, type: 3}
+    structureType: Road
+    prodType: 3
+    prodPerHour: 0
+    storeType: 0
+    storeResource: 3
+    storeCap: 0
+    damagePoints: 0
+    fireRate: 0
+    type: 28
+    buildingIndex: 0
+  - Description: Road_NE_Curve
+    GoldAmount: 20
+    LumberAmount: 20
+    StoneAmount: 20
+    IronAmount: 0
+    TimeToBuild: 0
+    XpAward: 0
+    HP: 0
+    UpRatio: 0
+    IdOfStoreIcon: road1
+    IdOfModelIcon: road1
+    MaxCountOfThisItem: 20000
+    groundMaterial: Grass
+    isStatic: 0
+    isDemolishable: 1
+    name: Road
+    id: 6
+    asset:
+    - {fileID: 8192235580189902424, guid: 20390548e2b124996adba364817500fe, type: 3}
+    grass:
+    - {fileID: 7131706045639831120, guid: f89778df6dc804be983b5a2d7a579b21, type: 3}
+    structureType: Road
+    prodType: 3
+    prodPerHour: 0
+    storeType: 0
+    storeResource: 3
+    storeCap: 0
+    damagePoints: 0
+    fireRate: 0
+    type: 28
+    buildingIndex: 0

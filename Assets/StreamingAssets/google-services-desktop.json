@@ -1,0 +1,36 @@
+{
+  "client": [
+    {
+      "services": {
+        "appinvite_service": {
+          "status": 1
+        }, 
+        "analytics_service": {
+          "status": 0
+        }
+      }, 
+      "oauth_client": [
+        {
+          "client_id": "843165110104-0ebqcqbng970rl3c56panrjbr52c02ov.apps.googleusercontent.com"
+        }
+      ], 
+      "api_key": [
+        {
+          "current_key": "AIzaSyCL-vARDtJUqnOrrgrqUDr9PXtEXUKKOVM"
+        }
+      ], 
+      "client_info": {
+        "mobilesdk_app_id": "1:843165110104:ios:0cd36d978513bf6e4edf2d", 
+        "android_client_info": {
+          "package_name": "com.carilson.taskerville"
+        }
+      }
+    }
+  ], 
+  "configuration_version": "1", 
+  "project_info": {
+    "storage_bucket": "carilson-designs.appspot.com", 
+    "project_id": "carilson-designs", 
+    "project_number": "843165110104"
+  }
+}

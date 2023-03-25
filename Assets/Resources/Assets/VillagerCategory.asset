@@ -1,0 +1,507 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48fdbec25757e49fabacf1faa084f22b, type: 3}
+  m_Name: VillagerCategory
+  m_EditorClassIdentifier: Assembly-CSharp::VillageData
+  villagers:
+  - name: Mayor
+    id: 1
+    type: 0
+    meal_amount: 0
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 0
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 
+  - name: Administrator
+    id: 2
+    type: 1
+    meal_amount: 0
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 0
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 
+  - name: Cabinet
+    id: 3
+    type: 28
+    meal_amount: 0
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 0
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 
+  - name: Archeologist
+    id: 4
+    type: 33
+    meal_amount: 0
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 0
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 
+  - name: Acquisitions Trader
+    id: 5
+    type: 34
+    meal_amount: 0
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 0
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 
+  - name: Judge
+    id: 6
+    type: 35
+    meal_amount: 0
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 0
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 
+  - name: Constable
+    id: 7
+    type: 36
+    meal_amount: 0
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 0
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 
+  - name: Bailiff
+    id: 8
+    type: 37
+    meal_amount: 0
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 0
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 
+  - name: Farmer
+    id: 9
+    type: 2
+    meal_amount: 21
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 60
+    number_of_limit: 4
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 02000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e000000
+  - name: Woodcutter
+    id: 10
+    type: 4
+    meal_amount: 21
+    salary_amount: 5
+    pension_amount: 1
+    hire_price: 50
+    number_of_limit: 3
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 14000000
+  - name: Miner
+    id: 11
+    type: 5
+    meal_amount: 21
+    salary_amount: 7
+    pension_amount: 1
+    hire_price: 80
+    number_of_limit: 1
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 3d0000003e000000
+  - name: Baker
+    id: 12
+    type: 7
+    meal_amount: 21
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 80
+    number_of_limit: 2
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 10000000
+  - name: Quarryman
+    id: 13
+    type: 6
+    meal_amount: 21
+    salary_amount: 7
+    pension_amount: 1
+    hire_price: 80
+    number_of_limit: 1
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 3f000000
+  - name: Blacksmith
+    id: 14
+    type: 11
+    meal_amount: 21
+    salary_amount: 10
+    pension_amount: 1
+    hire_price: 100
+    number_of_limit: 1
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 2a000000
+  - name: Sawyer
+    id: 15
+    type: 14
+    meal_amount: 21
+    salary_amount: 7
+    pension_amount: 1
+    hire_price: 80
+    number_of_limit: 3
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 28000000
+  - name: Rancher
+    id: 16
+    type: 3
+    meal_amount: 21
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 50
+    number_of_limit: 3
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 01000000
+  - name: Fisherman
+    id: 17
+    type: 19
+    meal_amount: 21
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 40
+    number_of_limit: 2
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 13000000
+  - name: Philosopher
+    id: 18
+    type: 19
+    meal_amount: 21
+    salary_amount: 12
+    pension_amount: 1
+    hire_price: 150
+    number_of_limit: 1
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 37000000
+  - name: Butcher
+    id: 19
+    type: 16
+    meal_amount: 21
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 60
+    number_of_limit: 2
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 12000000
+  - name: Barkeep
+    id: 20
+    type: 10
+    meal_amount: 21
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 100
+    number_of_limit: 2
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 1c000000
+  - name: Beach In Keeper
+    id: 21
+    type: 9
+    meal_amount: 21
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 60
+    number_of_limit: 1
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 18000000
+  - name: Medicine woman
+    id: 22
+    type: 20
+    meal_amount: 21
+    salary_amount: 7
+    pension_amount: 1
+    hire_price: 150
+    number_of_limit: 1
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 3a000000
+  - name: Curator
+    id: 23
+    type: 15
+    meal_amount: 21
+    salary_amount: 12
+    pension_amount: 1
+    hire_price: 150
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 1
+    buildingIds: 0f0000001b000000
+  - name: Brewster
+    id: 24
+    type: 21
+    meal_amount: 21
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 100
+    number_of_limit: 2
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 1c000000
+  - name: Knight
+    id: 25
+    type: 26
+    meal_amount: 0
+    salary_amount: 15
+    pension_amount: 1
+    hire_price: 200
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 25000000
+  - name: Archer
+    id: 26
+    type: 29
+    meal_amount: 0
+    salary_amount: 10
+    pension_amount: 1
+    hire_price: 130
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 25000000
+  - name: Crossbowman
+    id: 27
+    type: 27
+    meal_amount: 0
+    salary_amount: 12
+    pension_amount: 1
+    hire_price: 160
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 25000000
+  - name: Trebuchet
+    id: 28
+    type: 27
+    meal_amount: 21
+    salary_amount: 12
+    pension_amount: 1
+    hire_price: 160
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 25000000
+  - name: Builder
+    id: 29
+    type: 32
+    meal_amount: 21
+    salary_amount: 7
+    pension_amount: 1
+    hire_price: 0
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 
+  - name: Inn Keeper
+    id: 30
+    type: 8
+    meal_amount: 21
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 0
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 
+  - name: Wharf Master
+    id: 31
+    type: 17
+    meal_amount: 21
+    salary_amount: 7
+    pension_amount: 1
+    hire_price: 0
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 
+  - name: Laborer
+    id: 32
+    type: 22
+    meal_amount: 21
+    salary_amount: 2
+    pension_amount: 1
+    hire_price: 0
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 
+  - name: Spouse
+    id: 33
+    type: 23
+    meal_amount: 0
+    salary_amount: 2
+    pension_amount: 1
+    hire_price: 0
+    number_of_limit: 0
+    size_of_house: 1
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 
+  - name: Traveling Merchant
+    id: 34
+    type: 18
+    meal_amount: 21
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 0
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 
+  - name: Commander
+    id: 35
+    type: 25
+    meal_amount: 0
+    salary_amount: 20
+    pension_amount: 1
+    hire_price: 0
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 
+  - name: Child
+    id: 36
+    type: 24
+    meal_amount: 0
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 0
+    number_of_limit: 0
+    size_of_house: 1
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 
+  - name: Spiritual Leader
+    id: 37
+    type: 13
+    meal_amount: 21
+    salary_amount: 12
+    pension_amount: 1
+    hire_price: 150
+    number_of_limit: 1
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 64000000
+  - name: Miller
+    id: 38
+    type: 12
+    meal_amount: 21
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 80
+    number_of_limit: 2
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 29000000
+  - name: Swordsman
+    id: 38
+    type: 38
+    meal_amount: 21
+    salary_amount: 12
+    pension_amount: 1
+    hire_price: 160
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 200000002b000000710000003d000000d8000000
+  - name: ShopKeeper
+    id: 39
+    type: 40
+    meal_amount: 21
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 0
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 54
+    stay_dates: 3
+    buildingIds: 
+  - name: Castle Servant
+    id: 40
+    type: 41
+    meal_amount: 0
+    salary_amount: 0
+    pension_amount: 1
+    hire_price: 0
+    number_of_limit: 0
+    size_of_house: 2
+    stay_bID: 80
+    stay_dates: 3
+    buildingIds: 

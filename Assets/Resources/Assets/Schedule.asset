@@ -1,0 +1,244 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a46e1023eb754046b14527b3844a085, type: 3}
+  m_Name: Schedule
+  m_EditorClassIdentifier: 
+  schedules:
+  - name: Fava Bean
+    id: 2
+    bID: 119
+    day: 0
+    preCompleteIds: []
+    isBonus: 0
+  - name: Corn
+    id: 5
+    bID: 62
+    day: 4
+    preCompleteIds:
+    - 1
+    - 3
+    isBonus: 1
+  - name: Cabbage
+    id: 12
+    bID: 179
+    day: 11
+    preCompleteIds:
+    - 2
+    - 4
+    - 6
+    - 8
+    - 10
+    isBonus: 1
+  - name: WoodCutter
+    id: 13
+    bID: 108
+    day: 14
+    preCompleteIds:
+    - 1
+    - 3
+    - 5
+    - 7
+    - 9
+    - 11
+    isBonus: 0
+  - name: Sawmill
+    id: 14
+    bID: 186
+    day: 14
+    preCompleteIds:
+    - 2
+    - 4
+    - 6
+    - 8
+    - 10
+    - 12
+    isBonus: 0
+  - name: Mine
+    id: 17
+    bID: 79
+    day: 16
+    preCompleteIds:
+    - 1
+    - 3
+    - 5
+    - 7
+    - 9
+    - 11
+    - 13
+    - 15
+    isBonus: 1
+  - name: Cottage2
+    id: 6
+    bID: 77
+    day: 2
+    preCompleteIds:
+    - 1
+    - 3
+    - 5
+    - 6
+    - 7
+    isBonus: 0
+  - name: Art Gallery
+    id: 3
+    bID: 95
+    day: 2
+    preCompleteIds:
+    - 1
+    isBonus: 0
+  - name: Manor
+    id: 4
+    bID: 90
+    day: 2
+    preCompleteIds:
+    - 2
+    isBonus: 0
+  - name: Cottage1
+    id: 10
+    bID: 76
+    day: 10
+    preCompleteIds:
+    - 2
+    - 4
+    - 6
+    - 8
+    isBonus: 0
+  - name: Cottage2
+    id: 15
+    bID: 74
+    day: 15
+    preCompleteIds:
+    - 1
+    - 3
+    - 5
+    - 7
+    - 9
+    - 11
+    - 13
+    isBonus: 0
+  - name: Museum
+    id: 7
+    bID: 94
+    day: 9
+    preCompleteIds:
+    - 1
+    - 3
+    - 5
+    isBonus: 0
+  - name: Manor
+    id: 8
+    bID: 184
+    day: 9
+    preCompleteIds:
+    - 2
+    - 4
+    - 6
+    isBonus: 0
+  - name: Apple Farm
+    id: 1
+    bID: 181
+    day: 0
+    preCompleteIds: []
+    isBonus: 0
+  - name: Melon Farm
+    id: 16
+    bID: 174
+    day: 15
+    preCompleteIds:
+    - 2
+    - 4
+    - 6
+    - 8
+    - 10
+    - 12
+    - 14
+    isBonus: 0
+  - name: Strawberry Farm
+    id: 9
+    bID: 178
+    day: 10
+    preCompleteIds:
+    - 1
+    - 3
+    - 5
+    - 7
+    isBonus: 0
+  - name: Corn Farm
+    id: 11
+    bID: 117
+    day: 11
+    preCompleteIds:
+    - 1
+    - 3
+    - 5
+    - 7
+    - 9
+    isBonus: 0
+  - name: Corn Farm
+    id: 18
+    bID: 207
+    day: 16
+    preCompleteIds:
+    - 2
+    - 4
+    - 6
+    - 8
+    - 10
+    - 12
+    - 14
+    - 16
+    isBonus: 0
+  - name: Cottage 1
+    id: 19
+    bID: 207
+    day: 19
+    preCompleteIds:
+    - 1
+    - 3
+    - 5
+    - 7
+    - 9
+    - 11
+    - 13
+    - 15
+    - 17
+    isBonus: 0
+  - name: Iron Forge
+    id: 20
+    bID: 223
+    day: 19
+    preCompleteIds:
+    - 2
+    - 4
+    - 6
+    - 8
+    - 10
+    - 12
+    - 14
+    - 16
+    - 18
+    - 20
+    isBonus: 0
+  - name: Spiritual/Philosophy Hall
+    id: 21
+    bID: 100
+    day: 24
+    preCompleteIds:
+    - 1
+    - 3
+    - 5
+    - 7
+    - 9
+    - 11
+    - 13
+    - 15
+    - 17
+    isBonus: 0

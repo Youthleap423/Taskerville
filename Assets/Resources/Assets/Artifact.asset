@@ -1,0 +1,4074 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f50f8f45a16b84b1295395f6b107688c, type: 3}
+  m_Name: Artifact
+  m_EditorClassIdentifier: 
+  commonList:
+  - name: Akrete Chalice
+    id: 1
+    date: c. 212
+    type: 50
+    image: {fileID: 21300000, guid: 70569480bf7174ba3bde498413a24ca1, type: 3}
+  - name: Alibesh Alabaster Relief
+    id: 2
+    date: c. 706
+    type: 50
+    image: {fileID: 21300000, guid: 54736595aa9b54a2aaf34372b8dec3b7, type: 3}
+  - name: Alibesh Coffee Pot
+    id: 3
+    date: c. 720
+    type: 50
+    image: {fileID: 21300000, guid: f8dc3bee9d6e14dbca49eea7761d585e, type: 3}
+  - name: Alibesh Sculpture of Resurrection
+    id: 4
+    date: c. 620
+    type: 50
+    image: {fileID: 21300000, guid: aa4f9a3d3ac7245ed837267d88e48190, type: 3}
+  - name: Alkibulen Ring
+    id: 5
+    date: c. 562
+    type: 50
+    image: {fileID: 21300000, guid: 035f584e1ac3e4b2c951d3b34ab6883f, type: 3}
+  - name: Alkibulen Snuff Container
+    id: 6
+    date: c.608
+    type: 50
+    image: {fileID: 21300000, guid: 861edc6939abb4b6d922420401d0d8e8, type: 3}
+  - name: Argeten Profile Warrior Ornament
+    id: 8
+    date: c.189
+    type: 50
+    image: {fileID: 21300000, guid: a9004a8358aa044b5aaa8d08a1960914, type: 3}
+  - name: Anglees Coin
+    id: 7
+    date: c. 415
+    type: 50
+    image: {fileID: 21300000, guid: 3142a486aeb384ba68d54ae26902eaa0, type: 3}
+  - name: Baylogin temple art
+    id: 9
+    date: c. 62 BCE
+    type: 50
+    image: {fileID: 21300000, guid: f58b0e362df884c5a8c5552b448c00a2, type: 3}
+  - name: Bhuratan Coin
+    id: 10
+    date: c. 150 BCE
+    type: 50
+    image: {fileID: 21300000, guid: 03e3de388a99d4829813c9285b38e79a, type: 3}
+  - name: Bhuratan manuscript folio
+    id: 11
+    date: c.413
+    type: 50
+    image: {fileID: 21300000, guid: 146a71f752560423782d2164a2185257, type: 3}
+  - name: Bhuratan Manuscript Fragment
+    id: 12
+    date: c. 130
+    type: 50
+    image: {fileID: 21300000, guid: 42965b4b4b0e94b1f90ba7bb1aefbf6d, type: 3}
+  - name: Bhuratan Sculpture of Vajra Tara
+    id: 13
+    date: c. 580
+    type: 50
+    image: {fileID: 21300000, guid: e1945f269aebb4bcab81233afe4ef964, type: 3}
+  - name: Bodin buddhist art
+    id: 14
+    date: c. 613
+    type: 50
+    image: {fileID: 21300000, guid: f3c3012732d1a4f1381c7304b74d3d9e, type: 3}
+  - name: Canbruges Document of Laws Fragment
+    id: 15
+    date: c. 620
+    type: 50
+    image: {fileID: 21300000, guid: 7003fd8998b65490984ab7329b2a340c, type: 3}
+  - name: Cordesh Document of Xani Poem
+    id: 16
+    date: c. 535
+    type: 50
+    image: {fileID: 21300000, guid: 8b965be51e88542ed8d193e600e32f05, type: 3}
+  - name: Etrusen Chalice
+    id: 17
+    date: c. 203 BCE
+    type: 50
+    image: {fileID: 21300000, guid: 8688ff9578abe446697d6ee950ef78b6, type: 3}
+  - name: Etrusen Chalice
+    id: 18
+    date: c. 213 BCE
+    type: 50
+    image: {fileID: 21300000, guid: f45d2ca7cad924eb7a26ff9ad0130d5c, type: 3}
+  - name: Etrusen Chalice
+    id: 19
+    date: c. 215 BCE
+    type: 50
+    image: {fileID: 21300000, guid: 5445288aa95494e4a93645193830ed8f, type: 3}
+  - name: Gaulan Andiron
+    id: 20
+    date: c. 690
+    type: 50
+    image: {fileID: 21300000, guid: 9db50b2d6507c4b8599aa20ac11f8b30, type: 3}
+  - name: Gaulan Andiron
+    id: 21
+    date: c. 713
+    type: 50
+    image: {fileID: 21300000, guid: 91bbfc043ddf74dbdaf5db4f8fed99d1, type: 3}
+  - name: Gaulan Archangel statue
+    id: 22
+    date: c. 490
+    type: 50
+    image: {fileID: 21300000, guid: 0ef9110adda7444ad8f2eebf23b75e15, type: 3}
+  - name: Gaulan Art Cameo of King Charles
+    id: 23
+    date: c. 712
+    type: 50
+    image: {fileID: 21300000, guid: 8e071a4e15445410fa73c9482ec755cb, type: 3}
+  - name: Gaulan Carved Wood Panel
+    id: 24
+    date: c. 720
+    type: 50
+    image: {fileID: 21300000, guid: 986bc1b8c0a6f4f50a031b15abedc641, type: 3}
+  - name: Gaulan Chest
+    id: 25
+    date: c. 420
+    type: 50
+    image: {fileID: 21300000, guid: 785f04fae16e548049faf7a67593125a, type: 3}
+  - name: Gaulan Christian Art
+    id: 26
+    date: c. 724
+    type: 50
+    image: {fileID: 21300000, guid: caf2f5ee822c945a2bc90af2f8f5caa4, type: 3}
+  - name: Gaulan Church Bas Relief
+    id: 27
+    date: c. 520
+    type: 50
+    image: {fileID: 21300000, guid: a54d050848d4149b2b317975242425d2, type: 3}
+  - name: Gaulan Clumn Remnant
+    id: 28
+    date: c. 420
+    type: 50
+    image: {fileID: 21300000, guid: 94ec2ac0db0624a409c565c0a585a194, type: 3}
+  - name: Gaulan Cranequin
+    id: 29
+    date: c. 727
+    type: 50
+    image: {fileID: 21300000, guid: 50c99e8bd88834a8d928e6f9e3f241ce, type: 3}
+  - name: Gaulan Decorative plate
+    id: 30
+    date: c. 390
+    type: 50
+    image: {fileID: 21300000, guid: d31899c23b52c47a4a7751ccb358b63c, type: 3}
+  - name: Gaulan Fan
+    id: 31
+    date: c. 680
+    type: 50
+    image: {fileID: 21300000, guid: 48f93938ebca24206bf6d4c71a93a8d1, type: 3}
+  - name: Gaulan Fire Screen
+    id: 32
+    date: c. 513
+    type: 50
+    image: {fileID: 21300000, guid: f5a76ebc306e7485ebdac54aeedccb01, type: 3}
+  - name: Gaulan Fleur de Lys
+    id: 33
+    date: c. 412
+    type: 50
+    image: {fileID: 21300000, guid: ef573c8fc4afd4b83b86bd2378881710, type: 3}
+  - name: Gaulan Gold Button
+    id: 34
+    date: c. 612
+    type: 50
+    image: {fileID: 21300000, guid: 548b88af5de7240bc871078800e7a5ce, type: 3}
+  - name: Gaulan Hand Mirror
+    id: 35
+    date: c. 670
+    type: 50
+    image: {fileID: 21300000, guid: 4a938a385877e429bbbb4b2b6fc848b6, type: 3}
+  - name: Gaulan Ivory Diptychon
+    id: 36
+    date: c. 670
+    type: 50
+    image: {fileID: 21300000, guid: 94d4d8bf4831142eeb4d7d99f029e885, type: 3}
+  - name: Gaulan Jewel
+    id: 37
+    date: c. 690
+    type: 50
+    image: {fileID: 21300000, guid: a8fc861a654204dc0bd8bd2ec21ab3a3, type: 3}
+  - name: 'Gaulan Jewelry Box '
+    id: 38
+    date: c. 480
+    type: 50
+    image: {fileID: 21300000, guid: f475c9e03d9ee4289a2578c5071303b6, type: 3}
+  - name: Gaulan Jewels
+    id: 39
+    date: c. 480
+    type: 50
+    image: {fileID: 21300000, guid: 084cad274edbf425988babb32cdefe13, type: 3}
+  - name: Gaulan Leather Panel
+    id: 40
+    date: c. 410
+    type: 50
+    image: {fileID: 21300000, guid: 6f8f54eabfd9b41f6ba0badc22e3febd, type: 3}
+  - name: Gaulan Mantle Centerpiece
+    id: 41
+    date: c. 709
+    type: 50
+    image: {fileID: 21300000, guid: 8ca5434c0f74446ba92361f408626cfc, type: 3}
+  - name: Gaulan Ornamental Detail
+    id: 42
+    date: c. 620
+    type: 50
+    image: {fileID: 21300000, guid: 244c7302cdc914063a4efbd01345afee, type: 3}
+  - name: Gaulan Ornamental Finial
+    id: 43
+    date: c. 420
+    type: 50
+    image: {fileID: 21300000, guid: aba3bd45ac76b431f97187dc3ef9aab9, type: 3}
+  - name: Gaulan Partisan
+    id: 44
+    date: c. 710
+    type: 50
+    image: {fileID: 21300000, guid: f4b4dbcc9091343b4b107fa92817a99f, type: 3}
+  - name: Gaulan Partisan
+    id: 45
+    date: c. 726
+    type: 50
+    image: {fileID: 21300000, guid: 761740781e8ef47b586d4c686e3e2089, type: 3}
+  - name: Gaulan Pendant
+    id: 46
+    date: c. 722
+    type: 50
+    image: {fileID: 21300000, guid: b14cd2ec4d62742e0a8c2fdde118dfa0, type: 3}
+  - name: Gaulan Pillar Fragment
+    id: 47
+    date: c. 680
+    type: 50
+    image: {fileID: 21300000, guid: be92a72e998b34dcda1b61abbe5bab75, type: 3}
+  - name: Gaulan Pinnacle
+    id: 48
+    date: c. 690
+    type: 50
+    image: {fileID: 21300000, guid: 53915b8aa5fcb4c6d86a45e9f4cf4f4d, type: 3}
+  - name: Gaulan Powder Box
+    id: 49
+    date: c. 715
+    type: 50
+    image: {fileID: 21300000, guid: b1fcb0824eafc4f7ca4b6659935fedcd, type: 3}
+  - name: Gaulan Religious Sculpture
+    id: 50
+    date: c. 520
+    type: 50
+    image: {fileID: 21300000, guid: 77de4384133c548ff9bab67357357c4b, type: 3}
+  - name: Gaulan Ring
+    id: 51
+    date: c. 392
+    type: 50
+    image: {fileID: 21300000, guid: 3150c6f7fd67f4f9f8fd4adee76a708d, type: 3}
+  - name: 'Gaulan Scent Bottle '
+    id: 52
+    date: c. 592
+    type: 50
+    image: {fileID: 21300000, guid: 0f65ee233c2f241e7a387405030f9827, type: 3}
+  - name: Gaulan Scent Bottle
+    id: 53
+    date: c. 711
+    type: 50
+    image: {fileID: 21300000, guid: 3f25be00405364a2da7251a267b2cebf, type: 3}
+  - name: Gaulan Scent Bottle
+    id: 54
+    date: c. 713
+    type: 50
+    image: {fileID: 21300000, guid: 4bba5df2b918144eba284c5069ebbd98, type: 3}
+  - name: Gaulan Sculpture of God
+    id: 55
+    date: c. 710
+    type: 50
+    image: {fileID: 21300000, guid: f6b78446fa8e94490a6057c093f67b0f, type: 3}
+  - name: Gaulan Sculpture
+    id: 56
+    date: c. 490
+    type: 50
+    image: {fileID: 21300000, guid: cdbbb1cce0efe4de9b0ffc347ab8eba4, type: 3}
+  - name: Gaulan Sculpture
+    id: 57
+    date: c. 690
+    type: 50
+    image: {fileID: 21300000, guid: b256389a151f94c07bf6b6f5b4b1da3c, type: 3}
+  - name: Gaulan statue of Autumn
+    id: 58
+    date: c. 698
+    type: 50
+    image: {fileID: 21300000, guid: 3927b429fe37e4970840be77d1d9e517, type: 3}
+  - name: Gaulan Statue of Madonna and Child
+    id: 59
+    date: c. 480
+    type: 50
+    image: {fileID: 21300000, guid: 93c680f5f058d44ec834c513654b0c75, type: 3}
+  - name: Gaulan Statue of Madonna and Child
+    id: 60
+    date: c. 720
+    type: 50
+    image: {fileID: 21300000, guid: cd9b1927a0a504e599909a7bd769146c, type: 3}
+  - name: Gaulan Wall Bracket
+    id: 61
+    date: c. 690
+    type: 50
+    image: {fileID: 21300000, guid: a5fff5ea096624fb597752b8aab5e52c, type: 3}
+  - name: Gaulan wood comb
+    id: 62
+    date: c. 590
+    type: 50
+    image: {fileID: 21300000, guid: 43dadb889447d4b69a0d08f3c6cb33ba, type: 3}
+  - name: Gaulan Wood Panel
+    id: 63
+    date: c. 722
+    type: 50
+    image: {fileID: 21300000, guid: cec886bfabd4a4cf3855306e44fd6ce1, type: 3}
+  - name: Gaulan Woven Purse
+    id: 64
+    date: c. 709
+    type: 50
+    image: {fileID: 21300000, guid: 54bd5afbc6e1b4223b80b5a353a23483, type: 3}
+  - name: Gualan Plate
+    id: 65
+    date: c. 225
+    type: 50
+    image: {fileID: 21300000, guid: f2a268a2ab0b0437299e4abab44815af, type: 3}
+  - name: Haiken Manuscript
+    id: 66
+    date: c. 430
+    type: 50
+    image: {fileID: 21300000, guid: 0481bbf723463406ab2be12a8fc6830b, type: 3}
+  - name: Haiken Religious Manuscript portion
+    id: 67
+    date: c. 512
+    type: 50
+    image: {fileID: 21300000, guid: 185dfcd0d11aa4f4b841c14ad982233a, type: 3}
+  - name: Haiken Religious Manuscript
+    id: 68
+    date: c. 410
+    type: 50
+    image: {fileID: 21300000, guid: d829b61a5781c48989580696731d0c0e, type: 3}
+  - name: Haren Baroque Chalice
+    id: 69
+    date: c. 590
+    type: 50
+    image: {fileID: 21300000, guid: daf9284163edc42cdb5c348fd6a44235, type: 3}
+  - name: Haren Busts of Apostles
+    id: 70
+    date: c. 490
+    type: 50
+    image: {fileID: 21300000, guid: e7e939b5fc4ce4fe090c86e9c8290039, type: 3}
+  - name: Haren Codex Palatinus
+    id: 71
+    date: c. 710
+    type: 50
+    image: {fileID: 21300000, guid: 9a3088b280cff4ec08503436623958c7, type: 3}
+  - name: Haren double goblet
+    id: 72
+    date: c. 212
+    type: 50
+    image: {fileID: 21300000, guid: 04ace95e8bf254948860bc78a37d0a5f, type: 3}
+  - name: Haren Floor Tile
+    id: 73
+    date: c. 640
+    type: 50
+    image: {fileID: 21300000, guid: f406984677c694ef6abe875a83f91231, type: 3}
+  - name: Haren Goblet
+    id: 74
+    date: c. 552
+    type: 50
+    image: {fileID: 21300000, guid: 34fd8cc3659aa4b439206a8c5022756b, type: 3}
+  - name: Haren Goblet
+    id: 75
+    date: c. 553
+    type: 50
+    image: {fileID: 21300000, guid: 5938bce98238d4cf9a91e89c2c828e6e, type: 3}
+  - name: Haren Ivory Triptych
+    id: 76
+    date: c. 630
+    type: 50
+    image: {fileID: 21300000, guid: 71c4a5d2a79114e6c937695308024a7d, type: 3}
+  - name: Haren Religious Sculpture
+    id: 77
+    date: c. 460
+    type: 50
+    image: {fileID: 21300000, guid: fd4b04b19f32c4be4965fefb3954d39d, type: 3}
+  - name: Haren Religious Sculpture
+    id: 78
+    date: c. 635
+    type: 50
+    image: {fileID: 21300000, guid: a561c58afa458498ea822888c240fd54, type: 3}
+  - name: Haren Religious Sculpture
+    id: 79
+    date: c. 655
+    type: 50
+    image: {fileID: 21300000, guid: 92f8cbd2c968f4df595d956ba86619c1, type: 3}
+  - name: Haren Religious Sculpture
+    id: 80
+    date: c. 690
+    type: 50
+    image: {fileID: 21300000, guid: c4f112b279a9d439fb06356cbeeaa916, type: 3}
+  - name: Haren Sculpture of Apostle
+    id: 81
+    date: c. 680
+    type: 50
+    image: {fileID: 21300000, guid: e64e2929b4e614c01be002d01d93e73a, type: 3}
+  - name: Haren Sculpture of Christ
+    id: 82
+    date: c. 610
+    type: 50
+    image: {fileID: 21300000, guid: bd397a4dd588b4c428b192e875723cef, type: 3}
+  - name: Haren Statue of Christ
+    id: 83
+    date: c. 590
+    type: 50
+    image: {fileID: 21300000, guid: 6f8ec85ae8d3c4b7d93cdc86988b7c50, type: 3}
+  - name: Haren Wood Sculpture
+    id: 84
+    date: c. 690
+    type: 50
+    image: {fileID: 21300000, guid: 7ed31b7d346d84c9ea6e597b259a3850, type: 3}
+  - name: Helsian Animal Figure
+    id: 85
+    date: c. 150 BCE
+    type: 50
+    image: {fileID: 21300000, guid: 2201e3f30c6ae4226aae08b49901f971, type: 3}
+  - name: Helsian Coin
+    id: 86
+    date: c. 570 BCE
+    type: 50
+    image: {fileID: 21300000, guid: ca5e987862b5240289d4223de5193d7a, type: 3}
+  - name: Helsian Coins
+    id: 87
+    date: c. 480 BCE
+    type: 50
+    image: {fileID: 21300000, guid: 3e62392dd6a524d9fabc6117fe8a4858, type: 3}
+  - name: Helsian goblet
+    id: 88
+    date: c. 203 BCE
+    type: 50
+    image: {fileID: 21300000, guid: d31af99c4a2f44e03aac06d40c0246e8, type: 3}
+  - name: Helsian Lead Ornament
+    id: 89
+    date: c. 550 BCE
+    type: 50
+    image: {fileID: 21300000, guid: 85e1e7dba5b844ab691034e1bd64a50d, type: 3}
+  - name: Hewneese Hand Weapon
+    id: 90
+    date: c. 198
+    type: 50
+    image: {fileID: 21300000, guid: c420d95fdc588436d8780e13fdce1f4d, type: 3}
+  - name: Kemareese Prestige Chair
+    id: 91
+    date: c. 120
+    type: 50
+    image: {fileID: 21300000, guid: 2485840633e6449ec9b0b3f53b519c82, type: 3}
+  - name: Lekian Amber Goblet
+    id: 92
+    date: c. 610
+    type: 50
+    image: {fileID: 21300000, guid: bd1814a7f5e0f485ba2c6a308dce2126, type: 3}
+  - name: Lekian Baroque Chalice
+    id: 93
+    date: c. 550
+    type: 50
+    image: {fileID: 21300000, guid: 436bf2dbaadde46039dc48094d996ec7, type: 3}
+  - name: Lekian Chalice with Cover
+    id: 94
+    date: c. 640
+    type: 50
+    image: {fileID: 21300000, guid: 182d14e30397d486085f07692cbd518b, type: 3}
+  - name: Lekian Chalice
+    id: 95
+    date: c. 620
+    type: 50
+    image: {fileID: 21300000, guid: 0e11a3d074dbc4da59031eb842a28aba, type: 3}
+  - name: Lekian Saint Chalice
+    id: 96
+    date: c. 710
+    type: 50
+    image: {fileID: 21300000, guid: 28ad683ab2a944fce80c869b31e02168, type: 3}
+  - name: Misinarin Jewelry Element
+    id: 97
+    date: c. 1835 BCE
+    type: 50
+    image: {fileID: 21300000, guid: fea61b829b96e4062866a3c63da20836, type: 3}
+  - name: Pilas Pasion Chalice
+    id: 98
+    date: c. 713
+    type: 50
+    image: {fileID: 21300000, guid: 6d7f0dabc5ed244afb38df71341a577f, type: 3}
+  - name: Raemon Empire Chalice
+    id: 99
+    date: c. 250
+    type: 50
+    image: {fileID: 21300000, guid: fe42a259f96f240cdb4236db838ffc75, type: 3}
+  - name: Raemon Empire Coin
+    id: 100
+    date: c. 130 BCE
+    type: 50
+    image: {fileID: 21300000, guid: 7f4e959c4f2d44b448ad07b88aa1e833, type: 3}
+  - name: Raemon Empire Coin
+    id: 101
+    date: c. 150 BCE
+    type: 50
+    image: {fileID: 21300000, guid: fa3bfc6c422a148ef958da2ab0a7e8bb, type: 3}
+  - name: Raemon Empire Coin
+    id: 102
+    date: c. 280 BCE
+    type: 50
+    image: {fileID: 21300000, guid: 604f09e80170845dba7ffe8d78a5d021, type: 3}
+  - name: Raemon Empire Coin
+    id: 103
+    date: c. 390
+    type: 50
+    image: {fileID: 21300000, guid: da46b5ab305c048499d94f3d0d4b3593, type: 3}
+  - name: Raemon Empire Coin
+    id: 104
+    date: c. 40 BCE
+    type: 50
+    image: {fileID: 21300000, guid: 4ea854b47dfa041db97b041a01c6dbec, type: 3}
+  - name: Raemon Empire Coin
+    id: 105
+    date: c. 120 BCE
+    type: 50
+    image: {fileID: 21300000, guid: de7a80ab6b5644ae59931db1c17ab2d0, type: 3}
+  - name: Raemon Empire Coin
+    id: 106
+    date: c. 20 BCE
+    type: 50
+    image: {fileID: 21300000, guid: 2d5a7247a38fd4756af73d8923caca39, type: 3}
+  - name: Raemon Empire Coin
+    id: 107
+    date: c. 200 BCE
+    type: 50
+    image: {fileID: 21300000, guid: 292ce29ae9eef4a80bd71766f88a03ba, type: 3}
+  - name: Raemon Empire Coin
+    id: 108
+    date: c. 30
+    type: 50
+    image: {fileID: 21300000, guid: 3b205b18fe2614b979b46016455c7f1f, type: 3}
+  - name: Raemon Empire Goblet
+    id: 109
+    date: c. 56
+    type: 50
+    image: {fileID: 21300000, guid: 615c7b979b63b4580a64508cf6cef514, type: 3}
+  - name: Raemon Empire Jewelry
+    id: 110
+    date: c. 210 BCE
+    type: 50
+    image: {fileID: 21300000, guid: 9cc23c5aed3524e1fbebba6151218f41, type: 3}
+  - name: Raemon Empire Jewelry
+    id: 111
+    date: c. 275 BCE
+    type: 50
+    image: {fileID: 21300000, guid: 98a5502b98fa4448dbe23c255248188f, type: 3}
+  - name: Raemon Empire Terracotta lamp
+    id: 112
+    date: c. 213 BCE
+    type: 50
+    image: {fileID: 21300000, guid: 3cb7e0e20ee75457dab189dcc8b24882, type: 3}
+  - name: Raemon Empire
+    id: 113
+    date: c. 52 BCE
+    type: 50
+    image: {fileID: 21300000, guid: 56e309f4b730946ecab10bcd1cc07941, type: 3}
+  - name: Raemon Repbulic Glass Goblet
+    id: 114
+    date: c. 372
+    type: 50
+    image: {fileID: 21300000, guid: cfe8b1899b059415892d96b886c77316, type: 3}
+  - name: Raemon Republic Chalace
+    id: 115
+    date: c. 620
+    type: 50
+    image: {fileID: 21300000, guid: cc03817d93ee34212a175860f8913170, type: 3}
+  - name: Raemon Republic Chalace
+    id: 116
+    date: c. 396
+    type: 50
+    image: {fileID: 21300000, guid: 2b1a50c57e761441b9c60a88f1499880, type: 3}
+  - name: Raemon Republic Chalace
+    id: 117
+    date: c. 650
+    type: 50
+    image: {fileID: 21300000, guid: 285283cdc2fa84c5ca237ef5bca6c389, type: 3}
+  - name: Raemon Republic Goblet
+    id: 118
+    date: c. 650
+    type: 50
+    image: {fileID: 21300000, guid: 4bed2c8e9fae149809503d61aea0db2b, type: 3}
+  - name: Raemon Republic Goblet
+    id: 119
+    date: c. 690
+    type: 50
+    image: {fileID: 21300000, guid: 8358fc459274d43899730dad1b24512c, type: 3}
+  - name: Raemon Republic Religious Manuscript
+    id: 120
+    date: c. 645
+    type: 50
+    image: {fileID: 21300000, guid: 73997d9961043411998e3051d70a3b8f, type: 3}
+  - name: Raemon Republic Ring
+    id: 121
+    date: c. 525
+    type: 50
+    image: {fileID: 21300000, guid: c75f8e277493941c790d1a301d853fba, type: 3}
+  - name: Raemon Republic Sculpture of an Enthroned King
+    id: 122
+    date: c. 340
+    type: 50
+    image: {fileID: 21300000, guid: ff3dc4c91208b4e648b2b24afca196f8, type: 3}
+  - name: Raemon Republic Sculpture of Christ
+    id: 123
+    date: c. 430
+    type: 50
+    image: {fileID: 21300000, guid: e4db508a2f7e0430899b2e438b62da22, type: 3}
+  - name: Raemon Republic Sculpture
+    id: 124
+    date: c. 630
+    type: 50
+    image: {fileID: 21300000, guid: 1861b53ac8f5243eeaa037033a0a72c9, type: 3}
+  - name: Raemon Republic Wooden chalice
+    id: 125
+    date: c. 613
+    type: 50
+    image: {fileID: 21300000, guid: 334379ccb47f84d548e9232b981add2f, type: 3}
+  - name: Salimah Manuscript fragment
+    id: 126
+    date: c. 420
+    type: 50
+    image: {fileID: 21300000, guid: 097a0b0f998574ffd81fbc84e4157e83, type: 3}
+  - name: Saliman book cover
+    id: 127
+    date: c. 510
+    type: 50
+    image: {fileID: 21300000, guid: 1f9bbe5eb2fcd49aab790e15ec39bfce, type: 3}
+  - name: Saliman Coins
+    id: 128
+    date: c. 320
+    type: 50
+    image: {fileID: 21300000, guid: 1c8ce678df82c4d93b8513d8cf3ba41a, type: 3}
+  - name: Saliman Coptic Manuscript Fragment 2
+    id: 129
+    date: c. 695
+    type: 50
+    image: {fileID: 21300000, guid: cdf56cd4220fc441392db6493ab454bf, type: 3}
+  - name: Saliman Coptic Manuscript Fragment 4
+    id: 130
+    date: c. 695
+    type: 50
+    image: {fileID: 21300000, guid: 94add88f67d1549989fbc24e7ccaec51, type: 3}
+  - name: Saliman Coptic Manuscript Fragment 5
+    id: 131
+    date: c. 695
+    type: 50
+    image: {fileID: 21300000, guid: dc93731af8d1848f9bf5e54aee243c47, type: 3}
+  - name: Saliman Coptic Manuscript Fragment 7
+    id: 132
+    date: c. 695
+    type: 50
+    image: {fileID: 21300000, guid: c633a614474a34a13bd270c4576c6e44, type: 3}
+  - name: Saliman Coptic Manuscript Fragment
+    id: 133
+    date: c. 695
+    type: 50
+    image: {fileID: 21300000, guid: 7026951b45e104f0da43fe074cfe5e65, type: 3}
+  - name: Saliman Qur'an folio
+    id: 134
+    date: c. 510
+    type: 50
+    image: {fileID: 21300000, guid: fe2f3671a1a954eb69df5a6eb97a1be3, type: 3}
+  - name: Saliman Qur'an Manuscript
+    id: 135
+    date: c. 492
+    type: 50
+    image: {fileID: 21300000, guid: 101c18cde3a9d4ef7a0b07ebdb748915, type: 3}
+  - name: Saliman Spoon
+    id: 136
+    date: c. 416
+    type: 50
+    image: {fileID: 21300000, guid: e65c1fe22949942138a9f636f125704a, type: 3}
+  - name: Saliman Star tile with phoenix
+    id: 137
+    date: c. 119
+    type: 50
+    image: {fileID: 21300000, guid: d8a5289568609401abc66b037bd3cb22, type: 3}
+  - name: Unknown Origin Goblet and cover
+    id: 138
+    date: c. 212
+    type: 50
+    image: {fileID: 21300000, guid: 2d48ea4bad3d04ea7a0adbe551bbb766, type: 3}
+  - name: Unknown Origin Sculpture Fragment
+    id: 139
+    date: c. 550
+    type: 50
+    image: {fileID: 21300000, guid: dc6fde825d955473e9b02358bbd43d48, type: 3}
+  - name: Unknown Origin Wood Relief
+    id: 140
+    date: c. 580
+    type: 50
+    image: {fileID: 21300000, guid: cc535722285be44bb8e3fadb98aaf407, type: 3}
+  - name: Zaran Carving
+    id: 141
+    date: c. 151
+    type: 50
+    image: {fileID: 21300000, guid: 1b933592e2aa64beb8d0560220146469, type: 3}
+  - name: Zaran Divination Implement
+    id: 142
+    date: c. 142
+    type: 50
+    image: {fileID: 21300000, guid: f291de9e4234a4505bf508507502b651, type: 3}
+  - name: Zaran Figurine
+    id: 143
+    date: c. 140
+    type: 50
+    image: {fileID: 21300000, guid: e20fcef8c7ea444fcac7e8eae0f2246c, type: 3}
+  - name: Zaran Hair Ornament
+    id: 144
+    date: c. 210
+    type: 50
+    image: {fileID: 21300000, guid: 41d8cad6a6e0f4906be941b4b6d91076, type: 3}
+  - name: Zaran Janus Figure
+    id: 145
+    date: c. 190
+    type: 50
+    image: {fileID: 21300000, guid: 9a963dd936570480f917db12102c47bc, type: 3}
+  - name: Zaran Mangbetu Vessel
+    id: 146
+    date: c. 520
+    type: 50
+    image: {fileID: 21300000, guid: 1eda67997c069497eaffbd8a236ae69f, type: 3}
+  - name: Zaran Ritaul Playing Trumpet
+    id: 147
+    date: c. 120
+    type: 50
+    image: {fileID: 21300000, guid: 16a7bd1f1235a4f02863df820af6254e, type: 3}
+  - name: Zaran Throwing knife
+    id: 148
+    date: c. 212
+    type: 50
+    image: {fileID: 21300000, guid: b91ba7817967a496fa422b09f1b4ee30, type: 3}
+  - name: Zaran Whistle
+    id: 149
+    date: c. 220
+    type: 50
+    image: {fileID: 21300000, guid: ad007827b900a4ddd94fce3284d31c9d, type: 3}
+  - name: Zongeese Bronze Sickle Weapon
+    id: 150
+    date: c. 213 BCE
+    type: 50
+    image: {fileID: 21300000, guid: 7939f5a0c71f04af0b631ac1b81f0675, type: 3}
+  uncommonList:
+  - name: Akamatan Ceramic Bowl
+    id: 151
+    date: c. 120
+    type: 51
+    image: {fileID: 21300000, guid: 5c7d5a6ea437c470481deddf956719e4, type: 3}
+  - name: Akamatan Ceramic Bowl
+    id: 152
+    date: c. 512
+    type: 51
+    image: {fileID: 21300000, guid: fe2df89382d4548cd8ceb8538bea2040, type: 3}
+  - name: Alibesh Jewel pendant
+    id: 153
+    date: c. 710
+    type: 51
+    image: {fileID: 21300000, guid: dad3fac0163964d878c36ab60cd6b088, type: 3}
+  - name: Alibesh Relief
+    id: 154
+    date: c. 430
+    type: 51
+    image: {fileID: 21300000, guid: 67dc9915174374b528687a68930044a2, type: 3}
+  - name: Alkibulen Lyre Player
+    id: 155
+    date: c. 500
+    type: 51
+    image: {fileID: 21300000, guid: c86765cb29df14b1a8a5e995626e2e8e, type: 3}
+  - name: Anahaken Codice Fragment
+    id: 156
+    date: c. 220
+    type: 51
+    image: {fileID: 21300000, guid: 04a0d3d18a23a4fb6b72d60dca00a668, type: 3}
+  - name: Anahaken Codice segments
+    id: 157
+    date: c. 220
+    type: 51
+    image: {fileID: 21300000, guid: d4edfe5bbc7764422a5890ee74c513ec, type: 3}
+  - name: Bhuratan Hand Mirror
+    id: 158
+    date: c. 28
+    type: 51
+    image: {fileID: 21300000, guid: 3d7d4d83c1db6491db4b65b2aeb05617, type: 3}
+  - name: Bhuratan Jain Manuscript Cover
+    id: 159
+    date: c. 700
+    type: 51
+    image: {fileID: 21300000, guid: 5bc85de8c6d92437485369e2f750115d, type: 3}
+  - name: Bhuratan Manjuvajra Mandala
+    id: 160
+    date: c. 13
+    type: 51
+    image: {fileID: 21300000, guid: 2a2a209c6158240e0a987ff9977c17cf, type: 3}
+  - name: Bhuratan Neclace
+    id: 161
+    date: unknown date
+    type: 51
+    image: {fileID: 21300000, guid: de2e138ab191f491bb962cbd15363d8a, type: 3}
+  - name: Bizaninus coin
+    id: 162
+    date: c. 86 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 1d3ec78afcb9d45dc985f9f8c1e36d88, type: 3}
+  - name: Bulgran Mace head
+    id: 163
+    date: c. 412
+    type: 51
+    image: {fileID: 21300000, guid: 4bc6d8e5761e94664b121249260b0c93, type: 3}
+  - name: Colupio Remojadas figure
+    id: 164
+    date: c. 320
+    type: 51
+    image: {fileID: 21300000, guid: 4b2d091d822e2499099d778a571a7e83, type: 3}
+  - name: Gaulan Jewelry Chest
+    id: 165
+    date: c. 715
+    type: 51
+    image: {fileID: 21300000, guid: daa2a114cec8c46eb8f39f0d30618a18, type: 3}
+  - name: Gaulan liturgical Container
+    id: 166
+    date: c. 380
+    type: 51
+    image: {fileID: 21300000, guid: 581e1b34be0ac4981af45c940fec1afb, type: 3}
+  - name: Gaulan Liturgical Vessel
+    id: 167
+    date: c. 520
+    type: 51
+    image: {fileID: 21300000, guid: 61b14a677a2ff43d3b4590933a872381, type: 3}
+  - name: Gaulan Lock
+    id: 168
+    date: c. 690
+    type: 51
+    image: {fileID: 21300000, guid: 89bc46a0eeef44a21ad7528bd2b680fc, type: 3}
+  - name: Gaulan Statue of Modonna and Child
+    id: 169
+    date: c. 420
+    type: 51
+    image: {fileID: 21300000, guid: 11838940a3578403db88c3d43b0276aa, type: 3}
+  - name: Gregon Weapons
+    id: 170
+    date: c. 412
+    type: 51
+    image: {fileID: 21300000, guid: affd0a4a7ed8c472faff1c000b67f5b1, type: 3}
+  - name: Haiken Biblical Art
+    id: 171
+    date: c. 420
+    type: 51
+    image: {fileID: 21300000, guid: 28db1df73e9c24aca991db84b0d1186b, type: 3}
+  - name: Haiken Religious Manuscript cover
+    id: 172
+    date: c. 512
+    type: 51
+    image: {fileID: 21300000, guid: 9565cfc372f7d4b5bb5c5a6032d8fe03, type: 3}
+  - name: Haren Sword
+    id: 173
+    date: c. 560
+    type: 51
+    image: {fileID: 21300000, guid: da9a75760f33747aabaf66d0c5cfca98, type: 3}
+  - name: Helsian coin
+    id: 174
+    date: c. 320 BCE
+    type: 51
+    image: {fileID: 21300000, guid: f6f0027ee398841ad8012e1467caa8db, type: 3}
+  - name: Helsian coins
+    id: 175
+    date: c. 270 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 65ed4ba64ddd14c4b8e3b00018d129a0, type: 3}
+  - name: Helsian coins
+    id: 176
+    date: c. 280 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 63a6c6afe5f9f431d884ae9d60a7a95f, type: 3}
+  - name: Helsian Griffin Head
+    id: 177
+    date: c. 150 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 0908a5f1b45944ef9a7feae7c7f7fddc, type: 3}
+  - name: Helsian Jewelery Collection
+    id: 178
+    date: c. 240 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 1cf771c807f574a5990ecfad9ad515f2, type: 3}
+  - name: Helsian Jewelery Collection
+    id: 179
+    date: c. 260 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 2da37559863f64bbaaedabed3e8e3bd1, type: 3}
+  - name: Helsian Jewelery Collection
+    id: 180
+    date: c. 320 BCE
+    type: 51
+    image: {fileID: 21300000, guid: e4d060bd16e06463bbd7dcbaedcfa9db, type: 3}
+  - name: Helsian Jewelery Collection
+    id: 181
+    date: c. 360 BCE
+    type: 51
+    image: {fileID: 21300000, guid: fc854c49f9fac49118d9f7948f93cf73, type: 3}
+  - name: Helsian Jewelery Collection
+    id: 182
+    date: c. 440 BCE
+    type: 51
+    image: {fileID: 21300000, guid: ffc182a26fba44604934d9f3152548bc, type: 3}
+  - name: Helsian Jewelery
+    id: 183
+    date: c. 350 BCE
+    type: 51
+    image: {fileID: 21300000, guid: b0e83767eeb5c4cd5ba78365282989d6, type: 3}
+  - name: Helsian Jewelery
+    id: 184
+    date: c. 440 BCE
+    type: 51
+    image: {fileID: 21300000, guid: a814092b733ce401eb4dc3d99f49e45d, type: 3}
+  - name: Helsian Jewelery
+    id: 185
+    date: c. 450 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 04ec945c0f89c4e4d9fd9259ca4e8b5e, type: 3}
+  - name: Helsian Jewelery
+    id: 186
+    date: c. 460 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 90254952ef0904302a9325167a569609, type: 3}
+  - name: Helsian Jewelery
+    id: 187
+    date: c. 80 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 8ebba17d798924fda916dab8523be20e, type: 3}
+  - name: Helsian Jewelery
+    id: 188
+    date: c. 120 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 49c47a6c5c98b4ebb9e31f4dd06ea98d, type: 3}
+  - name: Helsian Jewelery
+    id: 189
+    date: c. 330 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 87fca5743a48e4ac587350ca457e53b7, type: 3}
+  - name: Helsian Jewelery
+    id: 190
+    date: c. 340 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 01fd08c4411b74ac6b00ab9200ea3bc6, type: 3}
+  - name: Helsian Jewelery
+    id: 191
+    date: c. 80 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 27f066510058a48e2af05ce188313df0, type: 3}
+  - name: Helsian Jewelery
+    id: 192
+    date: c. 86 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 4b421a9240edd4b7bbabdce884abb02f, type: 3}
+  - name: Helsian Pyxis lid with horses
+    id: 193
+    date: c. 219 BCE
+    type: 51
+    image: {fileID: 21300000, guid: ff11a575e5abf40d8baecf480cf028c7, type: 3}
+  - name: Helsian Theater Tragedy Mask
+    id: 194
+    date: c. 183 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 4bc1cec590c26474cbd07d1b02be112c, type: 3}
+  - name: Helsian Weapons
+    id: 195
+    date: c. 185 BCE
+    type: 51
+    image: {fileID: 21300000, guid: f4796560fd7cf492c9776edb81e11086, type: 3}
+  - name: Jakustan Prefectural Dinosaur print
+    id: 196
+    date: unknown date
+    type: 51
+    image: {fileID: 21300000, guid: 5f6d68c70f8fa4c309167196b6336d15, type: 3}
+  - name: Korisi coin
+    id: 197
+    date: c. 140 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 48c2abc0249d74b598340f46b708a312, type: 3}
+  - name: Lekian Planisphere Document
+    id: 198
+    date: c. 690
+    type: 51
+    image: {fileID: 21300000, guid: ccb88fc714baa427eb6bd2ec2035ef03, type: 3}
+  - name: Lekian Religious document fragment
+    id: 199
+    date: c. 220
+    type: 51
+    image: {fileID: 21300000, guid: 2a1a1f3bd21db44d6876f2062111d16d, type: 3}
+  - name: Lekian Religious Document
+    id: 200
+    date: c. 645
+    type: 51
+    image: {fileID: 21300000, guid: 54264bb27c3224892839e29e5146cb8b, type: 3}
+  - name: Misinarin  Daggers
+    id: 201
+    date: c. 180 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 21184be6eec0e4b9faeaac821597ab59, type: 3}
+  - name: Misinarin Figurine
+    id: 202
+    date: c. 230 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 35493c52f4f034f138de5a38c97900f5, type: 3}
+  - name: Misinarin Jewelry Box
+    id: 203
+    date: c. 1850 BCE
+    type: 51
+    image: {fileID: 21300000, guid: bf748bbaa01f94d89a259b68cdcefc50, type: 3}
+  - name: Misinarin Jewelry
+    id: 204
+    date: c. 130 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 7f1b98eb6dbd3449cb91e39732bb8b34, type: 3}
+  - name: Opharen Ethnic weapons
+    id: 205
+    date: c. 25
+    type: 51
+    image: {fileID: 21300000, guid: 023bb1b4cbdda4fce85ac8d9fafe2328, type: 3}
+  - name: Persiman Art bowl
+    id: 206
+    date: c. 312
+    type: 51
+    image: {fileID: 21300000, guid: 5ce378b8105124f65a56550df38344cf, type: 3}
+  - name: Persiman Kilij
+    id: 207
+    date: c. 518
+    type: 51
+    image: {fileID: 21300000, guid: fe353e2ee155949f3a9daddda04dc545, type: 3}
+  - name: Persiman Pendant
+    id: 208
+    date: c. 220
+    type: 51
+    image: {fileID: 21300000, guid: cc736ee233a7149ed942a5a4a10ecdcc, type: 3}
+  - name: Raemon Empire Glass ribbed bowl
+    id: 209
+    date: c. 120
+    type: 51
+    image: {fileID: 21300000, guid: 0a95abed77d284e9bb7ed09f3af1138f, type: 3}
+  - name: Raemon Empire Jewelry
+    id: 210
+    date: c. 100 BCE
+    type: 51
+    image: {fileID: 21300000, guid: bb3fd075a17a64c21a529dc0207c8179, type: 3}
+  - name: Raemon Empire Jewelry
+    id: 211
+    date: c. 220 BCE
+    type: 51
+    image: {fileID: 21300000, guid: bdc2d09c8cd7e4246bdcc35d86a233d4, type: 3}
+  - name: Raemon Empire Jewelry
+    id: 212
+    date: c. 420 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 3dd945ae15b104760b57765bdca0a823, type: 3}
+  - name: Raemon Empire Jewelry
+    id: 213
+    date: c. 50 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 9320e8d07484e45b1886ae1948a64a6c, type: 3}
+  - name: Raemon Empire Jewelry
+    id: 214
+    date: c. 53
+    type: 51
+    image: {fileID: 21300000, guid: a53fe898808324a64b6ffac07ca267ce, type: 3}
+  - name: Raemon Empire Jewelry
+    id: 215
+    date: c. 340 BCE
+    type: 51
+    image: {fileID: 21300000, guid: af3a9035d5d684a83a7c9663529afda8, type: 3}
+  - name: Raemon Republic Censer
+    id: 216
+    date: c. 680
+    type: 51
+    image: {fileID: 21300000, guid: bd028ed3737164ae98df36d394f9675d, type: 3}
+  - name: Raemon Republic Chalice
+    id: 217
+    date: c. 640
+    type: 51
+    image: {fileID: 21300000, guid: 3c5279ff131ec405a82fa0107e1a21b7, type: 3}
+  - name: Raemon Republic Chalice
+    id: 218
+    date: c. 641
+    type: 51
+    image: {fileID: 21300000, guid: 771bd15c93e4246939743664c6483b7b, type: 3}
+  - name: Raemon Republic Jewelry
+    id: 219
+    date: c. 520
+    type: 51
+    image: {fileID: 21300000, guid: 7c0a2fe76fe9e41269e8f646d90e975f, type: 3}
+  - name: Raemon Republic Statue
+    id: 220
+    date: c. 412
+    type: 51
+    image: {fileID: 21300000, guid: 6c188c060ac06486c930a60d69d9c0b1, type: 3}
+  - name: Raemon Republic Thegosaur Footprint
+    id: 221
+    date: unknown date
+    type: 51
+    image: {fileID: 21300000, guid: b66cb6a66822c4015ae2e8cf8c6f552c, type: 3}
+  - name: Saliman Bowl
+    id: 222
+    date: c. 380
+    type: 51
+    image: {fileID: 21300000, guid: 442a9a1f4a50b4718b6e7f6f77124ecd, type: 3}
+  - name: Saliman Coptic Manuscript Fragment 3
+    id: 223
+    date: c. 695
+    type: 51
+    image: {fileID: 21300000, guid: 38d5955acc28f42b896b3805c22f6011, type: 3}
+  - name: Saliman Coptic Manuscript Fragment 6
+    id: 224
+    date: c. 695
+    type: 51
+    image: {fileID: 21300000, guid: e8f6ba98730474bdda411883bdfc2a39, type: 3}
+  - name: Saliman Islamic Art Vase
+    id: 225
+    date: c. 350
+    type: 51
+    image: {fileID: 21300000, guid: 1978a56644cc84e0abe5e037f1d50f1f, type: 3}
+  - name: Saliman Islamic Art Vase
+    id: 226
+    date: c. 490
+    type: 51
+    image: {fileID: 21300000, guid: cbd4560a11bd145909fe5de09b09be89, type: 3}
+  - name: Saliman Oil Bottle
+    id: 227
+    date: c. 420
+    type: 51
+    image: {fileID: 21300000, guid: 3aa08ec3aa5ac4cb395dceb1149cbc0e, type: 3}
+  - name: Saliman Plate
+    id: 228
+    date: c. 412
+    type: 51
+    image: {fileID: 21300000, guid: 725e10bb40385416da334c3862349470, type: 3}
+  - name: Saliman Qur'an Manuscript
+    id: 229
+    date: c. 420
+    type: 51
+    image: {fileID: 21300000, guid: c9d55ea6d22b24bc489d061eaef9b6e6, type: 3}
+  - name: Saliman Seljuk Art
+    id: 230
+    date: c. 412
+    type: 51
+    image: {fileID: 21300000, guid: 2bd62c3c692ad4889b611aecd701a68b, type: 3}
+  - name: Seraiban psalm book fragment
+    id: 231
+    date: c. 698
+    type: 51
+    image: {fileID: 21300000, guid: 51b525608b39c462baaac0afd8b36d44, type: 3}
+  - name: Thrakan treasure
+    id: 232
+    date: c. 220 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 25d08382e19ed44939f317c1144b674c, type: 3}
+  - name: Unkown Holy Family Pendant
+    id: 233
+    date: c. 700
+    type: 51
+    image: {fileID: 21300000, guid: e09e10adc3c16428282cce3e3c25d4a7, type: 3}
+  - name: Zongeese Bronze Buddhist Instrument
+    id: 234
+    date: c. 530
+    type: 51
+    image: {fileID: 21300000, guid: 95581806c833d48b6bf9f0f67928c101, type: 3}
+  - name: Zongeese Buddhist Artifacts
+    id: 235
+    date: c. 370
+    type: 51
+    image: {fileID: 21300000, guid: 34eecbd22281641e4ba4fadd22f715c0, type: 3}
+  - name: Zongeese Buddhist Artifacts
+    id: 236
+    date: c. 380
+    type: 51
+    image: {fileID: 21300000, guid: d1dc387189abd4b768217af73d7fea4b, type: 3}
+  - name: Zongeese Buddhist Scripture
+    id: 237
+    date: c. 472
+    type: 51
+    image: {fileID: 21300000, guid: 7b4008b2f55cf41ed9638361b5dbc14f, type: 3}
+  - name: Zongeese Celebratory Knife Coin
+    id: 238
+    date: c. 180 BCE
+    type: 51
+    image: {fileID: 21300000, guid: cd54a8c27a3db408f9322b7bfa3f983e, type: 3}
+  - name: Zongeese Clay Buddhist Head
+    id: 239
+    date: c. 500
+    type: 51
+    image: {fileID: 21300000, guid: 2772d537410f84d519fd205538f32b32, type: 3}
+  - name: Zongeese Coin
+    id: 240
+    date: c. 480
+    type: 51
+    image: {fileID: 21300000, guid: d43cfeef2c48e49e08e90deaeb6d5c1e, type: 3}
+  - name: Zongeese Coin
+    id: 241
+    date: c. 482
+    type: 51
+    image: {fileID: 21300000, guid: e91477b492b0946fdb60067f8ec71689, type: 3}
+  - name: Zongeese Dinosaur Egg Nest
+    id: 242
+    date: unknown date
+    type: 51
+    image: {fileID: 21300000, guid: b0c9d607df32e4d3fbacb9078a1cf099, type: 3}
+  - name: Zongeese Dinosaur Skeleton
+    id: 243
+    date: unknown date
+    type: 51
+    image: {fileID: 21300000, guid: 45cb2076091ca4ef0b93553deb6856e0, type: 3}
+  - name: Zongeese Han Weapons
+    id: 244
+    date: c. 30 BCE
+    type: 51
+    image: {fileID: 21300000, guid: 33037051f3f2a43458994461bd13d4d8, type: 3}
+  - name: Zongeese Manuscript (fortunetelling)
+    id: 245
+    date: c. 530
+    type: 51
+    image: {fileID: 21300000, guid: c7ef1fdca0ca242b1a0caddfab31cabd, type: 3}
+  - name: Zongeese Manuscript
+    id: 246
+    date: c. 460
+    type: 51
+    image: {fileID: 21300000, guid: 12f86ffaf32804abaa56d75715fc4bc7, type: 3}
+  - name: Zongeese Manuscript
+    id: 247
+    date: c. 490
+    type: 51
+    image: {fileID: 21300000, guid: b8a8503699d6041f58a35b1a70659ac2, type: 3}
+  - name: Zongeese Manuscript
+    id: 248
+    date: c. 515
+    type: 51
+    image: {fileID: 21300000, guid: 1eab38c26352c4ed7a2a67c8724d8a66, type: 3}
+  - name: Zongeese Statue of Sakyamuni
+    id: 249
+    date: c. 390
+    type: 51
+    image: {fileID: 21300000, guid: 4c30441d7ab1749a99fb01aa6ea0fb63, type: 3}
+  - name: Zongeese Vase of Buddhist Relics
+    id: 250
+    date: c. 460
+    type: 51
+    image: {fileID: 21300000, guid: bd3f7d1a694464b9d8a62fb3bf45adf1, type: 3}
+  rareList:
+  - name: Akidern Clay Tablet
+    id: 251
+    date: c. 1400 BCE
+    type: 49
+    image: {fileID: 21300000, guid: 133ae5210f59b48c9954cfef447e5640, type: 3}
+  - name: Akidern Clay Tablet
+    id: 252
+    date: c. 2100 BCE
+    type: 49
+    image: {fileID: 21300000, guid: 0ba00431c25af4b5bb9cf70c0506cf92, type: 3}
+  - name: Akidern Cylinder Seal
+    id: 253
+    date: c. 2200 BCE
+    type: 49
+    image: {fileID: 21300000, guid: ab253514474664198b3115d78676d542, type: 3}
+  - name: Alibesh Mair Chalice
+    id: 254
+    date: c. 515
+    type: 49
+    image: {fileID: 21300000, guid: d257f1d2fecb94b3e823514397bee1ac, type: 3}
+  - name: Alkibulen Dagger
+    id: 255
+    date: c. 210
+    type: 49
+    image: {fileID: 21300000, guid: a317ea794136a46b58895e86dd0d2785, type: 3}
+  - name: Alkibulen Snuff container
+    id: 256
+    date: c. 87
+    type: 49
+    image: {fileID: 21300000, guid: 1e77d93c7c5d84327b1cab06cf90070c, type: 3}
+  - name: Antroch Chalice
+    id: 257
+    date: c. 412
+    type: 49
+    image: {fileID: 21300000, guid: 25d7b7a158d6f410abf69f4bfc95e270, type: 3}
+  - name: Bhuratan Armor
+    id: 258
+    date: c. 55 BCE
+    type: 49
+    image: {fileID: 21300000, guid: 42e0d4629acdd479bb43174399b3e0bd, type: 3}
+  - name: Chevalan Gospel Fragment
+    id: 259
+    date: c. 380
+    type: 49
+    image: {fileID: 21300000, guid: f6e13d2cbf51e4a8f8e21072b95e0da7, type: 3}
+  - name: Gandari Coins
+    id: 260
+    date: c. 630
+    type: 49
+    image: {fileID: 21300000, guid: 222dca58037e74c2fa8f51c02a33bb84, type: 3}
+  - name: Gaulan Bronze Statue
+    id: 261
+    date: c. 380
+    type: 49
+    image: {fileID: 21300000, guid: 17ef6a8d1fd624b3987f904414538588, type: 3}
+  - name: Gaulan Pendant
+    id: 262
+    date: c. 528
+    type: 49
+    image: {fileID: 21300000, guid: 4a4df647a7504406bb0bacda2220f8e7, type: 3}
+  - name: Gaulan Table Fountain
+    id: 263
+    date: c. 690
+    type: 49
+    image: {fileID: 21300000, guid: ff36b800b97be44c5bba806119d6f9f9, type: 3}
+  - name: Haiken Creationist Document
+    id: 264
+    date: c. 330
+    type: 49
+    image: {fileID: 21300000, guid: 27cb58710744743d08c0eaa54ce17dda, type: 3}
+  - name: Haiken mathematical document
+    id: 265
+    date: c. 620
+    type: 49
+    image: {fileID: 21300000, guid: c704ccbca7d0141eb94dcf151a91fbd6, type: 3}
+  - name: Haren Hunting Goblet
+    id: 266
+    date: c. 212
+    type: 49
+    image: {fileID: 21300000, guid: 44b095718b3e947c8899627c41df1d32, type: 3}
+  - name: Haren Religious Sculpture Collection
+    id: 267
+    date: c. 690
+    type: 49
+    image: {fileID: 21300000, guid: ec92cb6dda9104638aa6930401699057, type: 3}
+  - name: Haren Religious Sculpture
+    id: 268
+    date: c. 715
+    type: 49
+    image: {fileID: 21300000, guid: 5f33ff26f3d78488cb244105a3aaca5a, type: 3}
+  - name: Hasonan Menoraha coin
+    id: 269
+    date: c. 140 BCE
+    type: 49
+    image: {fileID: 21300000, guid: 01dffe1aef47f4aba9708583bf6c2f48, type: 3}
+  - name: Helsian Ceramic Head of Alkibulen Pricess
+    id: 270
+    date: c. 70 BCE
+    type: 49
+    image: {fileID: 21300000, guid: ccdebd9aeefaa4794b990423017fdb67, type: 3}
+  - name: Helsian Jewelery Collection
+    id: 271
+    date: c. 315 BCE
+    type: 49
+    image: {fileID: 21300000, guid: d07ae0ee5ec794792bce59aeb19f6142, type: 3}
+  - name: Helsian Marble Statue
+    id: 272
+    date: c. 85 BCE
+    type: 49
+    image: {fileID: 21300000, guid: ea184cf4e0b82412589b366248c835d0, type: 3}
+  - name: Iberish Leisure Document
+    id: 273
+    date: c. 720
+    type: 49
+    image: {fileID: 21300000, guid: 25f5cc09b785c40e083489313fe5b39b, type: 3}
+  - name: Iberish Saltcellar
+    id: 274
+    date: c. 380
+    type: 49
+    image: {fileID: 21300000, guid: 4c61e35a9aa2a49709952cd8c715a004, type: 3}
+  - name: Kemareese Helmet Mask
+    id: 275
+    date: c. 330
+    type: 49
+    image: {fileID: 21300000, guid: c7f78d466bd76420383cb124adaf2867, type: 3}
+  - name: Korisi coin
+    id: 276
+    date: c. 280
+    type: 49
+    image: {fileID: 21300000, guid: 0e384ecc7d3e949649c665fc4159155c, type: 3}
+  - name: Lekian Goblet
+    id: 277
+    date: c. 680
+    type: 49
+    image: {fileID: 21300000, guid: 95e2bcf0fa92b4d9e8b791fd1f9c2d95, type: 3}
+  - name: Lekian Letter from Copernicus to Dantiscus
+    id: 278
+    date: c. 460
+    type: 49
+    image: {fileID: 21300000, guid: cea3584664b7f437bab332d2b5dea805, type: 3}
+  - name: Misinarin Jewelry Chest
+    id: 279
+    date: c. 1850 BCE
+    type: 49
+    image: {fileID: 21300000, guid: a64e270ef3ba441e1a9c3eeebb9669db, type: 3}
+  - name: Misinarin Jewelry
+    id: 280
+    date: c. 1800 BCE
+    type: 49
+    image: {fileID: 21300000, guid: ef2b9ec5042964107b86101ec0fe4ba5, type: 3}
+  - name: Misinarin Tomb Chair
+    id: 281
+    date: c. 1320 BCE
+    type: 49
+    image: {fileID: 21300000, guid: 5e50888a5e2004d3fa0c803cbbc29bcd, type: 3}
+  - name: Nederlasin Sculpture of Monk
+    id: 282
+    date: c. 710
+    type: 49
+    image: {fileID: 21300000, guid: 1a46e8eb9babc4a7db52bf32f8003daf, type: 3}
+  - name: Raemon Empire Goblet
+    id: 283
+    date: c. 72
+    type: 49
+    image: {fileID: 21300000, guid: 339a6e8ced9454e5aa672eee94738dd4, type: 3}
+  - name: Raemon Empire Jewelry Collection
+    id: 284
+    date: c. 410 BCE
+    type: 49
+    image: {fileID: 21300000, guid: fb5aa5cc9c1744d9491aefd4cd344e5e, type: 3}
+  - name: Raemon Empire Statuette
+    id: 285
+    date: c. 120 BCE
+    type: 49
+    image: {fileID: 21300000, guid: 892918b6314ff492bbe781e26150e267, type: 3}
+  - name: Raemon Empire Temple Scroll
+    id: 286
+    date: c. 120 BCE
+    type: 49
+    image: {fileID: 21300000, guid: 52d8583e3b7854e3a9ec9b3c5c3d07ce, type: 3}
+  - name: Raemon Republic Staff Weapon
+    id: 287
+    date: c. 382
+    type: 49
+    image: {fileID: 21300000, guid: 8369d2da77d7a4212bfe5e84ffbdb4b0, type: 3}
+  - name: Rosan letter fragment
+    id: 288
+    date: c. 420
+    type: 49
+    image: {fileID: 21300000, guid: fa6835bd384374647aea2b6671b57f75, type: 3}
+  - name: Saliman portion of Qur'an Manuscript
+    id: 289
+    date: c. 702
+    type: 49
+    image: {fileID: 21300000, guid: 651c1b9daa1024b6c931f1972db77e1e, type: 3}
+  - name: Saliman Scent Bottle
+    id: 290
+    date: c. 380
+    type: 49
+    image: {fileID: 21300000, guid: a296e8465ca37490aadf4fe6799ce9f0, type: 3}
+  - name: Seraiban Jewely collection
+    id: 291
+    date: c. 420
+    type: 49
+    image: {fileID: 21300000, guid: 4872de53448a04c12be66a16d2e445ef, type: 3}
+  - name: Thraken Figurine
+    id: 292
+    date: c. 220 BCE
+    type: 49
+    image: {fileID: 21300000, guid: 035802f0850ce402badd1c28d230ddac, type: 3}
+  - name: Unknown Origin Goblet
+    id: 293
+    date: c. 212
+    type: 49
+    image: {fileID: 21300000, guid: c5ae07f7d489b4fbeae2a655fb38e6dd, type: 3}
+  - name: Unknown origin
+    id: 294
+    date: unknown date
+    type: 49
+    image: {fileID: 21300000, guid: 4e109402e799c45e1b27817617322544, type: 3}
+  - name: Yanuteese Warrior figure
+    id: 295
+    date: c. 218
+    type: 49
+    image: {fileID: 21300000, guid: 0b94634ca3fd546549d7cef270be2c92, type: 3}
+  - name: Zaran Bracelet
+    id: 296
+    date: c. 220
+    type: 49
+    image: {fileID: 21300000, guid: 3571b0f8bf8e0407d8a03fc6c6401b7c, type: 3}
+  - name: Zaran Mangbetu Pottery
+    id: 297
+    date: c. 135
+    type: 49
+    image: {fileID: 21300000, guid: 213bcc9877d8245b3b7a30e4634fa74a, type: 3}
+  - name: Zongeese Double Sword with Scabbard
+    id: 298
+    date: c. 693
+    type: 49
+    image: {fileID: 21300000, guid: ccae97d9318b84c5299e909234a4cb69, type: 3}
+  - name: Zongeese Manuscript of Buddhist Gathas
+    id: 299
+    date: c. 430
+    type: 49
+    image: {fileID: 21300000, guid: 03cb01accb4b040f88ce7893d66518ae, type: 3}
+  - name: Zongeese Shaman Manuscript
+    id: 300
+    date: c. 430
+    type: 49
+    image: {fileID: 21300000, guid: 8a41e3068b10f4b31af31afbcaf8b6f7, type: 3}
+  artworks:
+  - name: A Chivalrous Gamble
+    id: 0
+    artist_name: Eric N. Duran
+    contactInfo: www.enelsonduran.com
+    image_path: 1311710988
+    isOriginal: 1
+  - name: A Corner of the Moulin de la Galette
+    id: 1
+    artist_name: "Henri de Toulouse\u2013Lautrec"
+    contactInfo: www.enelsonduran.com
+    image_path: 962899582
+    isOriginal: 0
+  - name: A Cowherd at Valhermeil
+    id: 2
+    artist_name: Camille Pissarro
+    contactInfo: www.enelsonduran.com
+    image_path: 1147570952
+    isOriginal: 0
+  - name: A Creek in St. Thomas
+    id: 3
+    artist_name: Camille Pissarro
+    contactInfo: www.enelsonduran.com
+    image_path: 219872667
+    isOriginal: 0
+  - name: A Lady Writing a Letter
+    id: 4
+    artist_name: Johannes Vermeer
+    contactInfo: www.enelsonduran.com
+    image_path: 245946394
+    isOriginal: 0
+  - name: A Meeting
+    id: 5
+    artist_name: Marie Bashkirtseff
+    contactInfo: www.enelsonduran.com
+    image_path: 580933037
+    isOriginal: 0
+  - name: A Sea-Nymph
+    id: 6
+    artist_name: "Sir Edward Burne\u2013Jones"
+    contactInfo: www.enelsonduran.com
+    image_path: 41226777
+    isOriginal: 0
+  - name: A Sunday on La Grande Jatte
+    id: 7
+    artist_name: Georges Seurat
+    contactInfo: www.enelsonduran.com
+    image_path: 1355356399
+    isOriginal: 0
+  - name: A Table Corner
+    id: 8
+    artist_name: "Paul C\xE9zanne"
+    contactInfo: www.enelsonduran.com
+    image_path: 322521658
+    isOriginal: 0
+  - name: Academy
+    id: 9
+    artist_name: "Am\xE9lie Beaury-Saurel"
+    contactInfo: www.enelsonduran.com
+    image_path: 727489749
+    isOriginal: 0
+  - name: "Acad\xE9mie Julian with Mademoiselle Beson drinking from her glass"
+    id: 10
+    artist_name: Mina Carlson-Bredberg
+    contactInfo: www.enelsonduran.com
+    image_path: 1067558544
+    isOriginal: 0
+  - name: Adoration of the Magi
+    id: 11
+    artist_name: Giotto di Bondone
+    contactInfo: www.enelsonduran.com
+    image_path: 959674874
+    isOriginal: 0
+  - name: Africa
+    id: 12
+    artist_name: Rosalba Carriera
+    contactInfo: www.enelsonduran.com
+    image_path: 1339872461
+    isOriginal: 0
+  - name: "Albert (Ren\xE9) Grenier"
+    id: 13
+    artist_name: "Henri de Toulouse\u2013Lautrec"
+    contactInfo: www.enelsonduran.com
+    image_path: 1595059122
+    isOriginal: 0
+  - name: Alexandre Lenoir
+    id: 14
+    artist_name: Marie Bouliard
+    contactInfo: www.enelsonduran.com
+    image_path: 1583453426
+    isOriginal: 0
+  - name: Allee at Schloss Kammer
+    id: 15
+    artist_name: Gustav Klimt
+    contactInfo: www.enelsonduran.com
+    image_path: 198756081
+    isOriginal: 0
+  - name: Allegory of Fortune
+    id: 16
+    artist_name: Luc-Olivier Merson
+    contactInfo: www.enelsonduran.com
+    image_path: 2110758551
+    isOriginal: 0
+  - name: Allegory of Time Governed by Prudence
+    id: 17
+    artist_name: Titian
+    contactInfo: www.enelsonduran.com
+    image_path: 733659960
+    isOriginal: 0
+  - name: Angel
+    id: 18
+    artist_name: Abbott Handerson Thayer
+    contactInfo: www.enelsonduran.com
+    image_path: 1075246116
+    isOriginal: 0
+  - name: Annunciation
+    id: 19
+    artist_name: Leonardo da Vinci
+    contactInfo: www.enelsonduran.com
+    image_path: 2066118322
+    isOriginal: 0
+  - name: Apple Tree Pointillist Version
+    id: 20
+    artist_name: Piet Mondrian
+    contactInfo: www.enelsonduran.com
+    image_path: 1890804512
+    isOriginal: 0
+  - name: Arrival of the Normandy Train
+    id: 21
+    artist_name: Claude Monet
+    contactInfo: www.enelsonduran.com
+    image_path: 568161967
+    isOriginal: 0
+  - name: Artist in her Room
+    id: 22
+    artist_name: Gwen John
+    contactInfo: www.enelsonduran.com
+    image_path: 1051308089
+    isOriginal: 0
+  - name: At Calcot
+    id: 23
+    artist_name: John Singer Sargent
+    contactInfo: www.enelsonduran.com
+    image_path: 1117538669
+    isOriginal: 0
+  - name: At the Moulin Rouge
+    id: 24
+    artist_name: "Henri de Toulouse\u2013Lautrec"
+    contactInfo: www.enelsonduran.com
+    image_path: 1986773722
+    isOriginal: 0
+  - name: At the Piano
+    id: 25
+    artist_name: Mina Carlson-Bredberg
+    contactInfo: www.enelsonduran.com
+    image_path: 2071742974
+    isOriginal: 0
+  - name: Attributes of Painting Sculpture and Architecture
+    id: 26
+    artist_name: Anne Vallayer Coster
+    contactInfo: www.enelsonduran.com
+    image_path: 1139768840
+    isOriginal: 0
+  - name: Autumn Day
+    id: 27
+    artist_name: Gerrit Willem Dijsselhof
+    contactInfo: www.enelsonduran.com
+    image_path: 881904199
+    isOriginal: 0
+  - name: Bacchus and Ariadne
+    id: 28
+    artist_name: Titian
+    contactInfo: www.enelsonduran.com
+    image_path: 1136176759
+    isOriginal: 0
+  - name: Backyard
+    id: 29
+    artist_name: Alice Bailly
+    contactInfo: www.enelsonduran.com
+    image_path: 1540007272
+    isOriginal: 0
+  - name: "Bar of the Caf\xE9 of the rue de Rome"
+    id: 30
+    artist_name: "Henri de Toulouse\u2013Lautrec"
+    contactInfo: www.enelsonduran.com
+    image_path: 1184271104
+    isOriginal: 0
+  - name: Bathers
+    id: 31
+    artist_name: "Paul C\xE9zanne"
+    contactInfo: www.enelsonduran.com
+    image_path: 1767794602
+    isOriginal: 0
+  - name: Beach at Cabasson
+    id: 32
+    artist_name: Henri-Edmond Cross
+    contactInfo: www.enelsonduran.com
+    image_path: 166172998
+    isOriginal: 0
+  - name: Beach at Low Tide
+    id: 33
+    artist_name: Edgar Degas
+    contactInfo: www.enelsonduran.com
+    image_path: 1936167207
+    isOriginal: 0
+  - name: Bedroom in Arles
+    id: 34
+    artist_name: Vincent van Gogh
+    contactInfo: www.enelsonduran.com
+    image_path: 2075508189
+    isOriginal: 0
+  - name: Beech Grove I
+    id: 35
+    artist_name: Gustav Klimt
+    contactInfo: www.enelsonduran.com
+    image_path: 1053990359
+    isOriginal: 0
+  - name: Bird Bathers
+    id: 36
+    artist_name: Alice Bailly
+    contactInfo: www.enelsonduran.com
+    image_path: 203148596
+    isOriginal: 0
+  - name: Birth of Venus
+    id: 37
+    artist_name: Sandro Botticelli
+    contactInfo: www.enelsonduran.com
+    image_path: 773817723
+    isOriginal: 0
+  - name: Boating
+    id: 38
+    artist_name: "\xC9douard Manet"
+    contactInfo: www.enelsonduran.com
+    image_path: 1434893437
+    isOriginal: 0
+  - name: Bon Bock Cafe
+    id: 39
+    artist_name: "\xC9douard Manet"
+    contactInfo: www.enelsonduran.com
+    image_path: 238447758
+    isOriginal: 0
+  - name: Boris Yusupov as Cupid
+    id: 40
+    artist_name: "Louise Elisabeth Vig\xE9e-Lebrun"
+    contactInfo: www.enelsonduran.com
+    image_path: 1050029088
+    isOriginal: 0
+  - name: Bouquet of Flowers with a Butterfly
+    id: 41
+    artist_name: William van Leen
+    contactInfo: www.enelsonduran.com
+    image_path: 1894265404
+    isOriginal: 0
+  - name: Bouquet of Flowers with China Asters and Tokyos
+    id: 42
+    artist_name: Henri Rousseau
+    contactInfo: www.enelsonduran.com
+    image_path: 549272473
+    isOriginal: 0
+  - name: Bouquet of Flowers
+    id: 43
+    artist_name: Henri Rousseau
+    contactInfo: www.enelsonduran.com
+    image_path: 1745204958
+    isOriginal: 0
+  - name: Bouquet
+    id: 44
+    artist_name: Pierre-Auguste Renoir
+    contactInfo: www.enelsonduran.com
+    image_path: 1575485183
+    isOriginal: 0
+  - name: Breton Girls Dancing
+    id: 45
+    artist_name: Paul Gauguin
+    contactInfo: www.enelsonduran.com
+    image_path: 649822536
+    isOriginal: 0
+  - name: Bridge over Waterfall
+    id: 46
+    artist_name: Hiroaki Takahashi
+    contactInfo: www.enelsonduran.com
+    image_path: 2011281475
+    isOriginal: 0
+  - name: By the Sea
+    id: 47
+    artist_name: Paul Gauguin
+    contactInfo: www.enelsonduran.com
+    image_path: 802877216
+    isOriginal: 0
+  - name: By the Sea
+    id: 48
+    artist_name: Piet Mondrian
+    contactInfo: www.enelsonduran.com
+    image_path: 1072870908
+    isOriginal: 0
+  - name: "Caf\xE9 Singer"
+    id: 49
+    artist_name: Edgar Degas
+    contactInfo: www.enelsonduran.com
+    image_path: 2085858651
+    isOriginal: 0
+  - name: Calanque des Antibois
+    id: 50
+    artist_name: Henri-Edmond Cross
+    contactInfo: www.enelsonduran.com
+    image_path: 479843052
+    isOriginal: 0
+  - name: Carmen
+    id: 51
+    artist_name: "Henri de Toulouse\u2013Lautrec"
+    contactInfo: www.enelsonduran.com
+    image_path: 2025358500
+    isOriginal: 0
+  - name: Castle Island Boston Harbor
+    id: 52
+    artist_name: Frederick Childe Hassam
+    contactInfo: www.enelsonduran.com
+    image_path: 1349561304
+    isOriginal: 0
+  - name: Charles Lord of Cornwallis
+    id: 53
+    artist_name: Marie Verelst
+    contactInfo: www.enelsonduran.com
+    image_path: 206242227
+    isOriginal: 0
+  - name: Checkmate
+    id: 54
+    artist_name: Eric N. Duran
+    contactInfo: www.enelsonduran.com
+    image_path: 987627674
+    isOriginal: 1
+  - name: Children Playing on the Beach
+    id: 55
+    artist_name: Mary Cassatt
+    contactInfo: www.enelsonduran.com
+    image_path: 743549021
+    isOriginal: 0
+  - name: Children with a Parrot
+    id: 56
+    artist_name: Christina Robertson
+    contactInfo: www.enelsonduran.com
+    image_path: 2059075140
+    isOriginal: 0
+  - name: Christ in the House of Martha and Mary
+    id: 57
+    artist_name: Johannes Vermeer
+    contactInfo: www.enelsonduran.com
+    image_path: 30032283
+    isOriginal: 0
+  - name: Christ Washing the Disciples' Feet
+    id: 58
+    artist_name: Tintoretto
+    contactInfo: www.enelsonduran.com
+    image_path: 380582592
+    isOriginal: 0
+  - name: "Chrysanthemums in the Garden at Petit\u2013Gennevilliers"
+    id: 59
+    artist_name: Gustave Caillebotte
+    contactInfo: www.enelsonduran.com
+    image_path: 321687067
+    isOriginal: 0
+  - name: Circus Sideshow
+    id: 60
+    artist_name: Georges Seurat
+    contactInfo: www.enelsonduran.com
+    image_path: 1588647844
+    isOriginal: 0
+  - name: Cliff Walk at Pourville
+    id: 61
+    artist_name: Claude Monet
+    contactInfo: www.enelsonduran.com
+    image_path: 1306806225
+    isOriginal: 0
+  - name: "Cliffs at \xC9tretat"
+    id: 62
+    artist_name: Samuel Colman
+    contactInfo: www.enelsonduran.com
+    image_path: 219179640
+    isOriginal: 0
+  - name: Clouded Leopards
+    id: 63
+    artist_name: "Jacques\u2013Laurent Agasse"
+    contactInfo: www.enelsonduran.com
+    image_path: 929998033
+    isOriginal: 0
+  - name: Cold Wintery Wind
+    id: 64
+    artist_name: Hiroaki Takahashi
+    contactInfo: www.enelsonduran.com
+    image_path: 1690702292
+    isOriginal: 0
+  - name: Colors of the Sea
+    id: 65
+    artist_name: Melanee Alfonso
+    contactInfo: www.enelsonduran.com
+    image_path: 1447247589
+    isOriginal: 1
+  - name: Commander Delexian
+    id: 66
+    artist_name: Carina Duran
+    contactInfo: www.enelsonduran.com
+    image_path: 793501876
+    isOriginal: 1
+  - name: Conversation at the Table
+    id: 67
+    artist_name: Louise Catherine Breslau
+    contactInfo: www.enelsonduran.com
+    image_path: 1551188901
+    isOriginal: 0
+  - name: Conversion of Saint Paul
+    id: 68
+    artist_name: Michelangelo
+    contactInfo: www.enelsonduran.com
+    image_path: 1667034580
+    isOriginal: 0
+  - name: Cornish Headlands
+    id: 69
+    artist_name: Abbott Handerson Thayer
+    contactInfo: www.enelsonduran.com
+    image_path: 529463067
+    isOriginal: 0
+  - name: Countess A. S. Protasova with her nieces
+    id: 70
+    artist_name: Angelika Kauffmann
+    contactInfo: www.enelsonduran.com
+    image_path: 2143091132
+    isOriginal: 0
+  - name: Cows Resting
+    id: 71
+    artist_name: Rosa Bonheur
+    contactInfo: www.enelsonduran.com
+    image_path: 1336940828
+    isOriginal: 0
+  - name: "Cupid\u2019s Hunting Fields"
+    id: 72
+    artist_name: "Sir Edward Burne\u2013Jones"
+    contactInfo: www.enelsonduran.com
+    image_path: 1446250170
+    isOriginal: 0
+  - name: Damned Soul
+    id: 73
+    artist_name: Michelangelo
+    contactInfo: www.enelsonduran.com
+    image_path: 836798358
+    isOriginal: 0
+  - name: Dancer
+    id: 74
+    artist_name: Jacqueline Marval
+    contactInfo: www.enelsonduran.com
+    image_path: 1016089234
+    isOriginal: 0
+  - name: Dans le parc
+    id: 75
+    artist_name: Berthe Morisot
+    contactInfo: www.enelsonduran.com
+    image_path: 2144022755
+    isOriginal: 0
+  - name: Diana and her Nymphs
+    id: 76
+    artist_name: Johannes Vermeer
+    contactInfo: www.enelsonduran.com
+    image_path: 18889494
+    isOriginal: 0
+  - name: Dorelia by Lamplight
+    id: 77
+    artist_name: Gwen John
+    contactInfo: www.enelsonduran.com
+    image_path: 1453586778
+    isOriginal: 0
+  - name: Dovecote at Bellevue
+    id: 78
+    artist_name: Pierre-Auguste Renoir
+    contactInfo: www.enelsonduran.com
+    image_path: 1689537133
+    isOriginal: 0
+  - name: Drawings of Water Lifting Devices
+    id: 79
+    artist_name: Leonardo da Vinci
+    contactInfo: www.enelsonduran.com
+    image_path: 1336951186
+    isOriginal: 0
+  - name: Duchess of Marlboro with Lady Diana Spencer
+    id: 80
+    artist_name: Maria Verelst
+    contactInfo: www.enelsonduran.com
+    image_path: 60461499
+    isOriginal: 0
+  - name: Edge of the Woods Near L'Hermitage
+    id: 81
+    artist_name: Camille Pissarro
+    contactInfo: www.enelsonduran.com
+    image_path: 336891624
+    isOriginal: 0
+  - name: El Parnaso
+    id: 82
+    artist_name: Nicolas Poussin
+    contactInfo: www.enelsonduran.com
+    image_path: 1956516938
+    isOriginal: 0
+  - name: Entombment
+    id: 83
+    artist_name: Michelangelo
+    contactInfo: www.enelsonduran.com
+    image_path: 1197801755
+    isOriginal: 0
+  - name: Event Horizon from an Androgen Rose
+    id: 84
+    artist_name: Eric N. Duran
+    contactInfo: www.enelsonduran.com
+    image_path: 1060164220
+    isOriginal: 1
+  - name: Fall
+    id: 85
+    artist_name: Jacqueline Marval
+    contactInfo: www.enelsonduran.com
+    image_path: 1306396251
+    isOriginal: 0
+  - name: Fallen Angel of Dapyth
+    id: 86
+    artist_name: Eric N. Duran
+    contactInfo: www.enelsonduran.com
+    image_path: 418233298
+    isOriginal: 1
+  - name: Farmhouse in Upper Austria
+    id: 87
+    artist_name: Gustav Klimt
+    contactInfo: www.enelsonduran.com
+    image_path: 2107414418
+    isOriginal: 0
+  - name: Farmstead along the water screened by nine tall trees
+    id: 88
+    artist_name: Piet Mondrian
+    contactInfo: www.enelsonduran.com
+    image_path: 948539533
+    isOriginal: 0
+  - name: Flames of black and white
+    id: 89
+    artist_name: Eric N. Duran
+    contactInfo: www.enelsonduran.com
+    image_path: 1331959168
+    isOriginal: 1
+  - name: Flowers in a Blue Vase
+    id: 90
+    artist_name: William van Leen
+    contactInfo: www.enelsonduran.com
+    image_path: 1142398866
+    isOriginal: 0
+  - name: Flowers in a Crystal Vase
+    id: 91
+    artist_name: "\xC9douard Manet"
+    contactInfo: www.enelsonduran.com
+    image_path: 173116313
+    isOriginal: 0
+  - name: Forest with a Buck
+    id: 92
+    artist_name: Rosa Bonheur
+    contactInfo: www.enelsonduran.com
+    image_path: 393235131
+    isOriginal: 0
+  - name: Fountain in a Garden in Rome
+    id: 93
+    artist_name: Alice Bailly
+    contactInfo: www.enelsonduran.com
+    image_path: 1113206370
+    isOriginal: 0
+  - name: Friends
+    id: 94
+    artist_name: Louise Catherine Breslau
+    contactInfo: www.enelsonduran.com
+    image_path: 797283561
+    isOriginal: 0
+  - name: Fruit Dish on a Garden Chair
+    id: 95
+    artist_name: Paul Gauguin
+    contactInfo: www.enelsonduran.com
+    image_path: 1890706510
+    isOriginal: 0
+  - name: Gardanne (Horizontal View)
+    id: 96
+    artist_name: "Paul C\xE9zanne"
+    contactInfo: www.enelsonduran.com
+    image_path: 1675085764
+    isOriginal: 0
+  - name: Gathering for the Hunt
+    id: 97
+    artist_name: Rosa Bonheur
+    contactInfo: www.enelsonduran.com
+    image_path: 1766758087
+    isOriginal: 0
+  - name: Genius Alexander
+    id: 98
+    artist_name: "Louise Elisabeth Vig\xE9e-Lebrun"
+    contactInfo: www.enelsonduran.com
+    image_path: 54502666
+    isOriginal: 0
+  - name: Genius of Fame
+    id: 99
+    artist_name: "Louise Elisabeth Vig\xE9e-Lebrun"
+    contactInfo: www.enelsonduran.com
+    image_path: 128237594
+    isOriginal: 0
+  - name: Ginevra de' Benci
+    id: 100
+    artist_name: Leonardo da Vinci
+    contactInfo: www.enelsonduran.com
+    image_path: 2003804307
+    isOriginal: 0
+  - name: Girl Arranging Her Hair
+    id: 101
+    artist_name: Mary Cassatt
+    contactInfo: www.enelsonduran.com
+    image_path: 460092574
+    isOriginal: 0
+  - name: Girl at the Virginal
+    id: 102
+    artist_name: Caterina van Hemessen
+    contactInfo: www.enelsonduran.com
+    image_path: 1283326283
+    isOriginal: 0
+  - name: Girl in a Boat with Geese
+    id: 103
+    artist_name: Berthe Morisot
+    contactInfo: www.enelsonduran.com
+    image_path: 543407841
+    isOriginal: 0
+  - name: Girl Interrupted at Her Music
+    id: 104
+    artist_name: Johannes Vermeer
+    contactInfo: www.enelsonduran.com
+    image_path: 2090251166
+    isOriginal: 0
+  - name: Girl Reading by a Waterfall
+    id: 105
+    artist_name: Marie Bashkirtseff
+    contactInfo: www.enelsonduran.com
+    image_path: 1290385871
+    isOriginal: 0
+  - name: Girl with a Pearl Earring
+    id: 106
+    artist_name: Johannes Vermeer
+    contactInfo: www.enelsonduran.com
+    image_path: 579108330
+    isOriginal: 0
+  - name: Gogh's Stairway at Auvers
+    id: 107
+    artist_name: Vincent van Gogh
+    contactInfo: www.enelsonduran.com
+    image_path: 512762946
+    isOriginal: 0
+  - name: Gold and Silverfish in an Aquarium
+    id: 108
+    artist_name: Gerrit Willem Dijsselhof
+    contactInfo: www.enelsonduran.com
+    image_path: 1337636640
+    isOriginal: 0
+  - name: Granada
+    id: 109
+    artist_name: John Singer Sargent
+    contactInfo: www.enelsonduran.com
+    image_path: 991088566
+    isOriginal: 0
+  - name: Gray Weather
+    id: 110
+    artist_name: Georges Seurat
+    contactInfo: www.enelsonduran.com
+    image_path: 724659527
+    isOriginal: 0
+  - name: Green Wheat Field with Cypress
+    id: 111
+    artist_name: Vincent van Gogh
+    contactInfo: www.enelsonduran.com
+    image_path: 605488362
+    isOriginal: 0
+  - name: Green Wheat Fields
+    id: 112
+    artist_name: Vincent van Gogh
+    contactInfo: www.enelsonduran.com
+    image_path: 487978797
+    isOriginal: 0
+  - name: Hail Mary
+    id: 113
+    artist_name: Paul Gauguin
+    contactInfo: www.enelsonduran.com
+    image_path: 1191115053
+    isOriginal: 0
+  - name: Head of young girl
+    id: 114
+    artist_name: "Fran\xE7oise Duparc"
+    contactInfo: www.enelsonduran.com
+    image_path: 261225568
+    isOriginal: 0
+  - name: Held by Emotion
+    id: 115
+    artist_name: Melanee Alfonso
+    contactInfo: www.enelsonduran.com
+    image_path: 1251756220
+    isOriginal: 1
+  - name: Hell
+    id: 116
+    artist_name: Hieronymus Bosch
+    contactInfo: www.enelsonduran.com
+    image_path: 1497772934
+    isOriginal: 0
+  - name: Highland Raid
+    id: 117
+    artist_name: Rosa Bonheur
+    contactInfo: www.enelsonduran.com
+    image_path: 1168861532
+    isOriginal: 0
+  - name: Houses in Provence
+    id: 118
+    artist_name: "Paul C\xE9zanne"
+    contactInfo: www.enelsonduran.com
+    image_path: 2017317460
+    isOriginal: 0
+  - name: In Brittany
+    id: 119
+    artist_name: Pierre-Auguste Renoir
+    contactInfo: www.enelsonduran.com
+    image_path: 384306041
+    isOriginal: 0
+  - name: In the Bleu
+    id: 120
+    artist_name: "Am\xE9lie Beaury-Saurel"
+    contactInfo: www.enelsonduran.com
+    image_path: 1029014291
+    isOriginal: 0
+  - name: In the Dining Room
+    id: 121
+    artist_name: Berthe Morisot
+    contactInfo: www.enelsonduran.com
+    image_path: 833571105
+    isOriginal: 0
+  - name: In the Meadow
+    id: 122
+    artist_name: Rosa Bonheur
+    contactInfo: www.enelsonduran.com
+    image_path: 602649368
+    isOriginal: 0
+  - name: In the Studio
+    id: 123
+    artist_name: Marie Bashkirtseff
+    contactInfo: www.enelsonduran.com
+    image_path: 335075412
+    isOriginal: 0
+  - name: In the Woods at Giverny
+    id: 124
+    artist_name: Claude Monet
+    contactInfo: www.enelsonduran.com
+    image_path: 1534547848
+    isOriginal: 0
+  - name: Indigenous Tears
+    id: 125
+    artist_name: Eric N. Duran
+    contactInfo: www.enelsonduran.com
+    image_path: 1969974819
+    isOriginal: 1
+  - name: Interior at Arachon
+    id: 126
+    artist_name: "\xC9douard Manet"
+    contactInfo: www.enelsonduran.com
+    image_path: 943705697
+    isOriginal: 0
+  - name: Interior of a Peasant's House
+    id: 127
+    artist_name: Alexandra Lunois
+    contactInfo: www.enelsonduran.com
+    image_path: 333043800
+    isOriginal: 0
+  - name: James Rush
+    id: 128
+    artist_name: Anna Claypoole Peale
+    contactInfo: www.enelsonduran.com
+    image_path: 39514797
+    isOriginal: 0
+  - name: Joan of Arc Hearing the Voices
+    id: 129
+    artist_name: Luc-Olivier Merson
+    contactInfo: www.enelsonduran.com
+    image_path: 1272866371
+    isOriginal: 0
+  - name: Johannisfriedhof in Nuremberg
+    id: 130
+    artist_name: "Albrecht D\xFCrer"
+    contactInfo: www.enelsonduran.com
+    image_path: 468936991
+    isOriginal: 0
+  - name: Julie Lebrun
+    id: 131
+    artist_name: "Louise Elisabeth Vig\xE9e-Lebrun"
+    contactInfo: www.enelsonduran.com
+    image_path: 399615054
+    isOriginal: 0
+  - name: Katsuyama Neighborhood
+    id: 132
+    artist_name: Hiroaki Takahashi
+    contactInfo: www.enelsonduran.com
+    image_path: 1399084112
+    isOriginal: 0
+  - name: Kirche in Cassone
+    id: 133
+    artist_name: Gustav Klimt
+    contactInfo: www.enelsonduran.com
+    image_path: 1561299539
+    isOriginal: 0
+  - name: Kiss of Judas
+    id: 134
+    artist_name: Giotto di Bondone
+    contactInfo: www.enelsonduran.com
+    image_path: 1480630526
+    isOriginal: 0
+  - name: Kleine Welten IV (Small Worlds IV)
+    id: 135
+    artist_name: Wassily Kandinsky
+    contactInfo: www.enelsonduran.com
+    image_path: 1747852572
+    isOriginal: 0
+  - name: Kleine Welten IX (Small Worlds IX)
+    id: 136
+    artist_name: Wassily Kandinsky
+    contactInfo: www.enelsonduran.com
+    image_path: 1201048988
+    isOriginal: 0
+  - name: Kleine Welten VI (Small Worlds VI)
+    id: 137
+    artist_name: Wassily Kandinsky
+    contactInfo: www.enelsonduran.com
+    image_path: 1413109097
+    isOriginal: 0
+  - name: Kleine Welten VII (Small Worlds VII)
+    id: 138
+    artist_name: Wassily Kandinsky
+    contactInfo: www.enelsonduran.com
+    image_path: 1255034236
+    isOriginal: 0
+  - name: La Gousse
+    id: 139
+    artist_name: "Henri de Toulouse\u2013Lautrec"
+    contactInfo: www.enelsonduran.com
+    image_path: 1917261996
+    isOriginal: 0
+  - name: La Primavera
+    id: 140
+    artist_name: Sandro Botticelli
+    contactInfo: www.enelsonduran.com
+    image_path: 727287921
+    isOriginal: 0
+  - name: Lady with an Ermine
+    id: 141
+    artist_name: Leonardo da Vinci
+    contactInfo: www.enelsonduran.com
+    image_path: 2052953999
+    isOriginal: 0
+  - name: Landscape (1)
+    id: 142
+    artist_name: Pierre-Auguste Renoir
+    contactInfo: www.enelsonduran.com
+    image_path: 769777778
+    isOriginal: 0
+  - name: Landscape (2)
+    id: 143
+    artist_name: Pierre-Auguste Renoir
+    contactInfo: www.enelsonduran.com
+    image_path: 2104934614
+    isOriginal: 0
+  - name: Landscape - Study painting
+    id: 144
+    artist_name: "Sir Edward Burne\u2013Jones"
+    contactInfo: www.enelsonduran.com
+    image_path: 607299641
+    isOriginal: 0
+  - name: Landscape at Le Pouldu
+    id: 145
+    artist_name: Paul Gauguin
+    contactInfo: www.enelsonduran.com
+    image_path: 536910504
+    isOriginal: 0
+  - name: "Landscape at Les P\xE2tis"
+    id: 146
+    artist_name: Camille Pissarro
+    contactInfo: www.enelsonduran.com
+    image_path: 1832621163
+    isOriginal: 0
+  - name: Landscape at Saint-Charles near Gisors
+    id: 147
+    artist_name: Camille Pissarro
+    contactInfo: www.enelsonduran.com
+    image_path: 1349603725
+    isOriginal: 0
+  - name: Landscape at Saint-Ouen
+    id: 148
+    artist_name: Georges Seurat
+    contactInfo: www.enelsonduran.com
+    image_path: 851980802
+    isOriginal: 0
+  - name: Landscape from Pontoise
+    id: 149
+    artist_name: Camille Pissarro
+    contactInfo: www.enelsonduran.com
+    image_path: 1693010988
+    isOriginal: 0
+  - name: Landscape near Arnhem
+    id: 150
+    artist_name: Piet Mondrian
+    contactInfo: www.enelsonduran.com
+    image_path: 392933576
+    isOriginal: 0
+  - name: Landscape
+    id: 151
+    artist_name: Edgar Degas
+    contactInfo: www.enelsonduran.com
+    image_path: 506224232
+    isOriginal: 0
+  - name: Langlois Bridge at Arles
+    id: 152
+    artist_name: Vincent van Gogh
+    contactInfo: www.enelsonduran.com
+    image_path: 1896924274
+    isOriginal: 0
+  - name: Last Judgement
+    id: 153
+    artist_name: Hieronymus Bosch
+    contactInfo: www.enelsonduran.com
+    image_path: 1817680272
+    isOriginal: 0
+  - name: Lazarus and the Rich Man
+    id: 154
+    artist_name: Jacopo Bassano
+    contactInfo: www.enelsonduran.com
+    image_path: 1246706950
+    isOriginal: 0
+  - name: Le Colin-Maillard
+    id: 155
+    artist_name: Alexandra Lunois
+    contactInfo: www.enelsonduran.com
+    image_path: 1170233202
+    isOriginal: 0
+  - name: Le pont des Arts
+    id: 156
+    artist_name: Paul Signac
+    contactInfo: www.enelsonduran.com
+    image_path: 2004926853
+    isOriginal: 0
+  - name: "Les Andelys C\xF4te d\u2019Aval"
+    id: 157
+    artist_name: Paul Signac
+    contactInfo: www.enelsonduran.com
+    image_path: 948250871
+    isOriginal: 0
+  - name: Les Bavardes
+    id: 158
+    artist_name: Jacqueline Marval
+    contactInfo: www.enelsonduran.com
+    image_path: 1156343640
+    isOriginal: 0
+  - name: Les Coquettes
+    id: 159
+    artist_name: Jacqueline Marval
+    contactInfo: www.enelsonduran.com
+    image_path: 120276347
+    isOriginal: 0
+  - name: Lilac Bush
+    id: 160
+    artist_name: Vincent van Gogh
+    contactInfo: www.enelsonduran.com
+    image_path: 346680174
+    isOriginal: 0
+  - name: Lion
+    id: 161
+    artist_name: Rosa Bonheur
+    contactInfo: www.enelsonduran.com
+    image_path: 246064530
+    isOriginal: 0
+  - name: Lord Rivers's Stud Farm
+    id: 162
+    artist_name: "Jacques\u2013Laurent Agasse"
+    contactInfo: www.enelsonduran.com
+    image_path: 473248149
+    isOriginal: 0
+  - name: Luncheon
+    id: 163
+    artist_name: Pierre-Auguste Renoir
+    contactInfo: www.enelsonduran.com
+    image_path: 64770269
+    isOriginal: 0
+  - name: Lying Nude
+    id: 164
+    artist_name: Louise Catherine Breslau
+    contactInfo: www.enelsonduran.com
+    image_path: 522151575
+    isOriginal: 0
+  - name: Madame X (Madame Pierre Gautreau)
+    id: 165
+    artist_name: John Singer Sargent
+    contactInfo: www.enelsonduran.com
+    image_path: 325044473
+    isOriginal: 0
+  - name: Madonna with the Blue Diadem
+    id: 166
+    artist_name: Raffaello Sanzio
+    contactInfo: www.enelsonduran.com
+    image_path: 1353887897
+    isOriginal: 0
+  - name: Maenad
+    id: 167
+    artist_name: "Louise Elisabeth Vig\xE9e-Lebrun"
+    contactInfo: www.enelsonduran.com
+    image_path: 1074162905
+    isOriginal: 0
+  - name: Malcesine am Gardasee
+    id: 168
+    artist_name: Gustav Klimt
+    contactInfo: www.enelsonduran.com
+    image_path: 1857968174
+    isOriginal: 0
+  - name: Man Wearing Laurels
+    id: 169
+    artist_name: John Singer Sargent
+    contactInfo: www.enelsonduran.com
+    image_path: 660856643
+    isOriginal: 0
+  - name: "Marcelle Lender Dancing the Bolero in Chilp\xE9ric"
+    id: 170
+    artist_name: "Henri de Toulouse\u2013Lautrec"
+    contactInfo: www.enelsonduran.com
+    image_path: 50707232
+    isOriginal: 0
+  - name: Marianne Beckett
+    id: 171
+    artist_name: Anna Claypoole Peale
+    contactInfo: www.enelsonduran.com
+    image_path: 84663837
+    isOriginal: 0
+  - name: Marie Antoinette and her Children
+    id: 172
+    artist_name: "Louise Elisabeth Vig\xE9e-Lebrun"
+    contactInfo: www.enelsonduran.com
+    image_path: 2061310943
+    isOriginal: 0
+  - name: Marie-Antoinette and her children
+    id: 173
+    artist_name: "Louise Elisabeth Vig\xE9e-Lebrun"
+    contactInfo: www.enelsonduran.com
+    image_path: 100055464
+    isOriginal: 0
+  - name: Maxime Dethomas
+    id: 174
+    artist_name: "Henri de Toulouse\u2013Lautrec"
+    contactInfo: www.enelsonduran.com
+    image_path: 1804501767
+    isOriginal: 0
+  - name: Meadow
+    id: 175
+    artist_name: Pierre-Auguste Renoir
+    contactInfo: www.enelsonduran.com
+    image_path: 1123543939
+    isOriginal: 0
+  - name: Mona Lisa
+    id: 176
+    artist_name: Leonardo da Vinci
+    contactInfo: www.enelsonduran.com
+    image_path: 63793327
+    isOriginal: 0
+  - name: Mont Sainte-Victoire and the Viaduct of the Arc River Valley
+    id: 177
+    artist_name: "Paul C\xE9zanne"
+    contactInfo: www.enelsonduran.com
+    image_path: 645198401
+    isOriginal: 0
+  - name: Mont Sainte-Victoire
+    id: 178
+    artist_name: "Paul C\xE9zanne"
+    contactInfo: www.enelsonduran.com
+    image_path: 1875259418
+    isOriginal: 0
+  - name: Montagne Sainte-Victoire
+    id: 179
+    artist_name: Pierre-Auguste Renoir
+    contactInfo: www.enelsonduran.com
+    image_path: 997637344
+    isOriginal: 0
+  - name: Moon at Egota Tokyo
+    id: 180
+    artist_name: Hiroaki Takahashi
+    contactInfo: www.enelsonduran.com
+    image_path: 137353656
+    isOriginal: 0
+  - name: Mount Fuji From Mizukubo
+    id: 181
+    artist_name: Hiroaki Takahashi
+    contactInfo: www.enelsonduran.com
+    image_path: 1741585619
+    isOriginal: 0
+  - name: "M\xE4da Primavesi"
+    id: 182
+    artist_name: ustav Klimt
+    contactInfo: www.enelsonduran.com
+    image_path: 1628546645
+    isOriginal: 0
+  - name: Naked woman in bed
+    id: 183
+    artist_name: Edgar Degas
+    contactInfo: www.enelsonduran.com
+    image_path: 493987456
+    isOriginal: 0
+  - name: Natural Death
+    id: 184
+    artist_name: Maria Blanchard
+    contactInfo: www.enelsonduran.com
+    image_path: 879932795
+    isOriginal: 0
+  - name: Nonchaloir
+    id: 185
+    artist_name: John Singer Sargent
+    contactInfo: www.enelsonduran.com
+    image_path: 2110196406
+    isOriginal: 0
+  - name: Nude Girl
+    id: 186
+    artist_name: Gwen John
+    contactInfo: www.enelsonduran.com
+    image_path: 650174427
+    isOriginal: 0
+  - name: Nymphs and a Satyr
+    id: 187
+    artist_name: Nicolas Poussin
+    contactInfo: www.enelsonduran.com
+    image_path: 1728887487
+    isOriginal: 0
+  - name: Offering the panel to the bullfighter
+    id: 188
+    artist_name: Mary Cassatt
+    contactInfo: www.enelsonduran.com
+    image_path: 314592589
+    isOriginal: 0
+  - name: Officer and Laughing Girl
+    id: 189
+    artist_name: Johannes Vermeer
+    contactInfo: www.enelsonduran.com
+    image_path: 310397324
+    isOriginal: 0
+  - name: Old Tower at Avignon
+    id: 190
+    artist_name: Samuel Colman
+    contactInfo: www.enelsonduran.com
+    image_path: 1890409366
+    isOriginal: 0
+  - name: On the Grass
+    id: 191
+    artist_name: Pierre-Auguste Renoir
+    contactInfo: www.enelsonduran.com
+    image_path: 252798117
+    isOriginal: 0
+  - name: Orchard in Bloom
+    id: 192
+    artist_name: Camille Pissarro
+    contactInfo: www.enelsonduran.com
+    image_path: 256765457
+    isOriginal: 0
+  - name: Orchard
+    id: 193
+    artist_name: Alice Bailly
+    contactInfo: www.enelsonduran.com
+    image_path: 1134757889
+    isOriginal: 0
+  - name: Orgasm
+    id: 194
+    artist_name: Eric N. Duran
+    contactInfo: www.enelsonduran.com
+    image_path: 1570581822
+    isOriginal: 1
+  - name: Our Girl Scouts
+    id: 195
+    artist_name: "Am\xE9lie Beaury-Saurel"
+    contactInfo: www.enelsonduran.com
+    image_path: 481223391
+    isOriginal: 0
+  - name: Oysters
+    id: 196
+    artist_name: "\xC9douard Manet"
+    contactInfo: www.enelsonduran.com
+    image_path: 1579705850
+    isOriginal: 0
+  - name: Painting Girl
+    id: 197
+    artist_name: Louise Catherine Breslau
+    contactInfo: www.enelsonduran.com
+    image_path: 705007509
+    isOriginal: 0
+  - name: Pallas Athena
+    id: 198
+    artist_name: Gustav Klimt
+    contactInfo: www.enelsonduran.com
+    image_path: 1582783039
+    isOriginal: 0
+  - name: Paris Mountain
+    id: 199
+    artist_name: Eric N. Duran
+    contactInfo: www.enelsonduran.com
+    image_path: 282255168
+    isOriginal: 1
+  - name: Parnassus
+    id: 200
+    artist_name: "Sir Edward Burne\u2013Jones"
+    contactInfo: www.enelsonduran.com
+    image_path: 1330506254
+    isOriginal: 0
+  - name: Pears
+    id: 201
+    artist_name: "\xC9douard Manet"
+    contactInfo: www.enelsonduran.com
+    image_path: 758458258
+    isOriginal: 0
+  - name: Peasant Woman Carrying Two Bundles of Hay
+    id: 202
+    artist_name: Camille Pissarro
+    contactInfo: www.enelsonduran.com
+    image_path: 1639119198
+    isOriginal: 0
+  - name: "Pelagia Sapieha n\xE9e Potocka"
+    id: 203
+    artist_name: "Louise Elisabeth Vig\xE9e-Lebrun"
+    contactInfo: www.enelsonduran.com
+    image_path: 191124159
+    isOriginal: 0
+  - name: Perseus and Andromeda study for The Doom Fulfilled
+    id: 204
+    artist_name: "Sir Edward Burne\u2013Jones"
+    contactInfo: www.enelsonduran.com
+    image_path: 1642303756
+    isOriginal: 0
+  - name: Pheonix (Organic Rebirth)
+    id: 205
+    artist_name: Eric N. Duran
+    contactInfo: www.enelsonduran.com
+    image_path: 308269739
+    isOriginal: 1
+  - name: Picnic in England
+    id: 206
+    artist_name: Rolinda Sharples
+    contactInfo: www.enelsonduran.com
+    image_path: 592396936
+    isOriginal: 0
+  - name: Pines Along the Shore
+    id: 207
+    artist_name: Henri-Edmond Cross
+    contactInfo: www.enelsonduran.com
+    image_path: 1796868810
+    isOriginal: 0
+  - name: Place des Lices
+    id: 208
+    artist_name: Paul Signac
+    contactInfo: www.enelsonduran.com
+    image_path: 13178505
+    isOriginal: 0
+  - name: Ploughing in Nevers
+    id: 209
+    artist_name: Rosa Bonheur
+    contactInfo: www.enelsonduran.com
+    image_path: 123163011
+    isOriginal: 0
+  - name: Point Lobos Carmel
+    id: 210
+    artist_name: Frederick Childe Hassam
+    contactInfo: www.enelsonduran.com
+    image_path: 1106439875
+    isOriginal: 0
+  - name: Poppy Field
+    id: 211
+    artist_name: Claude Monet
+    contactInfo: www.enelsonduran.com
+    image_path: 1359728452
+    isOriginal: 0
+  - name: Portrait 2
+    id: 212
+    artist_name: Gwen John
+    contactInfo: www.enelsonduran.com
+    image_path: 1220475100
+    isOriginal: 0
+  - name: Portrait of a Lady
+    id: 213
+    artist_name: Caterina van Hemessen
+    contactInfo: www.enelsonduran.com
+    image_path: 158706296
+    isOriginal: 0
+  - name: Portrait of a Lady
+    id: 214
+    artist_name: Maria Verelst
+    contactInfo: www.enelsonduran.com
+    image_path: 2130406338
+    isOriginal: 0
+  - name: Portrait of a Lady
+    id: 215
+    artist_name: Marie Bouliard
+    contactInfo: www.enelsonduran.com
+    image_path: 752578202
+    isOriginal: 0
+  - name: Portrait of a Man
+    id: 216
+    artist_name: Caterina van Hemessen
+    contactInfo: www.enelsonduran.com
+    image_path: 765001532
+    isOriginal: 0
+  - name: Portrait of a man
+    id: 217
+    artist_name: Mary Cassatt
+    contactInfo: www.enelsonduran.com
+    image_path: 2126744340
+    isOriginal: 0
+  - name: Portrait of a Violinist
+    id: 218
+    artist_name: Anne Vallayer Coster
+    contactInfo: www.enelsonduran.com
+    image_path: 1332321121
+    isOriginal: 0
+  - name: Portrait of a young boy
+    id: 219
+    artist_name: "Louise Elisabeth Vig\xE9e-Lebrun"
+    contactInfo: www.enelsonduran.com
+    image_path: 559438816
+    isOriginal: 0
+  - name: Portrait of a Young Women
+    id: 220
+    artist_name: Marie Bouliard
+    contactInfo: www.enelsonduran.com
+    image_path: 1822353693
+    isOriginal: 0
+  - name: Portrait of Adele Bloch-Bauer I
+    id: 221
+    artist_name: Gustav Klimt
+    contactInfo: www.enelsonduran.com
+    image_path: 1772484057
+    isOriginal: 0
+  - name: "Portrait of Ad\xE9la\xEFde Binart"
+    id: 222
+    artist_name: Marie Bouliard
+    contactInfo: www.enelsonduran.com
+    image_path: 759570316
+    isOriginal: 0
+  - name: Portrait of an elderly lady with her daughter
+    id: 223
+    artist_name: Anne Vallayer Coster
+    contactInfo: www.enelsonduran.com
+    image_path: 1547570850
+    isOriginal: 0
+  - name: "Portrait of Andr\xE9 Rivoire"
+    id: 224
+    artist_name: "Henri de Toulouse\u2013Lautrec"
+    contactInfo: www.enelsonduran.com
+    image_path: 917930924
+    isOriginal: 0
+  - name: Portrait of Anna Orzelska
+    id: 225
+    artist_name: Rosalba Carriera
+    contactInfo: www.enelsonduran.com
+    image_path: 1945392762
+    isOriginal: 0
+  - name: Portrait of Dublin Tornelle
+    id: 226
+    artist_name: "Ad\xE9laideLabille-Guiard"
+    contactInfo: www.enelsonduran.com
+    image_path: 1975382027
+    isOriginal: 0
+  - name: Portrait of Francesca Gommi Maratti
+    id: 227
+    artist_name: Carlo Maratti
+    contactInfo: www.enelsonduran.com
+    image_path: 926553054
+    isOriginal: 0
+  - name: "Portrait of Fran\xE7ois Andr\xE9 Vincent"
+    id: 228
+    artist_name: "Ad\xE9laideLabille-Guiard"
+    contactInfo: www.enelsonduran.com
+    image_path: 676957289
+    isOriginal: 0
+  - name: Portrait of Friederike Maria Beer
+    id: 229
+    artist_name: Gustav Klimt
+    contactInfo: www.enelsonduran.com
+    image_path: 1323278376
+    isOriginal: 0
+  - name: Portrait of Gabrielle Emilie
+    id: 230
+    artist_name: Marianne Loir
+    contactInfo: www.enelsonduran.com
+    image_path: 1691321736
+    isOriginal: 0
+  - name: Portrait of Madame Charles Mitoire with Her Children
+    id: 231
+    artist_name: "Ad\xE9laideLabille-Guiard"
+    contactInfo: www.enelsonduran.com
+    image_path: 1506269465
+    isOriginal: 0
+  - name: Portrait of Penelope Smith
+    id: 232
+    artist_name: Maria Verelst
+    contactInfo: www.enelsonduran.com
+    image_path: 1209899009
+    isOriginal: 0
+  - name: "Portrait of S\xE9verine"
+    id: 233
+    artist_name: "Am\xE9lie Beaury-Saurel"
+    contactInfo: www.enelsonduran.com
+    image_path: 1593004250
+    isOriginal: 0
+  - name: Portrait of the Artist
+    id: 234
+    artist_name: Mary Cassatt
+    contactInfo: www.enelsonduran.com
+    image_path: 1814614737
+    isOriginal: 0
+  - name: Portrait Study
+    id: 235
+    artist_name: Mina Carlson-Bredberg
+    contactInfo: www.enelsonduran.com
+    image_path: 1526379045
+    isOriginal: 0
+  - name: Portrait
+    id: 236
+    artist_name: Gwen John
+    contactInfo: www.enelsonduran.com
+    image_path: 102466421
+    isOriginal: 0
+  - name: Portrat of a Woman
+    id: 237
+    artist_name: Caterina van Hemessen
+    contactInfo: www.enelsonduran.com
+    image_path: 1437422486
+    isOriginal: 0
+  - name: Princess Anne Henriette of France
+    id: 238
+    artist_name: Lizinka de Mirbel
+    contactInfo: www.enelsonduran.com
+    image_path: 999167347
+    isOriginal: 0
+  - name: Profile of Bourgeois Couple
+    id: 239
+    artist_name: Gwen John
+    contactInfo: www.enelsonduran.com
+    image_path: 571663056
+    isOriginal: 0
+  - name: Promenade
+    id: 240
+    artist_name: Pierre-Auguste Renoir
+    contactInfo: www.enelsonduran.com
+    image_path: 1517799470
+    isOriginal: 0
+  - name: Pygmalion and the Image - The Godhead Fires
+    id: 241
+    artist_name: "Sir Edward Burne\u2013Jones"
+    contactInfo: www.enelsonduran.com
+    image_path: 1000789264
+    isOriginal: 0
+  - name: Pygmalion and the Image - The Hand Refrains
+    id: 242
+    artist_name: "Sir Edward Burne\u2013Jones"
+    contactInfo: www.enelsonduran.com
+    image_path: 1715708982
+    isOriginal: 0
+  - name: Pygmalion and the Image - The Heart Desires
+    id: 243
+    artist_name: "Sir Edward Burne\u2013Jones"
+    contactInfo: www.enelsonduran.com
+    image_path: 191429578
+    isOriginal: 0
+  - name: Queen Demoncilly
+    id: 244
+    artist_name: Carina Duran
+    contactInfo: www.enelsonduran.com
+    image_path: 1351441096
+    isOriginal: 1
+  - name: Queen Technala
+    id: 245
+    artist_name: Carina Duran
+    contactInfo: www.enelsonduran.com
+    image_path: 530680914
+    isOriginal: 1
+  - name: Rain Landscape
+    id: 246
+    artist_name: Wassily Kandinsky
+    contactInfo: www.enelsonduran.com
+    image_path: 1179806664
+    isOriginal: 0
+  - name: Reapers Resting in a Wheat Field
+    id: 247
+    artist_name: John Singer Sargent
+    contactInfo: www.enelsonduran.com
+    image_path: 98059161
+    isOriginal: 0
+  - name: Rembrandt peale
+    id: 248
+    artist_name: Anna Claypoole Peale
+    contactInfo: www.enelsonduran.com
+    image_path: 1151835198
+    isOriginal: 0
+  - name: Renassaince
+    id: 249
+    artist_name: Eric N. Duran
+    contactInfo: www.enelsonduran.com
+    image_path: 818003620
+    isOriginal: 1
+  - name: Rendezvous in the Forest
+    id: 250
+    artist_name: Henri Rousseau
+    contactInfo: www.enelsonduran.com
+    image_path: 1863705506
+    isOriginal: 0
+  - name: Repose
+    id: 251
+    artist_name: Jacqueline Marval
+    contactInfo: www.enelsonduran.com
+    image_path: 1600445157
+    isOriginal: 0
+  - name: Rest on the Flight to Egypt
+    id: 252
+    artist_name: Luc-Olivier Merson
+    contactInfo: www.enelsonduran.com
+    image_path: 1520170035
+    isOriginal: 0
+  - name: River Landscape
+    id: 253
+    artist_name: Rosa Bonheur
+    contactInfo: www.enelsonduran.com
+    image_path: 1023344223
+    isOriginal: 0
+  - name: Rosebushes under the Trees
+    id: 254
+    artist_name: Gustav Klimt
+    contactInfo: www.enelsonduran.com
+    image_path: 607385122
+    isOriginal: 0
+  - name: Roses
+    id: 255
+    artist_name: Abbott Handerson Thayer
+    contactInfo: www.enelsonduran.com
+    image_path: 1705505844
+    isOriginal: 0
+  - name: Royal Family
+    id: 256
+    artist_name: Carina Duran
+    contactInfo: www.enelsonduran.com
+    image_path: 2146371589
+    isOriginal: 1
+  - name: Rubens Peale
+    id: 257
+    artist_name: Anna Claypoole Peale
+    contactInfo: www.enelsonduran.com
+    image_path: 91548348
+    isOriginal: 0
+  - name: Saint Jerome in His Study
+    id: 258
+    artist_name: "Albrecht D\xFCrer"
+    contactInfo: www.enelsonduran.com
+    image_path: 1420676882
+    isOriginal: 0
+  - name: Saint Jerome
+    id: 259
+    artist_name: Jusepe de Ribera
+    contactInfo: www.enelsonduran.com
+    image_path: 1844394641
+    isOriginal: 0
+  - name: Saint Mary Magdalen
+    id: 260
+    artist_name: Simon Vouet
+    contactInfo: www.enelsonduran.com
+    image_path: 480371359
+    isOriginal: 0
+  - name: Saint Michael Vanquishing Satan
+    id: 261
+    artist_name: Raffaello Sanzio
+    contactInfo: www.enelsonduran.com
+    image_path: 1813327529
+    isOriginal: 0
+  - name: Saint Peter Repentant
+    id: 262
+    artist_name: Georges de La Tour
+    contactInfo: www.enelsonduran.com
+    image_path: 1119911521
+    isOriginal: 0
+  - name: Samson and Delilah
+    id: 263
+    artist_name: Gerrit van Honthorst
+    contactInfo: www.enelsonduran.com
+    image_path: 837383776
+    isOriginal: 0
+  - name: Seascape at Port-en-Bessin
+    id: 264
+    artist_name: Georges Seurat
+    contactInfo: www.enelsonduran.com
+    image_path: 579324922
+    isOriginal: 0
+  - name: Seed for sowing should not be milled
+    id: 265
+    artist_name: "K\xE4the Kollwitz"
+    contactInfo: www.enelsonduran.com
+    image_path: 1747654057
+    isOriginal: 0
+  - name: Self Portrait
+    id: 266
+    artist_name: Alice Bailly
+    contactInfo: www.enelsonduran.com
+    image_path: 149829443
+    isOriginal: 0
+  - name: Self Portrait
+    id: 267
+    artist_name: Leonardo da Vinci
+    contactInfo: www.enelsonduran.com
+    image_path: 1774954497
+    isOriginal: 0
+  - name: Self Portrait
+    id: 268
+    artist_name: Louise Catherine Breslau
+    contactInfo: www.enelsonduran.com
+    image_path: 491575206
+    isOriginal: 0
+  - name: Self-portrait with her father
+    id: 269
+    artist_name: Constance Mayer
+    contactInfo: www.enelsonduran.com
+    image_path: 604027293
+    isOriginal: 0
+  - name: Self-portrait with Two Pupils
+    id: 270
+    artist_name: "Ad\xE9laideLabille-Guiard"
+    contactInfo: www.enelsonduran.com
+    image_path: 650111781
+    isOriginal: 0
+  - name: Self-portrait
+    id: 271
+    artist_name: "Albrecht D\xFCrer"
+    contactInfo: www.enelsonduran.com
+    image_path: 1475062693
+    isOriginal: 0
+  - name: Self-portrait
+    id: 272
+    artist_name: Anna Dorothea Therbusch
+    contactInfo: www.enelsonduran.com
+    image_path: 1127576993
+    isOriginal: 0
+  - name: Self-portrait
+    id: 273
+    artist_name: Anna Waser
+    contactInfo: www.enelsonduran.com
+    image_path: 760658065
+    isOriginal: 0
+  - name: Self-portrait
+    id: 274
+    artist_name: Gwen John
+    contactInfo: www.enelsonduran.com
+    image_path: 1189122993
+    isOriginal: 0
+  - name: Shadows of the Night
+    id: 275
+    artist_name: Melanee Alfonso
+    contactInfo: www.enelsonduran.com
+    image_path: 821564429
+    isOriginal: 1
+  - name: Simplon Pass
+    id: 276
+    artist_name: John Singer Sargent
+    contactInfo: www.enelsonduran.com
+    image_path: 56775075
+    isOriginal: 0
+  - name: Sketchbook
+    id: 277
+    artist_name: Gustave Caillebotte
+    contactInfo: www.enelsonduran.com
+    image_path: 568140738
+    isOriginal: 0
+  - name: Sky
+    id: 278
+    artist_name: John Singer Sargent
+    contactInfo: www.enelsonduran.com
+    image_path: 196129754
+    isOriginal: 0
+  - name: Sleepy Baby
+    id: 279
+    artist_name: Mary Cassatt
+    contactInfo: www.enelsonduran.com
+    image_path: 387250010
+    isOriginal: 0
+  - name: Spanish Dancer Wearing a Lace Mantilla
+    id: 280
+    artist_name: Mary Cassatt
+    contactInfo: www.enelsonduran.com
+    image_path: 765586098
+    isOriginal: 0
+  - name: Spanish Dancer
+    id: 281
+    artist_name: Alexandra Lunois
+    contactInfo: www.enelsonduran.com
+    image_path: 1877322866
+    isOriginal: 0
+  - name: Spring in Orsay (The White Tree)
+    id: 282
+    artist_name: Alice Bailly
+    contactInfo: www.enelsonduran.com
+    image_path: 1922201503
+    isOriginal: 0
+  - name: Spring
+    id: 283
+    artist_name: Marie Bashkirtseff
+    contactInfo: www.enelsonduran.com
+    image_path: 2006437316
+    isOriginal: 0
+  - name: Starry Night Over the Rhone
+    id: 284
+    artist_name: Vincent van Gogh
+    contactInfo: www.enelsonduran.com
+    image_path: 1607056517
+    isOriginal: 0
+  - name: Starry Night
+    id: 285
+    artist_name: Hiroaki Takahashi
+    contactInfo: www.enelsonduran.com
+    image_path: 90876579
+    isOriginal: 0
+  - name: Still Life Composition
+    id: 286
+    artist_name: Maria Blanchard
+    contactInfo: www.enelsonduran.com
+    image_path: 2133583077
+    isOriginal: 0
+  - name: Still Life with Mackerel
+    id: 287
+    artist_name: Anne Vallayer Coster
+    contactInfo: www.enelsonduran.com
+    image_path: 186554786
+    isOriginal: 0
+  - name: Still Life with Melon and Peaches
+    id: 288
+    artist_name: "\xC9douard Manet"
+    contactInfo: www.enelsonduran.com
+    image_path: 985619128
+    isOriginal: 0
+  - name: Still Life with musical instruments
+    id: 289
+    artist_name: Anne Vallayer Coster
+    contactInfo: www.enelsonduran.com
+    image_path: 109108893
+    isOriginal: 0
+  - name: Still Life with Tea Cup
+    id: 290
+    artist_name: Samuel Colman
+    contactInfo: www.enelsonduran.com
+    image_path: 1527491103
+    isOriginal: 0
+  - name: Still Life with Teapot and Fruit
+    id: 291
+    artist_name: Paul Gauguin
+    contactInfo: www.enelsonduran.com
+    image_path: 10918073
+    isOriginal: 0
+  - name: Still Life
+    id: 292
+    artist_name: "Paul C\xE9zanne"
+    contactInfo: www.enelsonduran.com
+    image_path: 16745604
+    isOriginal: 0
+  - name: Storming the Gate
+    id: 293
+    artist_name: "K\xE4the Kollwitz"
+    contactInfo: www.enelsonduran.com
+    image_path: 1302256353
+    isOriginal: 0
+  - name: "Strange Festival (Les Trouv\xE8res)"
+    id: 294
+    artist_name: Alice Bailly
+    contactInfo: www.enelsonduran.com
+    image_path: 91291697
+    isOriginal: 0
+  - name: Strawberry Tea Set
+    id: 295
+    artist_name: Frederick Childe Hassam
+    contactInfo: www.enelsonduran.com
+    image_path: 1851955588
+    isOriginal: 0
+  - name: Street Scene and Child's Head
+    id: 296
+    artist_name: "K\xE4the Kollwitz"
+    contactInfo: www.enelsonduran.com
+    image_path: 2028361390
+    isOriginal: 0
+  - name: Studies of Summer Flowers
+    id: 297
+    artist_name: "Jacques\u2013Laurent Agasse"
+    contactInfo: www.enelsonduran.com
+    image_path: 878325206
+    isOriginal: 0
+  - name: Study of a man aged 93
+    id: 298
+    artist_name: "Albrecht D\xFCrer"
+    contactInfo: www.enelsonduran.com
+    image_path: 1759588303
+    isOriginal: 0
+  - name: "Sunrise in S\xF6dert\xE4lje"
+    id: 299
+    artist_name: Mina Carlson-Bredberg
+    contactInfo: www.enelsonduran.com
+    image_path: 1751270686
+    isOriginal: 0
+  - name: Tears of Esclarmonde
+    id: 300
+    artist_name: Eric N. Duran
+    contactInfo: www.enelsonduran.com
+    image_path: 380851471
+    isOriginal: 1
+  - name: The Adoration of the Magi
+    id: 301
+    artist_name: Giovanni di Paolo
+    contactInfo: www.enelsonduran.com
+    image_path: 1552335814
+    isOriginal: 0
+  - name: The Agony in the Garden
+    id: 302
+    artist_name: Raffaello Sanzio
+    contactInfo: www.enelsonduran.com
+    image_path: 1753967602
+    isOriginal: 0
+  - name: The Allegory of Painting
+    id: 303
+    artist_name: Johannes Vermeer
+    contactInfo: www.enelsonduran.com
+    image_path: 547807905
+    isOriginal: 0
+  - name: The Ancestors of Tehamana
+    id: 304
+    artist_name: Paul Gauguin
+    contactInfo: www.enelsonduran.com
+    image_path: 167891839
+    isOriginal: 0
+  - name: The Art of Feeling Everything
+    id: 305
+    artist_name: Melanee Alfonso
+    contactInfo: www.enelsonduran.com
+    image_path: 388642813
+    isOriginal: 1
+  - name: The Artist and Her Model
+    id: 306
+    artist_name: Louise Catherine Breslau
+    contactInfo: www.enelsonduran.com
+    image_path: 472868164
+    isOriginal: 0
+  - name: The Artist's Daughter Julie with her Nanny
+    id: 307
+    artist_name: Berthe Morisot
+    contactInfo: www.enelsonduran.com
+    image_path: 759511970
+    isOriginal: 0
+  - name: The Artist's Garden at Eragny
+    id: 308
+    artist_name: Camille Pissarro
+    contactInfo: www.enelsonduran.com
+    image_path: 1981704877
+    isOriginal: 0
+  - name: "The Artist's Garden at V\xE9theuil"
+    id: 309
+    artist_name: Claude Monet
+    contactInfo: www.enelsonduran.com
+    image_path: 1933304340
+    isOriginal: 0
+  - name: The Astronomer
+    id: 310
+    artist_name: Johannes Vermeer
+    contactInfo: www.enelsonduran.com
+    image_path: 1648730769
+    isOriginal: 0
+  - name: The Basket of Apples
+    id: 311
+    artist_name: "Paul C\xE9zanne"
+    contactInfo: www.enelsonduran.com
+    image_path: 1578230851
+    isOriginal: 0
+  - name: The Beach and the Falaise d'Amont
+    id: 312
+    artist_name: Claude Monet
+    contactInfo: www.enelsonduran.com
+    image_path: 2042902241
+    isOriginal: 0
+  - name: The Bohemian
+    id: 313
+    artist_name: Jacqueline Marval
+    contactInfo: www.enelsonduran.com
+    image_path: 1033426872
+    isOriginal: 0
+  - name: The Bridge at Argenteuil
+    id: 314
+    artist_name: Claude Monet
+    contactInfo: www.enelsonduran.com
+    image_path: 1078808543
+    isOriginal: 0
+  - name: "The Caf\xE9 Concert"
+    id: 315
+    artist_name: "\xC9douard Manet"
+    contactInfo: www.enelsonduran.com
+    image_path: 750532140
+    isOriginal: 0
+  - name: The Card Players
+    id: 316
+    artist_name: "Paul C\xE9zanne"
+    contactInfo: www.enelsonduran.com
+    image_path: 2038609673
+    isOriginal: 0
+  - name: The Cat
+    id: 317
+    artist_name: Gwen John
+    contactInfo: www.enelsonduran.com
+    image_path: 1260957852
+    isOriginal: 0
+  - name: The Child's Bath
+    id: 318
+    artist_name: Mary Cassatt
+    contactInfo: www.enelsonduran.com
+    image_path: 1377810906
+    isOriginal: 0
+  - name: The Cicadas
+    id: 319
+    artist_name: Jacqueline Marval
+    contactInfo: www.enelsonduran.com
+    image_path: 488448343
+    isOriginal: 0
+  - name: The Communicant
+    id: 320
+    artist_name: Maria Blanchard
+    contactInfo: www.enelsonduran.com
+    image_path: 1761554627
+    isOriginal: 0
+  - name: The Concert
+    id: 321
+    artist_name: Johannes Vermeer
+    contactInfo: www.enelsonduran.com
+    image_path: 2110758304
+    isOriginal: 0
+  - name: The Convalescent
+    id: 322
+    artist_name: Gwen John
+    contactInfo: www.enelsonduran.com
+    image_path: 789335369
+    isOriginal: 0
+  - name: The crowning with thorns
+    id: 323
+    artist_name: Caravaggio
+    contactInfo: www.enelsonduran.com
+    image_path: 382466313
+    isOriginal: 0
+  - name: The Dance Lesson
+    id: 324
+    artist_name: Edgar Degas
+    contactInfo: www.enelsonduran.com
+    image_path: 1224019837
+    isOriginal: 0
+  - name: The Dancing Class
+    id: 325
+    artist_name: Edgar Degas
+    contactInfo: www.enelsonduran.com
+    image_path: 639193708
+    isOriginal: 0
+  - name: The Denial of Peter
+    id: 326
+    artist_name: Peter Wtewael
+    contactInfo: www.enelsonduran.com
+    image_path: 1458317089
+    isOriginal: 0
+  - name: The Drinkers
+    id: 327
+    artist_name: Vincent van Gogh
+    contactInfo: www.enelsonduran.com
+    image_path: 1972804287
+    isOriginal: 0
+  - name: The Fancy Goods Store
+    id: 328
+    artist_name: Alexandra Lunois
+    contactInfo: www.enelsonduran.com
+    image_path: 669366368
+    isOriginal: 0
+  - name: The Forest at Pontaubert
+    id: 329
+    artist_name: Georges Seurat
+    contactInfo: www.enelsonduran.com
+    image_path: 1484651052
+    isOriginal: 0
+  - name: The Fountain in Villa Torlonia
+    id: 330
+    artist_name: John Singer Sargent
+    contactInfo: www.enelsonduran.com
+    image_path: 940686686
+    isOriginal: 0
+  - name: The Funeral
+    id: 331
+    artist_name: "\xC9douard Manet"
+    contactInfo: www.enelsonduran.com
+    image_path: 1325933516
+    isOriginal: 0
+  - name: The Gamblers
+    id: 332
+    artist_name: Hendrick ter Brugghen
+    contactInfo: www.enelsonduran.com
+    image_path: 956036082
+    isOriginal: 0
+  - name: The Garden of Earthly Delights
+    id: 333
+    artist_name: Hieronymus Bosch
+    contactInfo: www.enelsonduran.com
+    image_path: 592342715
+    isOriginal: 0
+  - name: The Gaumont-Palace cinema place de Clichy
+    id: 334
+    artist_name: Louis Abel-Truchet
+    contactInfo: www.enelsonduran.com
+    image_path: 6398539
+    isOriginal: 0
+  - name: The gleaners
+    id: 335
+    artist_name: Camille Pissarro
+    contactInfo: www.enelsonduran.com
+    image_path: 1360733931
+    isOriginal: 0
+  - name: The Holy Family on the Steps
+    id: 336
+    artist_name: Nicolas Poussin
+    contactInfo: www.enelsonduran.com
+    image_path: 123355264
+    isOriginal: 0
+  - name: The Horse Fair
+    id: 337
+    artist_name: Rosa Bonheur
+    contactInfo: www.enelsonduran.com
+    image_path: 1374393598
+    isOriginal: 0
+  - name: The Japanese Footbridge
+    id: 338
+    artist_name: Claude Monet
+    contactInfo: www.enelsonduran.com
+    image_path: 1838545477
+    isOriginal: 0
+  - name: The Jetty at Cassis-Opus 198
+    id: 339
+    artist_name: Paul Signac
+    contactInfo: www.enelsonduran.com
+    image_path: 1218413704
+    isOriginal: 0
+  - name: The king and his Staff
+    id: 340
+    artist_name: Carina Duran
+    contactInfo: www.enelsonduran.com
+    image_path: 1765492062
+    isOriginal: 1
+  - name: The King and The Queen
+    id: 341
+    artist_name: Carina Duran
+    contactInfo: www.enelsonduran.com
+    image_path: 1374071107
+    isOriginal: 1
+  - name: The Kiss
+    id: 342
+    artist_name: Gustav Klimt
+    contactInfo: www.enelsonduran.com
+    image_path: 352333556
+    isOriginal: 0
+  - name: The Lacemaker
+    id: 343
+    artist_name: Johannes Vermeer
+    contactInfo: www.enelsonduran.com
+    image_path: 1199798435
+    isOriginal: 0
+  - name: The Last Supper
+    id: 344
+    artist_name: Leonardo da Vinci
+    contactInfo: www.enelsonduran.com
+    image_path: 607861771
+    isOriginal: 0
+  - name: The Little Pond Appledore
+    id: 345
+    artist_name: Frederick Childe Hassam
+    contactInfo: www.enelsonduran.com
+    image_path: 2096743899
+    isOriginal: 0
+  - name: The Little Street
+    id: 346
+    artist_name: Johannes Vermeer
+    contactInfo: www.enelsonduran.com
+    image_path: 115499479
+    isOriginal: 0
+  - name: The Lock at Pontoise
+    id: 347
+    artist_name: Camille Pissarro
+    contactInfo: www.enelsonduran.com
+    image_path: 1130802379
+    isOriginal: 0
+  - name: The Love Letter
+    id: 348
+    artist_name: Johannes Vermeer
+    contactInfo: www.enelsonduran.com
+    image_path: 223447810
+    isOriginal: 0
+  - name: The March of the Weavers in Berlin
+    id: 349
+    artist_name: "K\xE4the Kollwitz"
+    contactInfo: www.enelsonduran.com
+    image_path: 1488243204
+    isOriginal: 0
+  - name: The Merchant of Herbal Tea
+    id: 350
+    artist_name: "Fran\xE7oise Duparc"
+    contactInfo: www.enelsonduran.com
+    image_path: 1960829562
+    isOriginal: 0
+  - name: The Milkmaid
+    id: 351
+    artist_name: Johannes Vermeer
+    contactInfo: www.enelsonduran.com
+    image_path: 767403538
+    isOriginal: 0
+  - name: The Milliners
+    id: 352
+    artist_name: Louise Catherine Breslau
+    contactInfo: www.enelsonduran.com
+    image_path: 1647997947
+    isOriginal: 0
+  - name: The Mothers
+    id: 353
+    artist_name: "K\xE4the Kollwitz"
+    contactInfo: www.enelsonduran.com
+    image_path: 1271139960
+    isOriginal: 0
+  - name: "The Night Caf\xE9"
+    id: 354
+    artist_name: Vincent van Gogh
+    contactInfo: www.enelsonduran.com
+    image_path: 2137199706
+    isOriginal: 0
+  - name: The Nun
+    id: 355
+    artist_name: Gwen John
+    contactInfo: www.enelsonduran.com
+    image_path: 417576814
+    isOriginal: 0
+  - name: The Odalisques
+    id: 356
+    artist_name: Jacqueline Marval
+    contactInfo: www.enelsonduran.com
+    image_path: 763000445
+    isOriginal: 0
+  - name: The Old Musician
+    id: 357
+    artist_name: "\xC9douard Manet"
+    contactInfo: www.enelsonduran.com
+    image_path: 1371501289
+    isOriginal: 0
+  - name: The Old Woman
+    id: 358
+    artist_name: "Fran\xE7oise Duparc"
+    contactInfo: www.enelsonduran.com
+    image_path: 1471271715
+    isOriginal: 0
+  - name: The Parsonage Garden at Nuenen
+    id: 359
+    artist_name: Vincent van Gogh
+    contactInfo: www.enelsonduran.com
+    image_path: 1676181778
+    isOriginal: 0
+  - name: The Pink Cloud
+    id: 360
+    artist_name: Henri-Edmond Cross
+    contactInfo: www.enelsonduran.com
+    image_path: 1077809371
+    isOriginal: 0
+  - name: The Plenary Sigil
+    id: 361
+    artist_name: Eric N. Duran
+    contactInfo: www.enelsonduran.com
+    image_path: 647547524
+    isOriginal: 1
+  - name: The Potato Eaters
+    id: 362
+    artist_name: Vincent van Gogh
+    contactInfo: www.enelsonduran.com
+    image_path: 90145602
+    isOriginal: 0
+  - name: The Punishment of Korah and the Stoning of Moses and Aaron
+    id: 363
+    artist_name: Sandro Botticelli
+    contactInfo: www.enelsonduran.com
+    image_path: 497053825
+    isOriginal: 0
+  - name: The queen and her staff
+    id: 364
+    artist_name: Carina Duran
+    contactInfo: www.enelsonduran.com
+    image_path: 992617654
+    isOriginal: 1
+  - name: The Rehearsal Onstage
+    id: 365
+    artist_name: Edgar Degas
+    contactInfo: www.enelsonduran.com
+    image_path: 322797253
+    isOriginal: 0
+  - name: The Repast of the Lion
+    id: 366
+    artist_name: Henri Rousseau
+    contactInfo: www.enelsonduran.com
+    image_path: 622194769
+    isOriginal: 0
+  - name: The Return of the Holy Family to Nazareth
+    id: 367
+    artist_name: Nicolas Poussin
+    contactInfo: www.enelsonduran.com
+    image_path: 1450559526
+    isOriginal: 0
+  - name: The River Oise near Pontoise
+    id: 368
+    artist_name: Camille Pissarro
+    contactInfo: www.enelsonduran.com
+    image_path: 1027028333
+    isOriginal: 0
+  - name: The Rock of Salvation
+    id: 369
+    artist_name: Samuel Colman
+    contactInfo: www.enelsonduran.com
+    image_path: 1865558259
+    isOriginal: 0
+  - name: The Salute in Venice
+    id: 370
+    artist_name: John Singer Sargent
+    contactInfo: www.enelsonduran.com
+    image_path: 627176876
+    isOriginal: 0
+  - name: The Ship of Fools
+    id: 371
+    artist_name: Hieronymus Bosch
+    contactInfo: www.enelsonduran.com
+    image_path: 664216075
+    isOriginal: 0
+  - name: The Siesta
+    id: 372
+    artist_name: Paul Gauguin
+    contactInfo: www.enelsonduran.com
+    image_path: 1569896022
+    isOriginal: 0
+  - name: The Sofa
+    id: 373
+    artist_name: "Henri de Toulouse\u2013Lautrec"
+    contactInfo: www.enelsonduran.com
+    image_path: 159397202
+    isOriginal: 0
+  - name: The Starry Night
+    id: 374
+    artist_name: Vincent van Gogh
+    contactInfo: www.enelsonduran.com
+    image_path: 870439928
+    isOriginal: 0
+  - name: The Student
+    id: 375
+    artist_name: Gwen John
+    contactInfo: www.enelsonduran.com
+    image_path: 387483520
+    isOriginal: 0
+  - name: The Sun and Sea
+    id: 376
+    artist_name: Melanee Alfonso
+    contactInfo: www.enelsonduran.com
+    image_path: 1758424748
+    isOriginal: 1
+  - name: The Torment of Saint Anthony
+    id: 377
+    artist_name: Michelangelo
+    contactInfo: www.enelsonduran.com
+    image_path: 1737020581
+    isOriginal: 0
+  - name: The Trap
+    id: 378
+    artist_name: "Henri de Toulouse\u2013Lautrec"
+    contactInfo: www.enelsonduran.com
+    image_path: 1922088189
+    isOriginal: 0
+  - name: The Virgin in Prayer
+    id: 379
+    artist_name: Rosalba Carriera
+    contactInfo: www.enelsonduran.com
+    image_path: 1274759585
+    isOriginal: 0
+  - name: The Virgin
+    id: 380
+    artist_name: Gustav Klimt
+    contactInfo: www.enelsonduran.com
+    image_path: 523694229
+    isOriginal: 0
+  - name: The Vision of Ezekiel
+    id: 381
+    artist_name: Raffaello Sanzio
+    contactInfo: www.enelsonduran.com
+    image_path: 327514710
+    isOriginal: 0
+  - name: The Vitruvian Man
+    id: 382
+    artist_name: Leonardo da Vinci
+    contactInfo: www.enelsonduran.com
+    image_path: 1749356477
+    isOriginal: 0
+  - name: The wedding of the General and the Queen
+    id: 383
+    artist_name: Carina Duran
+    contactInfo: www.enelsonduran.com
+    image_path: 1328606811
+    isOriginal: 1
+  - name: The Wellesley Grey Arabian Led through the Desert
+    id: 384
+    artist_name: "Jacques\u2013Laurent Agasse"
+    contactInfo: www.enelsonduran.com
+    image_path: 1671305137
+    isOriginal: 0
+  - name: To the Champs Elysees
+    id: 385
+    artist_name: Louis Abel-Truchet
+    contactInfo: www.enelsonduran.com
+    image_path: 173283148
+    isOriginal: 0
+  - name: Tropical Forest with Monkeys
+    id: 386
+    artist_name: Henri Rousseau
+    contactInfo: www.enelsonduran.com
+    image_path: 1825419216
+    isOriginal: 0
+  - name: Tulip and a Poppy
+    id: 387
+    artist_name: William van Leen
+    contactInfo: www.enelsonduran.com
+    image_path: 1832379769
+    isOriginal: 0
+  - name: Tulip Field
+    id: 388
+    artist_name: Gerrit Willem Dijsselhof
+    contactInfo: www.enelsonduran.com
+    image_path: 602626656
+    isOriginal: 0
+  - name: Two Dancers
+    id: 389
+    artist_name: Edgar Degas
+    contactInfo: www.enelsonduran.com
+    image_path: 1736305372
+    isOriginal: 0
+  - name: Two Sisters (On the Terrace)
+    id: 390
+    artist_name: Pierre-Auguste Renoir
+    contactInfo: www.enelsonduran.com
+    image_path: 597733486
+    isOriginal: 0
+  - name: Two Tahitian Women
+    id: 391
+    artist_name: Paul Gauguin
+    contactInfo: www.enelsonduran.com
+    image_path: 899337622
+    isOriginal: 0
+  - name: Two Women by the Shore
+    id: 392
+    artist_name: Henri-Edmond Cross
+    contactInfo: www.enelsonduran.com
+    image_path: 2050605530
+    isOriginal: 0
+  - name: Two Young Peasant Women
+    id: 393
+    artist_name: Camille Pissarro
+    contactInfo: www.enelsonduran.com
+    image_path: 162363699
+    isOriginal: 0
+  - name: Tyrolean Shrine
+    id: 394
+    artist_name: John Singer Sargent
+    contactInfo: www.enelsonduran.com
+    image_path: 140604333
+    isOriginal: 0
+  - name: Unemployment
+    id: 395
+    artist_name: "K\xE4the Kollwitz"
+    contactInfo: www.enelsonduran.com
+    image_path: 1117944538
+    isOriginal: 0
+  - name: Untitled
+    id: 396
+    artist_name: Melanee Alfonso
+    contactInfo: www.enelsonduran.com
+    image_path: 1283925505
+    isOriginal: 1
+  - name: Untitled
+    id: 397
+    artist_name: Rosalba Carriera
+    contactInfo: www.enelsonduran.com
+    image_path: 2002763378
+    isOriginal: 0
+  - name: Untitled
+    id: 398
+    artist_name: Wassily Kandinsky
+    contactInfo: www.enelsonduran.com
+    image_path: 207180781
+    isOriginal: 0
+  - name: Venus and Adonis
+    id: 399
+    artist_name: Titian
+    contactInfo: www.enelsonduran.com
+    image_path: 285064518
+    isOriginal: 0
+  - name: Venus at the Dawn of Creation
+    id: 400
+    artist_name: Eric N. Duran
+    contactInfo: www.enelsonduran.com
+    image_path: 1474549130
+    isOriginal: 1
+  - name: Venus of Urbino
+    id: 401
+    artist_name: Titian
+    contactInfo: www.enelsonduran.com
+    image_path: 812423600
+    isOriginal: 0
+  - name: View of Arles Flowering Orchards
+    id: 402
+    artist_name: Vincent van Gogh
+    contactInfo: www.enelsonduran.com
+    image_path: 103774046
+    isOriginal: 0
+  - name: View of Delft
+    id: 403
+    artist_name: Johannes Vermeer
+    contactInfo: www.enelsonduran.com
+    image_path: 505373198
+    isOriginal: 0
+  - name: Violin Player with a Wine Glass
+    id: 404
+    artist_name: Dirck van Baburen
+    contactInfo: www.enelsonduran.com
+    image_path: 861066328
+    isOriginal: 0
+  - name: Virgin and Child with the Young Saint John the Baptist
+    id: 405
+    artist_name: Sandro Botticelli
+    contactInfo: www.enelsonduran.com
+    image_path: 1296613487
+    isOriginal: 0
+  - name: Virgin Enthroned
+    id: 406
+    artist_name: Abbott Handerson Thayer
+    contactInfo: www.enelsonduran.com
+    image_path: 1344991163
+    isOriginal: 0
+  - name: Visit to the Hospital
+    id: 407
+    artist_name: "K\xE4the Kollwitz"
+    contactInfo: www.enelsonduran.com
+    image_path: 1488600745
+    isOriginal: 0
+  - name: Want
+    id: 408
+    artist_name: "K\xE4the Kollwitz"
+    contactInfo: www.enelsonduran.com
+    image_path: 400700032
+    isOriginal: 0
+  - name: Water Lilies
+    id: 409
+    artist_name: Claude Monet
+    contactInfo: www.enelsonduran.com
+    image_path: 1749716186
+    isOriginal: 0
+  - name: Watercolor Cattleya
+    id: 410
+    artist_name: Alice Bailly
+    contactInfo: www.enelsonduran.com
+    image_path: 806635713
+    isOriginal: 0
+  - name: Wheat Field with Cypresses
+    id: 411
+    artist_name: Vincent van Gogh
+    contactInfo: www.enelsonduran.com
+    image_path: 1173463511
+    isOriginal: 0
+  - name: Woman and Cupid
+    id: 412
+    artist_name: Marie-Victoire Lemoine
+    contactInfo: www.enelsonduran.com
+    image_path: 1596896747
+    isOriginal: 0
+  - name: Woman Bathing Her Feet in a Brook
+    id: 413
+    artist_name: Camille Pissarro
+    contactInfo: www.enelsonduran.com
+    image_path: 196512130
+    isOriginal: 0
+  - name: Woman Holding a Balance
+    id: 414
+    artist_name: Johannes Vermeer
+    contactInfo: www.enelsonduran.com
+    image_path: 1152487549
+    isOriginal: 0
+  - name: Woman in Front of a mirror
+    id: 415
+    artist_name: Louise Catherine Breslau
+    contactInfo: www.enelsonduran.com
+    image_path: 750294661
+    isOriginal: 0
+  - name: Woman with a Parasol
+    id: 416
+    artist_name: Claude Monet
+    contactInfo: www.enelsonduran.com
+    image_path: 1045674694
+    isOriginal: 0
+  - name: Woman with Cloak
+    id: 417
+    artist_name: Gwen John
+    contactInfo: www.enelsonduran.com
+    image_path: 909022438
+    isOriginal: 0
+  - name: Woman with Fan
+    id: 418
+    artist_name: Pierre-Auguste Renoir
+    contactInfo: www.enelsonduran.com
+    image_path: 973232335
+    isOriginal: 0
+  - name: Woman With Guitar
+    id: 419
+    artist_name: Maria Blanchard
+    contactInfo: www.enelsonduran.com
+    image_path: 819334506
+    isOriginal: 0
+  - name: Young Lady
+    id: 420
+    artist_name: "\xC9douard Manet"
+    contactInfo: www.enelsonduran.com
+    image_path: 644861684
+    isOriginal: 0
+  - name: Young Peasant Girls Resting in the Fields near Pontoise
+    id: 421
+    artist_name: Camille Pissarro
+    contactInfo: www.enelsonduran.com
+    image_path: 937298647
+    isOriginal: 0
+  - name: Young Woman at Work
+    id: 422
+    artist_name: "Fran\xE7oise Duparc"
+    contactInfo: www.enelsonduran.com
+    image_path: 847932870
+    isOriginal: 0
+  - name: Young Woman with a Pearl Necklace
+    id: 423
+    artist_name: Johannes Vermeer
+    contactInfo: www.enelsonduran.com
+    image_path: 1438206608
+    isOriginal: 0
+  - name: Young Woman with a Water Pitcher
+    id: 424
+    artist_name: Johannes Vermeer
+    contactInfo: www.enelsonduran.com
+    image_path: 1267824773
+    isOriginal: 0
+  - name: Zebra
+    id: 425
+    artist_name: "Jacques\u2013Laurent Agasse"
+    contactInfo: www.enelsonduran.com
+    image_path: 1875322901
+    isOriginal: 0
