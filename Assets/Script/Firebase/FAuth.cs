@@ -118,7 +118,7 @@ public class FAuth : SingletonComponent<FAuth>
         if (signInTask.Exception != null)
         {
             FirebaseException firebaseException = signInTask.Exception.GetBaseException() as FirebaseException;
-            callback(false, "Sign Failed:" + GetErrorMessage(firebaseException), "");
+            callback(false, "Sign In Failed:" + GetErrorMessage(firebaseException), "");
         }
         else
         {
