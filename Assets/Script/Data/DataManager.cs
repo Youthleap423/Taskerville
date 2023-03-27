@@ -2074,11 +2074,22 @@ public class DataManager : SingletonComponent<DataManager>
         {
             if (coalition.isMemberOf(currentUser.id))
             {
-                CommunicationViewController.Instance.JoinedCoalition(coalition);
+                JoinedCoalition(coalition);
             }
             this.currentCoalitions.Add(coalition);
         }
 
+    }
+
+    private void JoinedCoalition(FCoalition coalition)
+    {
+        if (currentUser.fJC == false)
+        {
+            UpdateResource(EResources.Culture, 10f);
+            currentUser.fJC = true;
+            currentUser.Save();
+        }
+        currentUser.UpdateJoinCoalition(coalition.name);
     }
     #endregion
 }
