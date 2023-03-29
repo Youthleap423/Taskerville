@@ -215,6 +215,11 @@ public class LUser: LData
         return (int)(System.DateTime.Now - Convert.FDateToDateTime(mode_at)).TotalDays;
     }
 
+    public int GetPlayerAgesAsDays()
+    {
+        return (int)(System.DateTime.Now - Convert.FDateToDateTime(created_at)).TotalDays;
+    }
+
     public bool hasGotAssist()
     {
         var dateStr = GetDate(EDates.Assist);

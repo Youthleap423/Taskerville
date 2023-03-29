@@ -771,7 +771,7 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
         {
             if (PlayerPrefs.GetString("DailyDropHappiness") != Convert.DateTimeToFDate(System.DateTime.Now))
             {
-                UpdateResource(EResources.Happiness.ToString(), -2f, (isSuccess, errMsg) =>
+                UpdateResource(EResources.Happiness.ToString(), -3f, (isSuccess, errMsg) =>
                 {
                     UIManager.Instance.ShowErrorDlg("Not Enough Gold To Pay Maintenance");
                     PlayerPrefs.SetString("DailyDropHappiness", Convert.DateTimeToFDate(System.DateTime.Now));
@@ -844,7 +844,7 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
         {
             if (PlayerPrefs.GetString("DailyDropHappiness") != Convert.DateTimeToFDate(System.DateTime.Now))
             {
-                UpdateResource(EResources.Happiness.ToString(), -2f, (isSuccess, errMsg) =>
+                UpdateResource(EResources.Happiness.ToString(), -3f, (isSuccess, errMsg) =>
                 {
                     UIManager.Instance.ShowErrorDlg("Not Enough Gold To Pay Maintenance");
                     PlayerPrefs.SetString("DailyDropHappiness", Convert.DateTimeToFDate(System.DateTime.Now));

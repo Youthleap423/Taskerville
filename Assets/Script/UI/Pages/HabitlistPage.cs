@@ -8,6 +8,7 @@ public class HabitlistPage : Page
     [SerializeField] private GameObject taskItemPrefab;
     [SerializeField] private Transform taskListGroup;
     [SerializeField] private GameObject newButton;
+    [SerializeField] private GameObject infoGlowEffectObj;
 
     [Space(10)]
     [SerializeField] private Slot slotComponent;
@@ -33,6 +34,8 @@ public class HabitlistPage : Page
     public override void Initialize()
     {
         base.Initialize();
+
+        infoGlowEffectObj.SetActive(UserViewController.Instance.GetCurrentUser().GetPlayerAgesAsDays() < 7);
 
         if (UserViewController.Instance.GetCurrentSetting().current_mode == (int)Game_Mode.Game_Only)
         {

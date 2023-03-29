@@ -8,9 +8,11 @@ public class DailyTaskPage : Page
     [SerializeField] private GameObject taskItemPrefab;
     [SerializeField] private Transform taskListGroup;
     [SerializeField] private GameObject newButton;
+    [SerializeField] private GameObject infoGlowEffectObj;
 
     [Space(10)]
     [SerializeField] private Slot slotComponent;
+
     #region Unity_Members
     // Start is called before the first frame update
     void Start()
@@ -35,6 +37,8 @@ public class DailyTaskPage : Page
     {
         base.Initialize();
 
+        infoGlowEffectObj.SetActive(UserViewController.Instance.GetCurrentUser().GetPlayerAgesAsDays() < 7);
+        
         if (UserViewController.Instance.GetCurrentSetting().current_mode == (int)Game_Mode.Game_Only)
         {
             newButton.SetActive(false);
