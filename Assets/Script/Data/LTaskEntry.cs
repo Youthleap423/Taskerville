@@ -36,8 +36,8 @@ public class LTaskEntry : LEntry
     public void Update(List<LSubTask> subTaskList)
     {
         this.subTaskList = subTaskList;
-        DataManager.Instance.UpdateEntry(this, subTaskList);
         NotificationManager.Instance.ReScheduleLocalNotification(this);
+        DataManager.Instance.UpdateEntry(this, subTaskList);
     }
 
     public bool IsAvailable(System.DateTime dateTime)
@@ -278,7 +278,7 @@ public class LTaskEntry : LEntry
 
     public override bool isEnabled(System.DateTime dateTime)
     {
-        if (isCompleted())
+        if (isCompleted(dateTime))
         {
             return false;
         }

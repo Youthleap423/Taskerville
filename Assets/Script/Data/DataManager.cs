@@ -160,7 +160,7 @@ public class DataManager : SingletonComponent<DataManager>
                 currentVillagers = value;
             }
             
-            //DBHandler.SaveToJSON(currentVillagers, villagerFN);
+            DBHandler.SaveToJSON(currentVillagers, villagerFN);
         }
     }
 
@@ -177,7 +177,7 @@ public class DataManager : SingletonComponent<DataManager>
             {
                 currentBuildings = value;
             }
-            //DBHandler.SaveToJSON(currentBuildings, buildingFN);
+            DBHandler.SaveToJSON(currentBuildings, buildingFN);
         }
     }
 
@@ -194,7 +194,7 @@ public class DataManager : SingletonComponent<DataManager>
             {
                 currentResources = value;
             }
-            //DBHandler.SaveToJSON(currentResources, resourceFN);
+            DBHandler.SaveToJSON(currentResources, resourceFN);
         }
     }
 
@@ -211,7 +211,7 @@ public class DataManager : SingletonComponent<DataManager>
             {
                 currentAutoBuildings = value;
             }
-            //DBHandler.SaveToJSON(currentAutoBuildings, autoFN);
+            DBHandler.SaveToJSON(currentAutoBuildings, autoFN);
         }
     }
 
@@ -228,7 +228,7 @@ public class DataManager : SingletonComponent<DataManager>
             {
                 currentHabits = value;
             }
-            //DBHandler.SaveToJSON(currentHabits, habitFN);
+            DBHandler.SaveToJSON(currentHabits, habitFN);
         }
     }
 
@@ -322,7 +322,7 @@ public class DataManager : SingletonComponent<DataManager>
             {
                 currentDailyTasks = value;
             }
-            //DBHandler.SaveToJSON(currentDailyTasks, dailyTaskFN);
+            DBHandler.SaveToJSON(currentDailyTasks, dailyTaskFN);
         }
     }
 
@@ -344,7 +344,7 @@ public class DataManager : SingletonComponent<DataManager>
             {
                 currentSubTasks = value;
             }
-            //DBHandler.SaveToJSON(currentSubTasks, subTaskFN);
+            DBHandler.SaveToJSON(currentSubTasks, subTaskFN);
         }
     }
 
@@ -365,7 +365,7 @@ public class DataManager : SingletonComponent<DataManager>
             {
                 currentToDos = value;
             }
-            //DBHandler.SaveToJSON(currentToDos, toDOFN);
+            DBHandler.SaveToJSON(currentToDos, toDOFN);
         }
     }
 
@@ -382,7 +382,7 @@ public class DataManager : SingletonComponent<DataManager>
             {
                 currentAutoToDos = value;
             }
-            //DBHandler.SaveToJSON(currentSubToDos, subToDoFN);
+            DBHandler.SaveToJSON(currentAutoToDos, autoTodoFN);
         }
     }
 
@@ -399,7 +399,7 @@ public class DataManager : SingletonComponent<DataManager>
             {
                 currentAutoGoals = value;
             }
-            //DBHandler.SaveToJSON(currentSubToDos, subToDoFN);
+            DBHandler.SaveToJSON(currentAutoGoals, autoGoalFN);
         }
     }
 
@@ -420,7 +420,7 @@ public class DataManager : SingletonComponent<DataManager>
             {
                 currentProjects = value;
             }
-            //DBHandler.SaveToJSON(currentProjects, projectGoalFN);
+            DBHandler.SaveToJSON(currentProjects, projectGoalFN);
         }
     }
 
@@ -441,7 +441,7 @@ public class DataManager : SingletonComponent<DataManager>
             {
                 currentArtifacts = value;
             }
-            //DBHandler.SaveToJSON(currentProjects, projectGoalFN);
+            DBHandler.SaveToJSON(currentArtifacts, artifactFN);
         }
     }
 
@@ -462,6 +462,7 @@ public class DataManager : SingletonComponent<DataManager>
             {
                 currentArtworks = value;
             }
+            DBHandler.SaveToJSON(currentArtworks, artworkFN);
         }
     }
 
@@ -762,22 +763,22 @@ public class DataManager : SingletonComponent<DataManager>
         return currentUser.GetMealDate();
     }
 
-    public LEntry GetCorrespondingEntry(LEntry entry, string type)
+    public LEntry GetCorrespondingEntry(string id, string type)
     {
         var result = new LEntry();
         switch (type)
         {
             case "DailyTask":
-                result = CurrentDailyTasks.Find(item => item.id == entry.id);
+                result = CurrentDailyTasks.Find(item => item.id == id);
                 break;
             case "ToDo":
-                result = CurrentToDos.Find(item => item.id == entry.id);
+                result = CurrentToDos.Find(item => item.id == id);
                 break;
             case "Habit":
-                result = CurrentHabits.Find(item => item.id == entry.id);
+                result = CurrentHabits.Find(item => item.id == id);
                 break;
             case "Project":
-                result = CurrentProjects.Find(item => item.id == entry.id);
+                result = CurrentProjects.Find(item => item.id == id);
                 break;
             default:
                 break;
@@ -852,9 +853,24 @@ public class DataManager : SingletonComponent<DataManager>
         FirestoreManager.Instance.GetTrades("Trade", userId, "receiver_Id", callback);
     }
 
-    public void UpdateTrades(List<FTrade> rTrades, List<FTrade> sTrades, System.Action<bool, string> callback)
+    public void GetTrades(string created_at, System.Action<bool, string, List<FTrade>> callback)
     {
-        FirestoreManager.Instance.UpdateTrades("Trade", rTrades, sTrades, callback);
+        FirestoreManager.Instance.GetTrades("Trade", created_at, "created_at", callback);
+    }
+
+    public void GetReceiveTradeItems(string userId, System.Action<bool, string, List<FTradeItem>> callback)
+    {
+        FirestoreManager.Instance.GetTradeItems("receiver_Id", userId, callback);
+    }
+
+    public void GetSentTradeItems(string userId, System.Action<bool, string, List<FTradeItem>> callback)
+    {
+        FirestoreManager.Instance.GetTradeItems("Pid", userId, callback);
+    }
+
+    public void UpdateTrades(List<FTrade> rTrades, List<FTrade> sTrades, List<FTradeItem> tradeItemList, System.Action<bool, string> callback)
+    {
+        FirestoreManager.Instance.UpdateTrades("Trade", rTrades, sTrades, tradeItemList, callback);
     }
 
     public void UpdateData<T>(T data, System.Action<bool, string> callback) where T : FData
@@ -1323,7 +1339,7 @@ public class DataManager : SingletonComponent<DataManager>
         }
         CurrentSubTasks.RemoveAll(dt => dt.IsRemoved());
 
-        //DBHandler.SaveToJSON(currentSubTasks, subTaskFN);
+        DBHandler.SaveToJSON(currentSubTasks, subTaskFN);
 
 
         var prevEntryId = CurrentDailyTasks.FindIndex(dt => dt.id == entry.id);
@@ -1338,7 +1354,7 @@ public class DataManager : SingletonComponent<DataManager>
         }
         CurrentDailyTasks.RemoveAll(dt => dt.IsRemoved());
 
-        //DBHandler.SaveToJSON(currentDailyTasks, dailyTaskFN);
+        DBHandler.SaveToJSON(currentDailyTasks, dailyTaskFN);
     }
 
     public void UpdateEntry(LToDoEntry entry, List<LSubTask> subTasks)
@@ -1358,7 +1374,7 @@ public class DataManager : SingletonComponent<DataManager>
         }
         CurrentSubTasks.RemoveAll(dt => dt.IsRemoved());
 
-        //DBHandler.SaveToJSON(currentSubTasks, subTaskFN);
+        DBHandler.SaveToJSON(currentSubTasks, subTaskFN);
 
 
         var prevEntryId = CurrentToDos.FindIndex(dt => dt.id == entry.id);
@@ -1373,7 +1389,7 @@ public class DataManager : SingletonComponent<DataManager>
         }
         CurrentToDos.RemoveAll(dt => dt.IsRemoved());
 
-        //DBHandler.SaveToJSON(currentToDos, toDOFN);
+        DBHandler.SaveToJSON(currentToDos, toDOFN);
     }
 
     public void UpdateEntry(LAutoToDo entry, List<LSubTask> subTasks)
@@ -1392,7 +1408,7 @@ public class DataManager : SingletonComponent<DataManager>
         }
         CurrentSubTasks.RemoveAll(dt => dt.IsRemoved());
 
-        //DBHandler.SaveToJSON(currentSubTasks, subTaskFN);
+        DBHandler.SaveToJSON(currentSubTasks, subTaskFN);
 
 
         var prevEntryId = CurrentAutoToDos.FindIndex(dt => dt.id == entry.id);
@@ -1425,7 +1441,7 @@ public class DataManager : SingletonComponent<DataManager>
         }
         CurrentSubTasks.RemoveAll(dt => dt.IsRemoved());
 
-        //DBHandler.SaveToJSON(currentSubTasks, subTaskFN);
+        DBHandler.SaveToJSON(currentSubTasks, subTaskFN);
 
         foreach(LTaskEntry lTaskEntry in lTaskEntries)
         {
@@ -1437,7 +1453,7 @@ public class DataManager : SingletonComponent<DataManager>
             }
         }
 
-        //DBHandler.SaveToJSON(currentDailyTasks, dailyTaskFN);
+        DBHandler.SaveToJSON(currentDailyTasks, dailyTaskFN);
 
 
         var prevEntryId = CurrentProjects.FindIndex(dt => dt.id == entry.id);
@@ -1452,7 +1468,7 @@ public class DataManager : SingletonComponent<DataManager>
         }
         CurrentProjects.RemoveAll(dt => dt.IsRemoved());
 
-        //DBHandler.SaveToJSON(currentProjects, projectGoalFN);
+        DBHandler.SaveToJSON(currentProjects, projectGoalFN);
     }
 
     public void UpdateEntry(LAutoGoal entry)
@@ -1469,7 +1485,7 @@ public class DataManager : SingletonComponent<DataManager>
             CurrentAutoGoals[prevEntryId] = entry;
         }
 
-        //DBHandler.SaveToJSON(currentProjects, projectGoalFN);
+        DBHandler.SaveToJSON(currentProjects, projectGoalFN);
     }
 
     public void UpdateEntry(LSubTask entry)
@@ -1486,7 +1502,7 @@ public class DataManager : SingletonComponent<DataManager>
 
         CurrentSubTasks.RemoveAll(dt => dt.IsRemoved());
 
-        //DBHandler.SaveToJSON(currentSubTasks, subTaskFN);
+        DBHandler.SaveToJSON(currentSubTasks, subTaskFN);
     }
 
     public void UpdateEntry(LHabitEntry entry)
@@ -1502,7 +1518,7 @@ public class DataManager : SingletonComponent<DataManager>
         }
 
         CurrentHabits.RemoveAll(dt => dt.IsRemoved());
-        //DBHandler.SaveToJSON(currentSubTasks, subTaskFN);
+        DBHandler.SaveToJSON(currentSubTasks, subTaskFN);
     }
 
     public void UpdateArt(LArtifact artifact)
@@ -1689,130 +1705,19 @@ public class DataManager : SingletonComponent<DataManager>
         }
     }
 
-    public List<string> GetDailyReport()
+    public void GetDailyReport(System.Action<List<string>> callback)
     {
-        if (dailyReportStrList.Count > 0)
+        if (PlayerPrefs.GetString("DailyReport") == Convert.DateTimeToFDate(System.DateTime.Now) && dailyReportStrList.Count > 0)
         {
-            return dailyReportStrList;
+            callback(dailyReportStrList);
+            return;
         }
-        
-        InvitationViewController.Instance.LoadInvitation((isSuccess, errMsg, invitationList) =>
+
+        GetDailyReportString(strList =>
         {
-            var invitation = invitationList.Find(item => item.state == EState.Created.ToString() && item.isOutOfDate() == false);
-            if (invitation != null)
-            {
-                dailyReportStrList.Add("You have new notifications(see 'Connections')");
-            }
+            PlayerPrefs.SetString("DailyReport", Convert.DateTimeToFDate(System.DateTime.Now));
+            callback(strList);
         });
-
-        GetReceiveTrades(currentUser.id, (isSuccess, errMsg, rTradeList) =>
-        {
-            var TradeList = rTradeList;
-            GetSentTrades(currentUser.id, (isSuccess, errMsg, sTradeList) =>
-            {
-                TradeList.AddRange(sTradeList);
-                var trade = TradeList.Find(item => item.reply_at == Convert.DateTimeToFDate(System.DateTime.Now.AddDays(-1)));
-                if (trade != null)
-                {
-                    dailyReportStrList.Add("You have new trade offers (check 'Member Offers' under 'Trade')");
-                }
-            });
-        });
-
-        var day = System.DateTime.Now.DayOfWeek;
-        if (availableDaysOfShip.Contains(day))
-        {
-            dailyReportStrList.Add("The Merchant's ship has docked.");
-        }
-        else
-        {
-            dailyReportStrList.Add("Merchant will not be docking today.");
-        }
-
-        var mode = (Game_Mode)currentSetting.current_mode;
-        var bTodayGoal = false;
-        if (mode == Game_Mode.Task_Only)
-        {
-            var goals = currentAutoGoals.FindAll(item => item.endDate == Convert.DateTimeToEntryDate(System.DateTime.Now));
-            bTodayGoal = goals.Count > 0;
-
-        }
-        else 
-        {
-            var goals = currentProjects.FindAll(item => item.endDate == Convert.DateTimeToEntryDate(System.DateTime.Now));
-            bTodayGoal = goals.Count > 0;
-        }
-
-        if (bTodayGoal)
-        {
-            dailyReportStrList.Add("A Goal is due today.");
-        }
-        //TODO
-        //'You've traded a Painting(coalition-see 'Trade') ---- if you or a coalition member made an offer to trade a piece of artwork, this pops up if the trade is agreed
-        //to and successful(all modes)
-        //
-        //'You've traded a Painting(noncoalition- see 'Art Exchange')--- if you or a non-coalition member made an offer to trade a piece of artwork, this pops up if
-        //the trade is agreed to and successful(all modes)
-
-        var lBuildings = GetBuiltLBuildings(System.DateTime.Now.AddDays(-1));
-
-        foreach (LBuilding lBuilding in lBuildings)
-        {
-            var tuple = lBuilding.NeedToHireSpecialist();
-            var buildingName = GetBuildingName(lBuilding);
-            if (tuple.Item1 != "")
-            {
-                if (mode != Game_Mode.Task_Only)
-                {
-                    dailyReportStrList.Add(string.Format("{0} has been constructed and specialists must be hired(press building)", buildingName));
-                }
-            }
-            else
-            {
-                dailyReportStrList.Add(string.Format("{0} has been constructed.", buildingName));
-            }
-        }
-
-        if (mode != Game_Mode.Task_Only)
-        {
-            if (ResourceViewController.Instance.GetVillagePopulation() >= 60 && ResourceViewController.Instance.GetMealAmount() < 200.0f)
-            {
-                dailyReportStrList.Add("Food is low, more farms are needed.");
-            }
-
-            
-            if (currentArtifacts.Count > 0)
-            {
-                var museum = currentBuildings.Find(item => item.bID == "94");
-
-                if (museum == null || museum.progress < 1.0f)
-                {
-                    dailyReportStrList.Add("In order to see your Artifacts, a Museum must be built.");
-                }
-            }
-
-            if (CurrentArtworks.Count > 0)
-            {
-                var gallery = currentBuildings.Find(item => item.bID == "95");
-                if (gallery == null || gallery.progress < 1.0f) 
-                {
-                    dailyReportStrList.Add("In order to see your Artwork, a Gallery must be built");
-                }
-            }
-
-            var guests = ResourceViewController.Instance.GetGuestsFromInn();
-            var curatorGuests = guests.FindAll(item => item.id == "23");
-            if (curatorGuests.Count > 0)//exist curator in villager inn
-            {
-                dailyReportStrList.Add("Housing needed (build Manor)");
-            }
-
-            if (guests.Count > curatorGuests.Count)
-            {
-                dailyReportStrList.Add("Housing needed (build Cottage)");
-            }
-        }
-        return dailyReportStrList;
     }
 
     private List<LBuilding> GetBuiltLBuildings(System.DateTime dateTime)
@@ -1871,6 +1776,11 @@ public class DataManager : SingletonComponent<DataManager>
         FirestoreManager.Instance.createData(trade.collectionId, trade, callback);
     }
 
+    public void CreateTradeItem(List<FTradeItem> tradelist, System.Action<bool, string> callback)
+    {
+        FirestoreManager.Instance.createDataList(tradelist, callback);
+    }
+
     public void CreateMessages(FMessage fMessage, System.Action<bool, string> callback)
     {
         FirestoreManager.Instance.createData(fMessage.collectionId, fMessage, callback);
@@ -1884,6 +1794,11 @@ public class DataManager : SingletonComponent<DataManager>
     public void RemoveData(FData data, System.Action<bool, string> callback)
     {
         FirestoreManager.Instance.RemoveData(data, callback);
+    }
+
+    public void RemoveData(List<FData> dataList, System.Action<bool, string> callback)
+    {
+        FirestoreManager.Instance.RemoveData(dataList, callback);
     }
 
     public void UpdateVillagers(List<LVillager> fVillagers)
@@ -2090,6 +2005,123 @@ public class DataManager : SingletonComponent<DataManager>
             currentUser.Save();
         }
         currentUser.UpdateJoinCoalition(coalition.name);
+    }
+
+    private void GetDailyReportString(System.Action<List<string>> callback)
+    {
+        dailyReportStrList.Clear();
+        var day = System.DateTime.Now.DayOfWeek;
+        if (availableDaysOfShip.Contains(day))
+        {
+            dailyReportStrList.Add("The Merchant's ship has docked.");
+        }
+        else
+        {
+            dailyReportStrList.Add("Merchant will not be docking today.");
+        }
+
+        var mode = (Game_Mode)currentSetting.current_mode;
+        var bTodayGoal = false;
+        if (mode == Game_Mode.Task_Only)
+        {
+            var goals = currentAutoGoals.FindAll(item => item.endDate == Convert.DateTimeToEntryDate(System.DateTime.Now));
+            bTodayGoal = goals.Count > 0;
+
+        }
+        else
+        {
+            var goals = currentProjects.FindAll(item => item.endDate == Convert.DateTimeToEntryDate(System.DateTime.Now));
+            bTodayGoal = goals.Count > 0;
+        }
+
+        if (bTodayGoal)
+        {
+            dailyReportStrList.Add("A Goal is due today.");
+        }
+        //TODO
+        //'You've traded a Painting(coalition-see 'Trade') ---- if you or a coalition member made an offer to trade a piece of artwork, this pops up if the trade is agreed
+        //to and successful(all modes)
+        //
+        //'You've traded a Painting(noncoalition- see 'Art Exchange')--- if you or a non-coalition member made an offer to trade a piece of artwork, this pops up if
+        //the trade is agreed to and successful(all modes)
+
+        var lBuildings = GetBuiltLBuildings(System.DateTime.Now.AddDays(-1));
+
+        foreach (LBuilding lBuilding in lBuildings)
+        {
+            var tuple = lBuilding.NeedToHireSpecialist();
+            var buildingName = GetBuildingName(lBuilding);
+            if (tuple.Item1 != "")
+            {
+                if (mode != Game_Mode.Task_Only)
+                {
+                    dailyReportStrList.Add(string.Format("{0} has been constructed and specialists must be hired(press building)", buildingName));
+                }
+            }
+            else
+            {
+                dailyReportStrList.Add(string.Format("{0} has been constructed.", buildingName));
+            }
+        }
+
+        if (mode != Game_Mode.Task_Only)
+        {
+            if (ResourceViewController.Instance.GetVillagePopulation() >= 60 && ResourceViewController.Instance.GetMealAmount() < 200.0f)
+            {
+                dailyReportStrList.Add("Food is low, more farms are needed.");
+            }
+
+
+            if (currentArtifacts.Count > 0)
+            {
+                var museum = currentBuildings.Find(item => item.bID == "94");
+
+                if (museum == null || museum.progress < 1.0f)
+                {
+                    dailyReportStrList.Add("In order to see your Artifacts, a Museum must be built.");
+                }
+            }
+
+            if (CurrentArtworks.Count > 0)
+            {
+                var gallery = currentBuildings.Find(item => item.bID == "95");
+                if (gallery == null || gallery.progress < 1.0f)
+                {
+                    dailyReportStrList.Add("In order to see your Artwork, a Gallery must be built");
+                }
+            }
+
+            var guests = ResourceViewController.Instance.GetGuestsFromInn();
+            var curatorGuests = guests.FindAll(item => item.id == "23");
+            if (curatorGuests.Count > 0)//exist curator in villager inn
+            {
+                dailyReportStrList.Add("Housing needed (build Manor)");
+            }
+
+            if (guests.Count > curatorGuests.Count)
+            {
+                dailyReportStrList.Add("Housing needed (build Cottage)");
+            }
+        }
+
+
+        InvitationViewController.Instance.LoadInvitation((isSuccess, errMsg, invitationList) =>
+        {
+            var invitation = invitationList.Find(item => item.state == EState.Created.ToString() && item.isOutOfDate() == false);
+            if (invitation != null)
+            {
+                dailyReportStrList.Add("You have new notifications(see 'Connections')");
+            }
+
+            InvitationViewController.Instance.LoadTradeInvitation((isSuccess, errMsg, tradeInvitationList) =>
+            {
+                if (tradeInvitationList != null && tradeInvitationList.Count > 0)
+                {
+                    dailyReportStrList.Add("You have new trade offers (check 'Member Offers' under 'Trade')");
+                }
+                callback(dailyReportStrList);
+            });
+        });
     }
     #endregion
 }

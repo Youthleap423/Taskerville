@@ -83,7 +83,6 @@ namespace EasyMobile.Internal.Notifications
 
             // Prepare dateComponents
             var fireDate = DateTime.Now + delay;
-            Debug.LogError("iOSLocal: >>>>" + fireDate);
             var dateComponents = new iOSDateComponents();
             dateComponents.year = fireDate.Year;
             dateComponents.month = fireDate.Month;

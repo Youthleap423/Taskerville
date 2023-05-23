@@ -6759,8 +6759,8 @@ MonoBehaviour:
   m_InputType: 0
   m_AsteriskChar: 42
   m_KeyboardType: 0
-  m_LineType: 0
-  m_HideMobileInput: 1
+  m_LineType: 1
+  m_HideMobileInput: 0
   m_CharacterValidation: 0
   m_CharacterLimit: 0
   m_OnEndEdit:
@@ -7297,7 +7297,7 @@ MonoBehaviour:
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 0
-    m_HorizontalOverflow: 1
+    m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
@@ -10266,7 +10266,7 @@ MonoBehaviour:
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 0
-    m_HorizontalOverflow: 1
+    m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
@@ -12500,6 +12500,147 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1017354433}
   m_CullTransparentMesh: 1
+--- !u!1001 &1021510624
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1295711154}
+    m_Modifications:
+    - target: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462652, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_Name
+      value: NotificationWindow
+      objectReference: {fileID: 0}
+    - target: {fileID: 211038844951462652, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4007384719484237544, guid: 5c81815f7779e4535a0b32fa4dc32415,
+        type: 3}
+      propertyPath: showTime
+      value: 5.3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5c81815f7779e4535a0b32fa4dc32415, type: 3}
+--- !u!224 &1021510625 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 211038844951462651, guid: 5c81815f7779e4535a0b32fa4dc32415,
+    type: 3}
+  m_PrefabInstance: {fileID: 1021510624}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1021510626 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 211038844951462652, guid: 5c81815f7779e4535a0b32fa4dc32415,
+    type: 3}
+  m_PrefabInstance: {fileID: 1021510624}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1026984562
 GameObject:
   m_ObjectHideFlags: 0
@@ -13326,8 +13467,8 @@ MonoBehaviour:
   m_InputType: 0
   m_AsteriskChar: 42
   m_KeyboardType: 0
-  m_LineType: 0
-  m_HideMobileInput: 1
+  m_LineType: 1
+  m_HideMobileInput: 0
   m_CharacterValidation: 0
   m_CharacterLimit: 0
   m_OnEndEdit:
@@ -16343,6 +16484,7 @@ RectTransform:
   - {fileID: 255899529}
   - {fileID: 111127406}
   - {fileID: 1152148741}
+  - {fileID: 1021510625}
   m_Father: {fileID: 248857593}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -17048,13 +17190,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1382003810}
   m_TextComponent: {fileID: 1581805151}
   m_Placeholder: {fileID: 1017354435}
-  m_ContentType: 6
+  m_ContentType: 0
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 7
-  m_LineType: 0
-  m_HideMobileInput: 1
-  m_CharacterValidation: 5
+  m_KeyboardType: 0
+  m_LineType: 1
+  m_HideMobileInput: 0
+  m_CharacterValidation: 0
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
@@ -20107,7 +20249,7 @@ MonoBehaviour:
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 0
-    m_HorizontalOverflow: 1
+    m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
@@ -21274,6 +21416,7 @@ MonoBehaviour:
   goldCoinTF: {fileID: 0}
   errMsgObj: {fileID: 111127405}
   errMsgObjOnGame: {fileID: 1152148740}
+  NotificationWidnowObj: {fileID: 1021510626}
   messageObj: {fileID: 3135934335996542871, guid: 32d93c0c93d27490db303e7abeddc699,
     type: 3}
   message_scrollView_RectTransform: {fileID: 0}
@@ -21382,7 +21525,7 @@ MonoBehaviour:
   m_AsteriskChar: 42
   m_KeyboardType: 7
   m_LineType: 0
-  m_HideMobileInput: 1
+  m_HideMobileInput: 0
   m_CharacterValidation: 5
   m_CharacterLimit: 0
   m_OnEndEdit:
@@ -22666,8 +22809,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1875876104}
   m_TextComponent: {fileID: 1599512904}
   m_Placeholder: {fileID: 1963267311}
-  m_ContentType: 0
-  m_InputType: 0
+  m_ContentType: 1
+  m_InputType: 1
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0

@@ -457,7 +457,12 @@ public static class Utilities
 
 	public static string GetFormattedDate(int daysAgo = 0)
     {
-		System.DateTime dateTime = System.DateTime.Now.AddDays(daysAgo); 
+		System.DateTime dateTime = System.DateTime.Now.AddDays(daysAgo);
+		return GetFormattedDate(dateTime);
+	}
+
+	public static string GetFormattedDate(System.DateTime dateTime)
+	{
 		return dateTime.ToString("yyyy_MM_dd");
 	}
 	/*
@@ -550,10 +555,16 @@ public static class Utilities
 			}
 		}
 	}
+
 	public static double GetDays(System.DateTime startDate, System.DateTime endDate)
     {
-		return (endDate - startDate).TotalDays;
+		return (Convert.FDateToDateTime(Convert.DateTimeToFDate(endDate)) - startDate).TotalDays;
     }
+
+	public static double GetDays(System.DateTime startDate)
+	{
+		return GetDays(startDate, System.DateTime.Now);
+	}
 
 	public static System.DateTime GetDate(System.DateTime startDate, double days)
     {

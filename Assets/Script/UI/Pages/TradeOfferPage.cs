@@ -52,6 +52,7 @@ public class TradeOfferPage : Page
             if (isSuccess)
             {
                 coalitionUserList.Clear();
+                Debug.LogError(UserViewController.Instance.GetCurrentUserList().Count);
                 foreach(LUser fUser in UserViewController.Instance.GetCurrentUserList())
                 {
                     if (fUser.joined_coalition.Equals(currentUser.joined_coalition) && !fUser.id.Equals(currentUser.id))
@@ -60,6 +61,10 @@ public class TradeOfferPage : Page
                     }
                 }
                 LoadCoalitionUsers();
+            }
+            else
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
             }
         });
     }

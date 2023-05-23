@@ -100,6 +100,14 @@ public class HabitItem : EntryItem
             UpdateCanvasGroup(false);
             return;
         }
+        else
+        {
+            if (this.task.progress >= 1.0f)
+            {
+                UpdateTimeSpanHabitUI(1.0f);
+                return;
+            }
+        }
 
         if (this.task.span_startTime == "" && this.task.unit == true)
         {
@@ -110,25 +118,30 @@ public class HabitItem : EntryItem
         var pastMins = (int)Convert.TimeDifferenceSeconds(this.task.span_startDate + "_" + this.task.span_startTime, System.DateTime.Now);
         var progress = (float)(pastMins) / (float)(timeSpanMins);
         progress = Mathf.Clamp01(progress);
-        this.timespan_Slider.value = progress;
+        UpdateTimeSpanHabitUI(progress);
         if (progress >= 1.0f)
         {
-            timespan_Slider_Fill.color = Color.blue;
-            
-            if (this.task.unit == true)
-            {
-                this.task.span_startTime = "";
-                unitToggles[this.task.complete_unit].transform.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = 1.0f;
-            }
+            //if (this.task.unit == true)
+            //{
+            //{
+            //    this.task.span_startTime = "";
+
+            //}
+            //}
             this.task.OnCompleteTimeSpan();
+            
         }
-        else
-        {
-            unitToggles[this.task.complete_unit].transform.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = 0.5f;
-            timespan_Slider_Fill.color = Color.green;
-        }
+        
     }
-    
+
+    void UpdateTimeSpanHabitUI(float progress)
+    {
+        this.task.progress = progress;
+        this.timespan_Slider.value = progress;
+        timespan_Slider_Fill.color = progress >= 1.0f ? Color.blue : Color.green;
+        unitToggles[this.task.complete_unit].transform.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = progress >= 1.0f ? 1.0f : 0.5f;
+    }
+
     #region Public Members
     public override void ShowSubTaskList(bool bShow)
     {
@@ -297,8 +310,11 @@ public class HabitItem : EntryItem
 
         if (toggle.isOn == false)
         {
-            //TaskViewController.Instance.CancelComplete(task);
-            //UpdateCanvasGroup(true);
+            if (!task.isPositive)
+            {
+                toggle.isOn = true;
+                TaskViewController.Instance.OnComplete(task);
+            }
         }
     }
 

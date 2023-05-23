@@ -35,6 +35,7 @@ public class FisherController : MonoBehaviour
 		animController.Turn(direction);
 		animController.UpdateCharacterAnimation();
 
+		
 		action = "fishing02";
 		yield return new WaitForSeconds(Random.Range(2f, 3f));
 

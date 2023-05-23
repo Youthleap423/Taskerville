@@ -14,8 +14,8 @@ namespace EasyMobile
         public static Notifications Instance { get; private set; }
 
         // Fill this if we need a common prefix for local notification IDs.
-        private const string LOCAL_NOTIF_ID_PREFIX = "";
-        private const string LOCAL_NOTIF_CURRENT_ID_PPKEY = "EM_LOCAL_NOTIF_CURRENT_ID";
+        private const string LOCAL_NOTIF_ID_PREFIX = "taskerville";
+        private const string LOCAL_NOTIF_CURRENT_ID_PPKEY = "taskerville";//"EM_LOCAL_NOTIF_CURRENT_ID";
 
         /// <summary>
         /// Gets the current push notification service.
@@ -219,9 +219,8 @@ namespace EasyMobile
         /// <returns>The ID of the scheduled notification.</returns>
         /// <param name="triggerDate">Trigger date.</param>
         /// <param name="content">Notification content.</param>
-        public static string ScheduleLocalNotification(DateTime triggerDate, NotificationContent content)
+        public static string ScheduleLocalNotification(string id, DateTime triggerDate, NotificationContent content)
         {
-            var id = NextLocalNotificationId();
             LocalNotificationClient.ScheduleLocalNotification(id, triggerDate, content);
             return id;
         }
@@ -234,9 +233,8 @@ namespace EasyMobile
         /// <returns>The ID of the scheduled notification.</returns>
         /// <param name="delay">Delay.</param>
         /// <param name="content">Notification content.</param>
-        public static string ScheduleLocalNotification(TimeSpan delay, NotificationContent content)
+        public static string ScheduleLocalNotification(string id, TimeSpan delay, NotificationContent content)
         {
-            var id = NextLocalNotificationId();
             LocalNotificationClient.ScheduleLocalNotification(id, delay, content);
             return id;
         }
@@ -251,9 +249,8 @@ namespace EasyMobile
         /// <param name="delay">Delay.</param>
         /// <param name="content">Notification content.</param>
         /// <param name="repeat">Repeat.</param>
-        public static string ScheduleLocalNotification(TimeSpan delay, NotificationContent content, NotificationRepeat repeat)
+        public static string ScheduleLocalNotification(string id, TimeSpan delay, NotificationContent content, NotificationRepeat repeat)
         {
-            var id = NextLocalNotificationId();
             LocalNotificationClient.ScheduleLocalNotification(id, delay, content, repeat);
             return id;
         }
@@ -268,6 +265,20 @@ namespace EasyMobile
         public static void GetPendingLocalNotifications(Action<NotificationRequest[]> callback)
         {
             LocalNotificationClient.GetPendingLocalNotifications(callback);
+            /*
+            Debug.LogError("Get Pending Local Notifications >>>>>>>>>");
+            LocalNotificationClient.GetPendingLocalNotifications(reqlist =>
+            {
+                foreach(NotificationRequest req in reqlist)
+                {
+                    Debug.LogError(req.id + ":" + req.nextTriggerDate.ToString() + ":" + req.repeat.ToString() + ":" + JsonUtility.ToJson(req.content));
+                }
+                Debug.LogError("<<<<<<<<<<Get Pending Local Notifications");
+                callback(reqlist);
+            });
+            */
+            
+            
         }
 
         /// <summary>

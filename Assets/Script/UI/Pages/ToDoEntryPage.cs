@@ -144,8 +144,10 @@ public class ToDoEntryPage : EntryPage
             newToDoEntry.goldCount = newToDoEntry.diffculty + 1;
             newToDoEntry.remindAlarm = alarmTimeTF.text;
             newToDoEntry.dueDate = dueDateTF.text.Equals("") ? "" : Convert.EntryDateToFDate(dueDateTF.text);
-            newToDoEntry.orderId = Utilities.SystemTicks;
-
+            if (newToDoEntry.orderId < 0)
+            {
+                newToDoEntry.orderId = Utilities.SystemTicks;
+            }
             this.subLTasks = taskDic.Values.ToList();
             newToDoEntry.checkList.Clear();
             newToDoEntry.repeat_alarm = alarmRepeat_dropdown.value;

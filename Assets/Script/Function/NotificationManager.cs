@@ -98,8 +98,9 @@ public class NotificationManager : SingletonComponent<NotificationManager>
                     {
                         type = System.Convert.ToString(typeObj);
                     };
-                    if (type != EntryType.DailyTask.ToString())
+                    if (type == EntryType.DailyTask.ToString())
                     {
+                        
                         Notifications.CancelPendingLocalNotification(req.id);
                     }
                 }
@@ -137,7 +138,7 @@ public class NotificationManager : SingletonComponent<NotificationManager>
                     {
                         type = System.Convert.ToString(typeObj);
                     };
-                    if (type != EntryType.ToDo.ToString())
+                    if (type == EntryType.ToDo.ToString())
                     {
                         Notifications.CancelPendingLocalNotification(req.id);
                     }
@@ -148,7 +149,7 @@ public class NotificationManager : SingletonComponent<NotificationManager>
         {
             foreach (LToDoEntry entry in DataManager.Instance.CurrentToDos)
             {
-                ScheduleLocalNotification(entry, entry.GetTriggerDate());
+                ScheduleLocalNotification(entry, entry.GetTriggerDate(), NotificationRepeat.EveryDay);
             }
         }
     }
@@ -168,7 +169,7 @@ public class NotificationManager : SingletonComponent<NotificationManager>
                     {
                         type = System.Convert.ToString(typeObj);
                     };
-                    if (type != EntryType.Habit.ToString())
+                    if (type == EntryType.Habit.ToString())
                     {
                         Notifications.CancelPendingLocalNotification(req.id);
                     }
@@ -206,7 +207,7 @@ public class NotificationManager : SingletonComponent<NotificationManager>
                     {
                         type = System.Convert.ToString(typeObj);
                     };
-                    if (type != EntryType.Project.ToString())
+                    if (type == EntryType.Project.ToString())
                     {
                         Notifications.CancelPendingLocalNotification(req.id);
                     }
@@ -217,7 +218,7 @@ public class NotificationManager : SingletonComponent<NotificationManager>
         {
             foreach (LProjectEntry entry in DataManager.Instance.CurrentProjects)
             {
-                ScheduleLocalNotification(entry, entry.GetTriggerDate());
+                ScheduleLocalNotification(entry, entry.GetTriggerDate(), NotificationRepeat.EveryDay);
             }
         }
     }
@@ -242,65 +243,56 @@ public class NotificationManager : SingletonComponent<NotificationManager>
         notif.userInfo = new Dictionary<string, object>();
         notif.userInfo.Add("id", entry.id);
         notif.userInfo.Add("type", entry.Type.ToString());
-        notif.userInfo.Add("entry", JsonUtility.ToJson(entry));
+        //notif.userInfo.Add("entry", JsonUtility.ToJson(entry));
         notif.userInfo.Add("repeat", repeat.ToString());
         notif.categoryId = entry.Type.ToString();
-
-        UIManager.LogError(triggerDate.ToString() + ":" + entry.Type.ToString());
         if (triggerDate != DateTime.MinValue)
         {
             TimeSpan timeSpan = triggerDate <= DateTime.Now ? TimeSpan.Zero : triggerDate - DateTime.Now;
-            Notifications.ScheduleLocalNotification(timeSpan, notif, repeat);
-        }
-
-
-        Notifications.GetPendingLocalNotifications(pendingNotifs =>
-        {
-            UIManager.LogError(pendingNotifs.Length);
-            foreach (var req in pendingNotifs)
+            if (repeat == NotificationRepeat.None)
             {
-                NotificationContent content = req.content;
-
-                var strId = "";
-                if (req.content.userInfo.TryGetValue("id", out object entryId))
-                {
-                    strId = System.Convert.ToString(entryId);
-                };
-
-                var type = "";
-                if (req.content.userInfo.TryGetValue("type", out object typeObj))
-                {
-                    type = System.Convert.ToString(typeObj);
-                };
-
-                UIManager.LogError(strId + " : " + type + ":" + req.repeat.ToString() + ":" + req.nextTriggerDate.ToString() + ":" + req.content.categoryId + ":" + req.id);
+                Notifications.ScheduleLocalNotification(entry.Type.ToString() + entry.id, timeSpan, notif);
             }
-        });
+            else
+            {
+                Notifications.ScheduleLocalNotification(entry.Type.ToString() + entry.id, timeSpan, notif, repeat);
+            }
+        }
     }
 
     public void RescheduleLocalNotification(NotificationContent content)
     {
-        var entry = new LEntry();
-        if (content.userInfo.TryGetValue("entry", out object entryObj))
-        {
-            entry = JsonUtility.FromJson<LEntry>(System.Convert.ToString(entryObj));
-        };
-
         var type = "";
         if (content.userInfo.TryGetValue("type", out object typeObj))
         {
             type = System.Convert.ToString(typeObj);
         };
 
-        if (type == "Unit")
+        if (type == "Unit" || type == EntryType.ToDo.ToString())
         {
             return;
         }
 
-        UIManager.LogError("RescheduleLocalNotification:  " + entry.id + ":" + entry.Type.ToString());
+        var id = "";
+        if (content.userInfo.TryGetValue("type", out object idObj))
+        {
+            id = System.Convert.ToString(idObj);
+        };
 
-        entry = DataManager.Instance.GetCorrespondingEntry(entry, type);
+        string repeatStr = "";
+        if (content.userInfo.TryGetValue("repeat", out object repeatObj))
+        {
+            repeatStr = System.Convert.ToString(repeatObj);
+        };
 
+        if (repeatStr == NotificationRepeat.EveryDay.ToString())
+        {
+            return;
+        }
+
+        var entry = DataManager.Instance.GetCorrespondingEntry(id, type);
+
+        
         if (entry == null || entry.id == "" /*|| entry.IsRemoved() || entry.isCompleted()*/)
         {
             return;
@@ -363,7 +355,7 @@ public class NotificationManager : SingletonComponent<NotificationManager>
         notif.userInfo.Add("id", entry.id);
         notif.userInfo.Add("type", "Unit");
         notif.categoryId = "Unit";
-        Notifications.ScheduleLocalNotification(new TimeSpan(System.Convert.ToInt32(entry.span_h), System.Convert.ToInt32(entry.span_m), 0), notif);
+        Notifications.ScheduleLocalNotification("Unit" + entry.id, new TimeSpan(System.Convert.ToInt32(entry.span_h), System.Convert.ToInt32(entry.span_m), 0), notif);
     }
 
     public void ReScheduleLocalNotification(LTaskEntry entry)
@@ -378,19 +370,25 @@ public class NotificationManager : SingletonComponent<NotificationManager>
             return;
         }
 
-        CancelPendingLocalNotification(entry);
-        if (DataManager.Instance.GetCurrentSetting().alarm_dt == true)
+        CancelPendingLocalNotification(entry, (result) =>
         {
-            UIManager.LogError(entry.GetTriggerDate());
-            if (entry.repeatition == (int)Repeatition.Daily && entry.repeat_every == 1)
+            if (entry.remindAlarm.Trim().Equals(String.Empty))
             {
-                ScheduleLocalNotification(entry, entry.GetTriggerDate(), NotificationRepeat.EveryDay);
+                return;
             }
-            else
+
+            if (DataManager.Instance.GetCurrentSetting().alarm_dt == true)
             {
-                ScheduleLocalNotification(entry, entry.GetTriggerDate());
+                if (entry.repeatition == (int)Repeatition.Daily && entry.repeat_every == 1)
+                {
+                    ScheduleLocalNotification(entry, entry.GetTriggerDate(), NotificationRepeat.EveryDay);
+                }
+                else
+                {
+                    ScheduleLocalNotification(entry, entry.GetTriggerDate());
+                }
             }
-        }
+        });
     }
 
     public void ReScheduleLocalNotification(LToDoEntry entry)
@@ -401,16 +399,23 @@ public class NotificationManager : SingletonComponent<NotificationManager>
         }
 
 
-        if (entry == null || entry.id == "")
+        if (entry == null || entry.id == "" || entry.IsRemoved() || entry.isCompleted())
         {
             return;
         }
-        CancelPendingLocalNotification(entry);
 
-        if (DataManager.Instance.GetCurrentSetting().alarm_td == true)
+        CancelPendingLocalNotification(entry,(result) =>
         {
-            ScheduleLocalNotification(entry, entry.GetTriggerDate());
-        }
+            if (entry.remindAlarm.Trim().Equals(String.Empty))
+            {
+                return;
+            }
+
+            if (DataManager.Instance.GetCurrentSetting().alarm_td == true)
+            {
+                ScheduleLocalNotification(entry, entry.GetTriggerDate());
+            }
+        });
     }
 
 
@@ -426,18 +431,26 @@ public class NotificationManager : SingletonComponent<NotificationManager>
             return;
         }
 
-        CancelPendingLocalNotification(entry);
-        if (DataManager.Instance.GetCurrentSetting().alarm_ht == true)
+        
+        CancelPendingLocalNotification(entry, (result) =>
         {
-            if (entry.repeatition == (int)Repeatition.Daily && entry.repeat_every == 1 && entry.recurrence)
+            if (entry.remindAlarm.Trim().Equals(String.Empty))
             {
-                ScheduleLocalNotification(entry, entry.GetTriggerDate(), NotificationRepeat.EveryDay);
+                return;
             }
-            else
+
+            if (DataManager.Instance.GetCurrentSetting().alarm_ht == true)
             {
-                ScheduleLocalNotification(entry, entry.GetTriggerDate());
+                if (entry.repeatition == (int)Repeatition.Daily && entry.repeat_every == 1 && entry.recurrence)
+                {
+                    ScheduleLocalNotification(entry, entry.GetTriggerDate(), NotificationRepeat.EveryDay);
+                }
+                else
+                {
+                    ScheduleLocalNotification(entry, entry.GetTriggerDate());
+                }
             }
-        }
+        });
     }
 
     public void ReScheduleUnitLocalNotification(LHabitEntry entry)
@@ -463,17 +476,25 @@ public class NotificationManager : SingletonComponent<NotificationManager>
             return;
         }
 
-        CancelPendingLocalNotification(entry);
-        if (DataManager.Instance.GetCurrentSetting().alarm_goal == true)
+        CancelPendingLocalNotification(entry, (result) =>
         {
-            ScheduleLocalNotification(entry, entry.GetTriggerDate());
-        }
+            if (entry.remindAlarm.Trim().Equals(String.Empty))
+            {
+                return;
+            }
+
+            if (DataManager.Instance.GetCurrentSetting().alarm_goal == true)
+            {
+                ScheduleLocalNotification(entry, entry.GetTriggerDate());
+            }
+        });
     }
 
-    public void CancelPendingLocalNotification(LEntry entry)
+    public void CancelPendingLocalNotification(LEntry entry, System.Action<bool> callback)
     {
         Notifications.GetPendingLocalNotifications(pendingNotifs =>
         {
+            var result = false;
             foreach (var req in pendingNotifs)
             {
                 NotificationContent content = req.content;
@@ -491,10 +512,12 @@ public class NotificationManager : SingletonComponent<NotificationManager>
 
                 if (strId != "" && strId == entry.id && type == entry.Type.ToString())
                 {
-                    UIManager.LogError("cancel notification>>>" + req.id);
                     CancelPendingLocalNotification(req.id);
+                    result = true;
+                    break;
                 }
             }
+            callback(result);
         });
     }
 
@@ -531,31 +554,6 @@ public class NotificationManager : SingletonComponent<NotificationManager>
         }
 
         Notifications.CancelPendingLocalNotification(str);
-
-        UIManager.LogError(">>>>>>>>>>Canceling....>>>");
-        Notifications.GetPendingLocalNotifications(pendingNotifs =>
-        {
-            UIManager.LogError(pendingNotifs.Length);
-            foreach (var req in pendingNotifs)
-            {
-                NotificationContent content = req.content;
-
-                var strId = "";
-                if (req.content.userInfo.TryGetValue("id", out object entryId))
-                {
-                    strId = System.Convert.ToString(entryId);
-                };
-
-                var type = "";
-                if (req.content.userInfo.TryGetValue("type", out object typeObj))
-                {
-                    type = System.Convert.ToString(typeObj);
-                };
-
-                UIManager.LogError(strId + " : " + type + ":" + req.repeat.ToString() + ":" + req.nextTriggerDate.ToString() + ":" + req.content.categoryId + ":" + req.id);
-            }
-        });
-        UIManager.LogError(">>>>>>>>>>Canceled....>>>");
     }
 
     public void CancelAllPendingLocalNotifications()

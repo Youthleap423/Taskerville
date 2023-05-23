@@ -252,7 +252,7 @@ public enum ETradeInviteType
 
 public enum ETradeRepeat
 {
-    None = 0,
+    Once = 0,
     Daily = 1,
     Every2Days = 2,
     Weekly = 7
@@ -263,7 +263,7 @@ public enum EState
     Created,
     Agreed,
     Declined,
-    Posted,
+    Posted
 }
 
 public enum EMessageType

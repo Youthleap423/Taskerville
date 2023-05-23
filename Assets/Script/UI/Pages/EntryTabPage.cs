@@ -11,10 +11,6 @@ public class EntryTabPage : TabPage
         {
             base.OnEnable();
         }
-        else
-        {
-            PlayerPrefs.GetString("NotifyPage", "");
-        }
     }
 
     override public void ShowPage(string pageId)

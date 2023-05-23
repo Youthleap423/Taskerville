@@ -7,7 +7,7 @@ public class ArtifactSystem : SingletonComponent<ArtifactSystem>
 {
     [HideInInspector]public Dictionary<EResources, float> artifactRes = new Dictionary<EResources, float>();
 
-    private int completeMins = 5;// 720;
+    private int completeMins = 720;
     private LArtifact currentArtifact = null;
     private float currentProgress = 0f;
     // Start is called before the first frame update
@@ -28,7 +28,6 @@ public class ArtifactSystem : SingletonComponent<ArtifactSystem>
         {
             var mins = (float)((System.DateTime.Now - Convert.DetailedStringToDateTime(currentArtifact.created_at)).TotalMinutes);
             currentProgress = mins / completeMins;
-            Debug.LogError(currentArtifact.created_at.ToString() + " : " + mins + " : " + completeMins + ":" + currentProgress);
             if (currentProgress >= 1.0f)
             {
                 CompleteExcavate(currentArtifact);
@@ -291,6 +290,10 @@ public class ArtifactSystem : SingletonComponent<ArtifactSystem>
         artifact.Completed();
         UpdateArt(artifact);
         AutoChangeFromCommonToUnCommon();
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.CompletedExcavate();
+        }
         UIManager.Instance.ShowExcavationDlg();
     }
 

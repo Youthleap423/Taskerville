@@ -359,7 +359,7 @@ MonoBehaviour:
     QTimeToBuild: 1
     culturePoint: 3
     QResType: 44
-    QResAmount: 2
+    QResAmount: 1
     IdOfStoreIcon: art_gallery
     isStatic: 0
     requirement: 3
@@ -617,7 +617,7 @@ MonoBehaviour:
     QTimeToBuild: 1
     culturePoint: 3
     QResType: 44
-    QResAmount: 2
+    QResAmount: 1
     IdOfStoreIcon: museum
     isStatic: 0
     requirement: 3

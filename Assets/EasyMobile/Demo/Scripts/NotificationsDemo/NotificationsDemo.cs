@@ -110,7 +110,7 @@ namespace EasyMobile.Demo
             notif.badge = Notifications.GetAppIconBadgeNumber() + 1;
 
             DateTime triggerDate = DateTime.Now + new TimeSpan(delayHours, delayMinutes, delaySeconds);
-            Notifications.ScheduleLocalNotification(triggerDate, notif);
+            Notifications.ScheduleLocalNotification("TaskerVille", triggerDate, notif);
         }
 
         public void ScheduleRepeatLocalNotification()
@@ -123,7 +123,7 @@ namespace EasyMobile.Demo
             notif.body = repeatMessage;
             notif.categoryId = repeatCategoryId;
 
-            Notifications.ScheduleLocalNotification(new TimeSpan(repeatDelayHours, repeatDelayMinutes, repeatDelaySeconds), notif, repeatType);
+            Notifications.ScheduleLocalNotification("", new TimeSpan(repeatDelayHours, repeatDelayMinutes, repeatDelaySeconds), notif, repeatType);
         }
 
         public void CancelPendingLocalNotification()
@@ -170,6 +170,7 @@ namespace EasyMobile.Demo
 
         void UpdatePendingNotificationList()
         {
+            Debug.LogError(">>>>>>UpdatePendingNotificationList>>>>");
             Notifications.GetPendingLocalNotifications(pendingNotifs =>
                 {
                     StringBuilder sb = new StringBuilder();

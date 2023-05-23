@@ -24,18 +24,28 @@ public class DailyTaskPage : Page
     private void OnEnable()
     {
         slotComponent.OnDragDropFinished += Rearrange;
+        TaskManager.OnDeviceOrientationChanged += onDeviceOrientationChanged;
         Initialize();
     }
     private void OnDisable()
     {
         slotComponent.OnDragDropFinished -= Rearrange;
+        TaskManager.OnDeviceOrientationChanged -= onDeviceOrientationChanged;
     }
+
+    private void onDeviceOrientationChanged(ScreenOrientation orientation)
+    {
+        Initialize();
+    }
+
     #endregion
 
     #region Public Members
     public override void Initialize()
     {
         base.Initialize();
+
+        //PlayerPrefs.SetString("NotifyPage", "");
 
         infoGlowEffectObj.SetActive(UserViewController.Instance.GetCurrentUser().GetPlayerAgesAsDays() < 7);
         
@@ -51,6 +61,8 @@ public class DailyTaskPage : Page
         var dailyTasks = TaskViewController.Instance.GetDailyTasks();
         CreateTaskList(dailyTasks);
     }
+
+
 
     public void ShowTaskEntryPage()
     {

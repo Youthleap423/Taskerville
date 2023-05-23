@@ -33,6 +33,13 @@ public class LBuilding : LData
         ResourceViewController.Instance.UpdateBuilding(this);
     }
 
+    public void UpdateProduceTime(int days)
+    {
+        var date = Convert.FDateToDateTime(produce_at).AddDays(days);
+        produce_at = Convert.DateTimeToFDate(date);
+        ResourceViewController.Instance.UpdateBuilding(this);
+    }
+
     public EBuildingType GetBuildingType()//for construction model
     {
         var result = EBuildingType.Building;
@@ -164,6 +171,9 @@ public class LBuilding : LData
             return;
         }
 
+        var Category = DataManager.Instance.GetBuilding(int.Parse(id));
+        productList = Category.productList;
+
         if (productList.Count == 0)
         {
             return;
@@ -197,15 +207,14 @@ public class LBuilding : LData
                     {
                         productList.Add(new LProduct(bonusAnimal, 1, 1));
                     }
-
                 }
             }
         }
 
         var dateTime = Convert.FDateToDateTime(produce_at);
-        var dateDiff = (System.DateTime.Now - dateTime).TotalDays;
+        var dateDiff = (int)Utilities.GetDays(dateTime);
 
-        for(int index = 0; index < producerCount; index++)
+        for (int index = 0; index < producerCount; index++)
         {
             var resDic = new Dictionary<EResources, float>();
             foreach (LProduct resProduct in requireList)
@@ -218,11 +227,15 @@ public class LBuilding : LData
                 resDic.Add(resProduct.type, -resProduct.amount);
             }
 
+            int multiplies = 1;
+            int duration = 1;
             foreach (LProduct product in productList)
             {
-                if (dateDiff >= (double)(product.duration))
+                duration = Mathf.Max(duration, product.duration);
+                multiplies = dateDiff / product.duration;
+                if (multiplies > 0)
                 {
-                    resDic.Add(product.type, product.amount);
+                    resDic.Add(product.type, product.amount * multiplies);
                 }
             }
 
@@ -233,7 +246,7 @@ public class LBuilding : LData
                     if (isSuccess)
                     {
                         RewardSystem.Instance.GivesProduceReward(resDic.Keys.ToList());
-                        UpdateProduceTime(Convert.DateTimeToFDate(System.DateTime.Now));
+                        UpdateProduceTime(multiplies * duration);
                     }
                 });
             }
@@ -253,6 +266,7 @@ public class LBuilding : LData
             UpdateProduceTime("");
             return;
         }
+
         if (produce_at == "")
         {
             UpdateProduceTime(Convert.DateTimeToFDate(System.DateTime.Now));
@@ -260,57 +274,62 @@ public class LBuilding : LData
         }
 
         var dateTime = Convert.FDateToDateTime(produce_at);
-        var dateDiff = (System.DateTime.Now - dateTime).TotalDays;
+        var dateDiff = (int)Utilities.GetDays(dateTime);
 
-        for (int index = 0; index < producerCount; index++)
+        var resDic = new Dictionary<EResources, float>();
+        var resType = EResources.Meat;
+        var productType = EResources.Meat;
+        var productAmount = 30.0f;
+
+        for (int days = 0; days < dateDiff; days++)
         {
-            var resDic = new Dictionary<EResources, float>();
-            var resType = EResources.Meat;
-            var productType = EResources.Meat;
-            var productAmount = 30.0f;
-            foreach (LProduct resProduct in requireList)
+            for (int index = 0; index < producerCount; index++)
             {
-                var curAmont = ResourceViewController.Instance.GetCurrentResourceValue(resProduct.type);
-                if (curAmont >= resProduct.amount)
+
+                foreach (LProduct resProduct in requireList)
                 {
-                    resType = resProduct.type;
-                    resDic.Add(resProduct.type, -resProduct.amount);
-                    break;
+                    var curAmont = ResourceViewController.Instance.GetCurrentResourceValue(resProduct.type);
+                    if (curAmont >= resProduct.amount)
+                    {
+                        resType = resProduct.type;
+                        resDic.Add(resProduct.type, -resProduct.amount);
+                        break;
+                    }
+                }
+
+                switch (resType)
+                {
+                    case EResources.Cattle:
+                        productType = EResources.Cattle_Meat;
+                        break;
+                    case EResources.Goat:
+                        productType = EResources.Goat_Meat;
+                        break;
+                    case EResources.Deer:
+                        productType = EResources.Deer_Meat;
+                        break;
+                    case EResources.Swine:
+                        productType = EResources.Swine_Meat;
+                        break;
+                    default:
+                        break;
+                }
+
+
+                if (dateDiff >= productList[0].duration && productType != EResources.Meat)
+                {
+                    resDic.Add(productType, productAmount);
                 }
             }
-
-            switch (resType)
-            {
-                case EResources.Cattle:
-                    productType = EResources.Cattle_Meat;
-                    break;
-                case EResources.Goat:
-                    productType = EResources.Goat_Meat;
-                    break;
-                case EResources.Deer:
-                    productType = EResources.Deer_Meat;
-                    break;
-                case EResources.Swine:
-                    productType = EResources.Swine_Meat;
-                    break;
-                default:
-                    break;
-            }
-
-
-            if (dateDiff >= (double)(productList[0].duration) && productType != EResources.Meat)
-            {
-                resDic.Add(productType, productAmount);
-
-                ResourceViewController.Instance.UpdateResource(resDic, (isSuccess, errMsg) =>
-                {
-                    if (isSuccess)
-                    {
-                        RewardSystem.Instance.GivesProduceReward(resDic.Keys.ToList());
-                        UpdateProduceTime(Convert.DateTimeToFDate(System.DateTime.Now));
-                    }
-                });
-            }
         }
+
+        ResourceViewController.Instance.UpdateResource(resDic, (isSuccess, errMsg) =>
+        {
+            if (isSuccess)
+            {
+                RewardSystem.Instance.GivesProduceReward(resDic.Keys.ToList());
+                UpdateProduceTime(Convert.DateTimeToFDate(System.DateTime.Now));
+            }
+        });
     }
 }

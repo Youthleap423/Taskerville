@@ -37,6 +37,8 @@ public class ProjectGoalsPage : Page
     {
         base.Initialize();
 
+        //PlayerPrefs.SetString("NotifyPage", "");
+
         infoGlowEffectObj.SetActive(UserViewController.Instance.GetCurrentUser().GetPlayerAgesAsDays() < 7);
 
         if (UserViewController.Instance.GetCurrentSetting().current_mode == (int)Game_Mode.Game_Only)

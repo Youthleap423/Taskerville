@@ -328,7 +328,7 @@ public class HabitEntryPage : EntryPage
             }
             
             
-            if (newHabitEntry.orderId == 0)
+            if (newHabitEntry.orderId < 0)
             {
                 newHabitEntry.orderId = Utilities.SystemTicks;
             }

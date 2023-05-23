@@ -212,12 +212,12 @@ public class LUser: LData
 
     public int GetAgesAsDays()
     {
-        return (int)(System.DateTime.Now - Convert.FDateToDateTime(mode_at)).TotalDays;
+        return (int)Utilities.GetDays(Convert.FDateToDateTime(mode_at));
     }
 
     public int GetPlayerAgesAsDays()
     {
-        return (int)(System.DateTime.Now - Convert.FDateToDateTime(created_at)).TotalDays;
+        return (int)Utilities.GetDays(Convert.FDateToDateTime(created_at));
     }
 
     public bool hasGotAssist()

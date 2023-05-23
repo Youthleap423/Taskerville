@@ -23,8 +23,8 @@ public class LProjectEntry : LEntry
 
     public void Update(List<LSubTask> subProjectList, List<LTaskEntry> linkedTaskList)
     {
-        DataManager.Instance.UpdateEntry(this, subProjectList, linkedTaskList);
         NotificationManager.Instance.ReScheduleLocalNotification(this);
+        DataManager.Instance.UpdateEntry(this, subProjectList, linkedTaskList);
         //TODO - FirestoreManager.Instance.CreateEntry(this, subProjectList, linkedTaskList, callback);
     }
 
@@ -39,7 +39,7 @@ public class LProjectEntry : LEntry
         {
             var dateStr = Convert.EntryDateToFDate(endDate) + "_" + remindAlarm;
             var date = Convert.DetailedStringToDateTime(dateStr);
-            if (isEnabled(date))
+            if (!isCompleted())
             {
                 return date;
             }

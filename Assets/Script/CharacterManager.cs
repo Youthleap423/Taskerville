@@ -9,8 +9,10 @@ public class CharacterManager : SingletonComponent<CharacterManager>
     [SerializeField] private GameObject appleFarmer;
 
     // Start is called before the first frame update
-    void Start()
+    override protected void Awake()
     {
+        base.Awake();
+
         fisher.SetActive(false);
         woodcutter.SetActive(false);
         appleFarmer.SetActive(false);

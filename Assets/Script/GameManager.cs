@@ -19,7 +19,6 @@ public class GameManager : SingletonComponent<GameManager>
     void Start()
     {
         UnityEngine.Screen.orientation = ScreenOrientation.AutoRotation;
-        Debug.LogError(">>>>>>>>>>>>>>>>>1");
         loadingCG.alpha = 1f;
         loadingCG.blocksRaycasts = false;
         loadingCG.interactable = false;
@@ -68,10 +67,9 @@ public class GameManager : SingletonComponent<GameManager>
         DataManager.Instance.SerializeUser(false, (isSuccess, err) =>
         {
             UIManager.Instance.ShowLoadingBar(false);
-
-            TaskViewController.Instance.CheckDaily();
             ResourceViewController.Instance.CheckDailyMission();
             TradeViewController.Instance.CheckTrades();
+            TaskViewController.Instance.CheckDaily();
             //ArtifactSystem.Instance.CheckArtifacts();
             ArtworkSystem.Instance.CheckArtwork();
         });
@@ -83,9 +81,13 @@ public class GameManager : SingletonComponent<GameManager>
         StartCoroutine(FadeOut(1.5f));
     }
 
+    public void CompletedExcavate()
+    {
+        BuildManager.Instance.HideAllArchealogicalDig();
+    }
+
     IEnumerator FadeOut(float fadeTime)
     {
-        Debug.LogError(">>>>>>>>>>>>>>>>>2");
         yield return new WaitForSeconds(1f);//asked by Duran
 
         while (loadingCG.alpha > 0)
@@ -95,7 +97,6 @@ public class GameManager : SingletonComponent<GameManager>
         }
         loadingCG.blocksRaycasts = false;
         loadingCG.interactable = false;
-        Debug.LogError(">>>>>>>>>>>>>>>>>3");
         AudioManager.Instance.PlayBackgroundSound(AudioManager.Instance.villagerClip);
         AudioManager.Instance.PlayFXSound(AudioManager.Instance.bellClip, false);
     }

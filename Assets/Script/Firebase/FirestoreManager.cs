@@ -194,12 +194,17 @@ public class FirestoreManager : SingletonComponent<FirestoreManager>
 
     public void GetTrades(string collectionId, string userId, string fieldName, System.Action<bool, string, List<FTrade>> callback)
     {
-        StartCoroutine(Enumerator_GetTrades(collectionId, userId, fieldName, callback)); ;
+        StartCoroutine(Enumerator_GetData(collectionId, fieldName, userId, callback)); ;
     }
 
-    public void UpdateTrades(string collectionId, List<FTrade> rTrades, List<FTrade> sTrades, System.Action<bool, string> callback)
+    public void GetTradeItems(string userId, string fieldName, System.Action<bool, string, List<FTradeItem>> callback)
     {
-        StartCoroutine(Enumerator_UpdateTrades(collectionId, rTrades, sTrades, callback)); ;
+        StartCoroutine(Enumerator_GetData("TradeItem", fieldName, userId, callback)); ;
+    }
+
+    public void UpdateTrades(string collectionId, List<FTrade> rTrades, List<FTrade> sTrades, List<FTradeItem> itemList,  System.Action<bool, string> callback)
+    {
+        StartCoroutine(Enumerator_UpdateTrades(collectionId, rTrades, sTrades, itemList, callback)); ;
     }
 
     public void GetCoalitions(string collectionId, System.Action<bool, string, IEnumerable<DocumentSnapshot>> callback)
@@ -245,7 +250,11 @@ public class FirestoreManager : SingletonComponent<FirestoreManager>
     public void RemoveData(FData data, System.Action<bool, string> callback)
     {
         StartCoroutine(Enumerator_RemoveData(data, callback));
-        
+    }
+
+    public void RemoveData(List<FData> dataList, System.Action<bool, string> callback)
+    {
+        StartCoroutine(Enumerator_RemoveDataList(dataList, callback));
     }
 
     #endregion
@@ -272,14 +281,44 @@ public class FirestoreManager : SingletonComponent<FirestoreManager>
         var task = db.Collection(data.collectionId).Document(data.Id).DeleteAsync();
 
         yield return new WaitUntil(() => task.IsCompleted);
-
+        
         if (!task.IsCanceled && !task.IsFaulted)
         {
-            callback(true, "");
+            if (callback != null)
+            {
+                callback(true, "");
+            }
+            
         }
         else
         {
+            if (callback != null)
+            {
+                callback(false, "Failed to remove data" + task.Exception);
+            }
+        }
+    }
+
+    private IEnumerator Enumerator_RemoveDataList(List<FData> dataList, System.Action<bool, string> callback)
+    {
+        WriteBatch batch = db.StartBatch();
+
+        foreach (FData data in dataList)
+        {
+            batch.Delete(db.Collection(data.collectionId).Document(data.Id));
+        }
+
+        var task = batch.CommitAsync();
+
+        yield return new WaitUntil(() => task.IsCompleted);
+
+        if (task.Exception != null)
+        {
             callback(false, "Failed to remove data" + task.Exception);
+        }
+        else
+        {
+            callback(true, "");
         }
     }
 
@@ -600,7 +639,7 @@ public class FirestoreManager : SingletonComponent<FirestoreManager>
         }
     }
 
-    private IEnumerator Enumerator_UpdateTrades(string collectionId, List<FTrade> rTrades, List<FTrade> sTrades, System.Action<bool, string> callback)
+    private IEnumerator Enumerator_UpdateTrades(string collectionId, List<FTrade> rTrades, List<FTrade> sTrades, List<FTradeItem> tradeItemList, System.Action<bool, string> callback)
     {
         WriteBatch batch = db.StartBatch();
         CollectionReference colRef = db.Collection(collectionId);
@@ -613,6 +652,12 @@ public class FirestoreManager : SingletonComponent<FirestoreManager>
         foreach (FTrade trade in sTrades)
         {
             batch.Set(colRef.Document(trade.Id), trade);
+        }
+
+        CollectionReference tradeItemColRef = db.Collection("TradeItem");
+        foreach (FTradeItem item in tradeItemList)
+        {
+            batch.Delete(tradeItemColRef.Document(item.Id));
         }
 
         var task = batch.CommitAsync();
@@ -681,13 +726,14 @@ public class FirestoreManager : SingletonComponent<FirestoreManager>
 
         yield return new WaitUntil(() => task.IsCompleted);
 
+        List<T> objectList = new List<T>();
+
         if (task.Exception != null)
         {
-            callback(false, "GetData encountered an error:" + task.Exception, null);
+            callback(false, "GetData encountered an error:" + task.Exception, objectList);
         }
         else
         {
-            List<T> objectList = new List<T>();
             foreach (DocumentSnapshot documentSnapshot in task.Result.Documents)
             {
                 T data = documentSnapshot.ConvertTo<T>();
@@ -705,13 +751,14 @@ public class FirestoreManager : SingletonComponent<FirestoreManager>
 
         yield return new WaitUntil(() => task.IsCompleted);
 
+        List<T> objectList = new List<T>();
+
         if (task.Exception != null)
         {
-            callback(false, "GetData encountered an error:" + task.Exception, null);
+            callback(false, "GetData encountered an error:" + task.Exception, objectList);
         }
         else
         {
-            List<T> objectList = new List<T>();
             foreach (DocumentSnapshot documentSnapshot in task.Result.Documents)
             {
                 T data = documentSnapshot.ConvertTo<T>();
@@ -728,13 +775,14 @@ public class FirestoreManager : SingletonComponent<FirestoreManager>
 
         yield return new WaitUntil(() => task.IsCompleted);
 
+        List<T> objectList = new List<T>();
+
         if (task.Exception != null)
         {
-            callback(false, "GetData encountered an error:" + task.Exception, null);
+            callback(false, "GetData encountered an error:" + task.Exception, objectList);
         }
         else
         {
-            List<T> objectList = new List<T>();
             foreach (DocumentSnapshot documentSnapshot in task.Result.Documents)
             {
                 T data = documentSnapshot.ConvertTo<T>();
@@ -753,13 +801,14 @@ public class FirestoreManager : SingletonComponent<FirestoreManager>
 
         yield return new WaitUntil(() => task.IsCompleted);
 
+        List<T> objectList = new List<T>();
+
         if (task.Exception != null)
         {
-            callback(false, "GetData encountered an error:" + task.Exception, null);
+            callback(false, "GetData encountered an error:" + task.Exception, objectList);
         }
         else
         {
-            List<T> objectList = new List<T>();
             foreach (DocumentSnapshot documentSnapshot in task.Result.Documents)
             {
                 T data = documentSnapshot.ConvertTo<T>();
@@ -777,13 +826,14 @@ public class FirestoreManager : SingletonComponent<FirestoreManager>
         
         yield return new WaitUntil(() => task.IsCompleted);
 
+        List<FMessage> messageList = new List<FMessage>();
+
         if (task.Exception != null)
         {
-            callback(false, "GetData encountered an error:" + task.Exception, null);
+            callback(false, "GetData encountered an error:" + task.Exception, messageList);
         }
         else
         {
-            List<FMessage> messageList = new List<FMessage>();
             foreach (DocumentSnapshot documentSnapshot in task.Result.Documents)
             {
                 FMessage fMessage = documentSnapshot.ConvertTo<FMessage>();
@@ -802,13 +852,14 @@ public class FirestoreManager : SingletonComponent<FirestoreManager>
 
         yield return new WaitUntil(() => task.IsCompleted);
 
+        List<FMessage> messageList = new List<FMessage>();
+
         if (task.Exception != null)
         {
-            callback(false, "GetData encountered an error:" + task.Exception, null);
+            callback(false, "GetData encountered an error:" + task.Exception, messageList);
         }
         else
         {
-            List<FMessage> messageList = new List<FMessage>();
             foreach (DocumentSnapshot documentSnapshot in task.Result.Documents)
             {
                 FMessage fMessage = documentSnapshot.ConvertTo<FMessage>();
@@ -826,13 +877,14 @@ public class FirestoreManager : SingletonComponent<FirestoreManager>
 
         yield return new WaitUntil(() => task.IsCompleted);
 
+        List<FInvitation> invitationList = new List<FInvitation>();
+
         if (task.Exception != null)
         {
-            callback(false, "GetData encountered an error:" + task.Exception, null);
+            callback(false, "GetData encountered an error:" + task.Exception, invitationList);
         }
         else
         {
-            List<FInvitation> invitationList = new List<FInvitation>();
             foreach (DocumentSnapshot documentSnapshot in task.Result.Documents)
             {
                 FInvitation fInvitation = documentSnapshot.ConvertTo<FInvitation>();
@@ -849,13 +901,14 @@ public class FirestoreManager : SingletonComponent<FirestoreManager>
 
         yield return new WaitUntil(() => task.IsCompleted);
 
+        List<FInvitation> invitationList = new List<FInvitation>();
+
         if (task.Exception != null)
         {
-            callback(false, "GetData encountered an error:" + task.Exception, null);
+            callback(false, "GetData encountered an error:" + task.Exception, invitationList);
         }
         else
         {
-            List<FInvitation> invitationList = new List<FInvitation>();
             foreach (DocumentSnapshot documentSnapshot in task.Result.Documents)
             {
                 FInvitation fInvitation = documentSnapshot.ConvertTo<FInvitation>();
@@ -872,13 +925,14 @@ public class FirestoreManager : SingletonComponent<FirestoreManager>
 
         yield return new WaitUntil(() => task.IsCompleted);
 
+        List<FTradeInvitation> invitationList = new List<FTradeInvitation>();
+
         if (task.Exception != null)
         {
-            callback(false, "GetData encountered an error:" + task.Exception, null);
+            callback(false, "GetData encountered an error:" + task.Exception, invitationList);
         }
         else
         {
-            List<FTradeInvitation> invitationList = new List<FTradeInvitation>();
             foreach (DocumentSnapshot documentSnapshot in task.Result.Documents)
             {
                 FTradeInvitation fInvitation = documentSnapshot.ConvertTo<FTradeInvitation>();
@@ -888,26 +942,26 @@ public class FirestoreManager : SingletonComponent<FirestoreManager>
         }
     }
 
-    private IEnumerator Enumerator_GetTrades(string collectionId, string userId, string fieldName, System.Action<bool, string, List<FTrade>> callback)
+    private IEnumerator Enumerator_GetData<T>(string collectionId, string paramId, string paramValue, System.Action<bool, string, List<T>> callback)
     {
         CollectionReference colRef = db.Collection(collectionId);
-        var task = colRef.WhereEqualTo(fieldName, userId).GetSnapshotAsync();
-
+        var task = colRef.WhereEqualTo(paramId, paramValue).GetSnapshotAsync();
+        
         yield return new WaitUntil(() => task.IsCompleted);
 
+        List<T> list = new List<T>();
         if (task.Exception != null)
         {
-            callback(false, "GetData encountered an error:" + task.Exception, null);
+            callback(false, "GetData encountered an error:" + task.Exception, list);
         }
         else
         {
-            List<FTrade> tradeList = new List<FTrade>();
             foreach (DocumentSnapshot documentSnapshot in task.Result.Documents)
             {
-                FTrade trade = documentSnapshot.ConvertTo<FTrade>();
-                tradeList.Add(trade);
+                T trade = documentSnapshot.ConvertTo<T>();
+                list.Add(trade);
             }
-            callback(true, "", tradeList);
+            callback(true, "", list);
         }
     }
 
@@ -1032,13 +1086,14 @@ public class FirestoreManager : SingletonComponent<FirestoreManager>
 
         yield return new WaitUntil(() => task.IsCompleted);
 
+        List<T> objectList = new List<T>();
+
         if (task.Exception != null)
         {
-            callback(false, "GetData encountered an error:" + task.Exception, null);
+            callback(false, "GetData encountered an error:" + task.Exception, objectList);
         }
         else
         {
-            List<T> objectList = new List<T>();
             foreach (DocumentSnapshot documentSnapshot in task.Result.Documents)
             {
                 T data = documentSnapshot.ConvertTo<T>();

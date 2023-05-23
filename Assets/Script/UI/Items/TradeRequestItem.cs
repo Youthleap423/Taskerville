@@ -22,13 +22,13 @@ public class TradeRequestItem : MonoBehaviour
     private List<CResource> marketList = new List<CResource>();
     private List<LResource> resourceList = new List<LResource>();
     private EResources marketResource = EResources.Ale;
-    private ETradeRepeat repeat = ETradeRepeat.None;
+    private ETradeRepeat repeat = ETradeRepeat.Once;
     private Dictionary<string, ETradeRepeat> dic = new Dictionary<string, ETradeRepeat>();
     // Start is called before the first frame update
 
     private void Awake()
     {
-        dic.Add("Once", ETradeRepeat.None);
+        dic.Add("Once", ETradeRepeat.Once);
         dic.Add("Daily", ETradeRepeat.Daily);
         dic.Add("Every 2 Days", ETradeRepeat.Every2Days);
         dic.Add("Weekly", ETradeRepeat.Weekly);

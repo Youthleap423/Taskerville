@@ -52,7 +52,7 @@ public class LHabitEntry : LEntry
         Type = EntryType.Habit;
         repeatition = (int)Repeatition.Daily;
         repeatDays = new List<int>();
-        remindAlarm = "00:00 AM";
+        //remindAlarm = "00:00 AM";
         complete_unit = 0;
         completed_Week = new List<string>();
         skip_Dates = new List<string>();
@@ -182,18 +182,28 @@ public class LHabitEntry : LEntry
     {
         if (unit == true)
         {
+            progress = 0.0f;
             complete_unit++;
             span_startTime = "";
         }
         else
         {
+            
             //OnComplete(System.DateTime.Now);
         }
+        
         Update();
     }
 
     public override void OnComplete(System.DateTime dateTime)
     {
+        if (!isPositive)
+        {
+            RewardSystem.Instance.OnCompleteNegativeHabit();
+            base.OnComplete(dateTime);
+            return;
+        }
+
         if (this.isCompleted())
         {
             return;
@@ -201,11 +211,7 @@ public class LHabitEntry : LEntry
 
         base.OnComplete(dateTime);
         streak = Mathf.Clamp(streak + 1, 0, 5);
-        if (!isPositive)
-        {
-            RewardSystem.Instance.OnCompleteNegativeHabit();
-            return;
-        }
+        
 
         System.DateTime lastCompletedDate = Convert.FDateToDateTime(begin_date);
         int goldCount = 0;
@@ -265,7 +271,7 @@ public class LHabitEntry : LEntry
             }
 
 
-            for (int days = startDays; days < 36500; days++)
+            for (int days = startDays; days < 365; days++)
             {
                 date = System.DateTime.Now.AddDays(days);
                 if (isEnabled(date))
@@ -282,8 +288,8 @@ public class LHabitEntry : LEntry
 
     public void Update()
     {
-        DataManager.Instance.UpdateEntry(this);
         NotificationManager.Instance.ReScheduleLocalNotification(this);
+        DataManager.Instance.UpdateEntry(this);
     }
 
     public override bool isCompleted()
@@ -361,7 +367,7 @@ public class LHabitEntry : LEntry
 
     public override bool isEnabled(System.DateTime dateTime)
     {
-        if (isCompleted())
+        if (isCompleted(dateTime))
         {
             return false;
         }
@@ -379,7 +385,6 @@ public class LHabitEntry : LEntry
             //return dateTime.CompareTo(endDateTime) > 0;
             System.DateTime startDateTime = getStartDate(Convert.DateTimeToFDate(dateTime));
             startDateTime = startDateTime.AddDays(1);
-            //UIManager.LogError(System.DateTime.Now + " : " + startDateTime + " : " + System.DateTime.Now.CompareTo(startDateTime));
             return dateTime.CompareTo(startDateTime) > 0;
         }
         else

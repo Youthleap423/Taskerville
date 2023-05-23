@@ -22,8 +22,8 @@ public class LToDoEntry : LEntry
     public void Update(List<LSubTask> subTaskList)
     {
         this.subTaskList = subTaskList;
-        DataManager.Instance.UpdateEntry(this, subTaskList);
         NotificationManager.Instance.ReScheduleLocalNotification(this);
+        DataManager.Instance.UpdateEntry(this, subTaskList);
     }
 
     public override bool isCompleted()
@@ -66,7 +66,7 @@ public class LToDoEntry : LEntry
         {
             var dateStr = dueDate + "_" + remindAlarm;
             var date = Convert.DetailedStringToDateTime(dateStr);
-            if (isEnabled(date))
+            if (!isCompleted())
             {
                 return date;
             }

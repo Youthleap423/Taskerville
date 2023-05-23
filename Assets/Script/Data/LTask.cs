@@ -61,6 +61,11 @@ public class LTask : LData
         return Utilities.GetFormattedDate().Equals(completedDate);
     }
 
+    virtual public bool isCompleted(System.DateTime dateTime)
+    {
+        return Utilities.GetFormattedDate(dateTime).Equals(completedDate);
+    }
+
     virtual public bool isEnabled(System.DateTime dateTime)
     {
         if (Utilities.GetFormattedDate() == completedDate)

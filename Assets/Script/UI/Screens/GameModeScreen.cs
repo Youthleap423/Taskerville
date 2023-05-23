@@ -65,7 +65,7 @@ public class GameModeScreen : IScreen
     #region Private Members
     private void ChangeGameMode(Game_Mode mode)
     {
-        DataManager.Instance.UpdateSetting(mode);
+        AppManager.Instance.ChangeMode(mode);
         UpdateUI(mode);
     }
 

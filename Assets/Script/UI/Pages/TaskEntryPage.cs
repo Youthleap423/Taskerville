@@ -7,7 +7,6 @@ using TMPro;
 using SA.iOS.UIKit;
 using SA.Android.App;
 using FantomLib;
-using TMPro;
 
 public class TaskEntryPage : EntryPage
 {
@@ -214,7 +213,7 @@ public class TaskEntryPage : EntryPage
             }
             newTaskEntry.remindAlarm = alarmTimeTF.text;
             newTaskEntry.repeatition = repeatition_dropdown.value;
-            if (newTaskEntry.orderId == 0)
+            if (newTaskEntry.orderId < 0)
             {
                 newTaskEntry.orderId = Utilities.SystemTicks;
             }

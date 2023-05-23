@@ -28,12 +28,18 @@ public class FTrade : FTradeInvitation
         update_at = "";
     }
 
-    public void Sell()
+    public void Sell(string sellerId, string buyerId)
     {
         var startDate = update_at == "" ? Convert.FDateToDateTime(created_at) : Convert.FDateToDateTime(update_at).AddDays(1);
-        UIManager.LogError("FTrade Sell");
+        List<FTradeItem> itemList = new List<FTradeItem>();
+        var allResourceDic = new Dictionary<EResources, float>();
+        int nCount = 0;
         for (System.DateTime day = startDate.Date; day.Date <= System.DateTime.Now.Date; day = day.AddDays(1))
         {
+            if (repeat == ETradeRepeat.Once.ToString() && nCount > 0)
+            {
+                break;
+            }
             if (IsAvailable(day) == true)
             {
                 EResources eResource = (EResources)Enum.Parse(typeof(EResources), resource);
@@ -41,53 +47,31 @@ public class FTrade : FTradeInvitation
                 var currentResValue = ResourceViewController.Instance.GetCurrentResourceValue(eResource);
                 if (currentResValue >= cResource.market_amount)
                 {
-                    UIManager.LogError("FTrade Sell Done:" + cResource.sell_price_to_coalition);
                     var resourceDic = new Dictionary<EResources, float>();
                     resourceDic.Add(eResource, -cResource.market_amount);
-                    resourceDic.Add(EResources.Gold, cResource.sell_price_to_coalition);
-                    ResourceViewController.Instance.UpdateResource(resourceDic, (isSuccuess, errMsg) =>
-                    {
-                        if (isSuccuess)
-                        {
-                            UserViewController.Instance.GetCurrentUser().updateBuy(System.DateTime.Now, cResource.sell_price_to_coalition);
-                            update_at = Convert.DateTimeToFDate(day);
-                        }
-                    });
+                    allResourceDic.Add(eResource, cResource.market_amount);
+                    FTradeItem item = new FTradeItem(this, sellerId, buyerId, day);
+                    itemList.Add(item);
+                    ResourceViewController.Instance.UpdateResource(resourceDic);
+                    UserViewController.Instance.GetCurrentUser().updateSales(System.DateTime.Now, cResource.sell_price_to_coalition);
+                    nCount++;
                 }                
             }
         }
-        
-    }
 
-    public void Buy()
-    {
-        var startDate = reply_at == "" ? Convert.FDateToDateTime(created_at) : Convert.FDateToDateTime(reply_at).AddDays(1);
-        UIManager.LogError("FTrade Buy");
-        for (System.DateTime day = startDate.Date; day.Date <= System.DateTime.Now.Date; day = day.AddDays(1))
+        
+        DataManager.Instance.CreateTradeItem(itemList, (isSuccess, errMsg) =>
         {
-            if (IsAvailable(day) == true)
+            if (repeat == ETradeRepeat.Once.ToString())
             {
-                EResources eResource = (EResources)Enum.Parse(typeof(EResources), resource);
-                CResource cResource = ResourceViewController.Instance.GetCResource(eResource);
-                var currentResValue = ResourceViewController.Instance.GetCurrentResourceValue(EResources.Gold);
-                if (currentResValue >= cResource.buy_price_from_coalition)
-                {
-                    var resourceDic = new Dictionary<EResources, float>();
-                    UIManager.LogError("FTrade Buy Done:" + cResource.buy_price_from_coalition);
-                    resourceDic.Add(eResource, cResource.market_amount);
-                    resourceDic.Add(EResources.Gold, -cResource.buy_price_from_coalition);
-                    ResourceViewController.Instance.UpdateResource(resourceDic, (isSuccuess, errMsg) =>
-                    {
-                        if (isSuccuess)
-                        {
-                            UserViewController.Instance.GetCurrentUser().updateSales(System.DateTime.Now, -cResource.buy_price_from_coalition);
-                            RewardSystem.Instance.GivesTradeReward(eResource);
-                            reply_at = Convert.DateTimeToFDate(day);
-                        }
-                    });
-                }
+                DataManager.Instance.RemoveData(this, null);
             }
-        }
+            if (!isSuccess)
+            {
+                ResourceViewController.Instance.UpdateResource(allResourceDic);
+            }
+        });
+        
     }
 
     public bool IsAvailable(System.DateTime dateTime)
@@ -96,7 +80,7 @@ public class FTrade : FTradeInvitation
         int repeatDays = (int)((ETradeRepeat)Enum.Parse(typeof(ETradeRepeat), repeat));
         if (repeatDays == 0)
         {
-            return false;
+            return update_at == "";
         }
 
         for (System.DateTime day = begin_date_DT.Date; day.Date <= dateTime.Date; day = day.AddDays(repeatDays))

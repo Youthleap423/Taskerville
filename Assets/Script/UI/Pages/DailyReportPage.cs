@@ -9,7 +9,6 @@ public class DailyReportPage : PopUpDlg
     [SerializeField] private Transform reportListGroup;
     [SerializeField] private bool bInSetting = false;
 
-    private List<string> reportStrList = new List<string>();
     #region Unity Members
     // Start is called before the first frame update
     void Start()
@@ -28,24 +27,26 @@ public class DailyReportPage : PopUpDlg
     public override void Show()
     {
         base.Show();
+        DeleteReportList();
 
         var user = UserViewController.Instance.GetCurrentUser();
 
         if (user.created_at == Convert.DateTimeToFDate(System.DateTime.Now))
         {
-            Debug.LogError(user.created_at);
             return;
         }
 
-
-        reportStrList = DataManager.Instance.GetDailyReport();
-
-        CreateReportList();
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.GetDailyReport(strList =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            CreateReportList(strList);
+        });
+        
     }
 
-    private void CreateReportList()
+    private void CreateReportList(List<string> reportStrList)
     {
-        DeleteReportList();
         for (int index = 0; index < reportStrList.Count; index++)
         {
             GameObject subItemObj = GameObject.Instantiate(reportItemPrefab, reportListGroup);

@@ -219,7 +219,7 @@ public class GBuilding : MonoBehaviour
             else
             {
                 var value = sWorkerIDs.Count + (sWorkerIDs.Count + 1) * Category.require_villagers.Count - workers.Count;
-                result.Add(Category.special_villagers[0]);
+                result.Add(Category.special_villagers[sWorkerIDs.Count]);
                 for (int i = 0; i < value; i++)
                 {
                     result.Add(Category.require_villagers[0]);

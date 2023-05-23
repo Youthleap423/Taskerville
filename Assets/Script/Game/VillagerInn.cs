@@ -44,7 +44,7 @@ public class VillagerInn : MonoBehaviour
             }
             var cVillager = ResourceViewController.Instance.GetCVillager(villager.id);
             var createDate = Convert.FDateToDateTime(villager.created_at);
-            var days = Utilities.GetDays(createDate, System.DateTime.Now);
+            var days = (int)Utilities.GetDays(createDate);
             if (days > cVillager.stay_dates)
             {
                 //leave

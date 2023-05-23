@@ -209,7 +209,10 @@ public class ProjectEntryPage : EntryPage
             newProjectEntry.beginDate = beginDateTF.text;
             newProjectEntry.endDate = endDateTF.text;
             newProjectEntry.goldCount = 50;
-            newProjectEntry.orderId = Utilities.SystemTicks;
+            if (newProjectEntry.orderId < 0)
+            {
+                newProjectEntry.orderId = Utilities.SystemTicks;
+            }
             newProjectEntry.remindAlarm = alarmTimeTF.text;
 
             this.subFTasks = taskDic.Values.ToList();

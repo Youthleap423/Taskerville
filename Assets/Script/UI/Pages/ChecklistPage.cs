@@ -22,12 +22,19 @@ public class ChecklistPage : Page
     private void OnEnable()
     {
         slotComponent.OnDragDropFinished += Rearrange;
+        TaskManager.OnDeviceOrientationChanged += onDeviceOrientationChanged;
         Initialize();
     }
 
     private void OnDisable()
     {
         slotComponent.OnDragDropFinished -= Rearrange;
+        TaskManager.OnDeviceOrientationChanged -= onDeviceOrientationChanged;
+    }
+
+    private void onDeviceOrientationChanged(ScreenOrientation orientation)
+    {
+        Initialize();
     }
     #endregion
 
@@ -35,6 +42,8 @@ public class ChecklistPage : Page
     public override void Initialize()
     {
         base.Initialize();
+
+        //PlayerPrefs.SetString("NotifyPage", "");
 
         infoGlowEffectObj.SetActive(UserViewController.Instance.GetCurrentUser().GetPlayerAgesAsDays() < 7);
 

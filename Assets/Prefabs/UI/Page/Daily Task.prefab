@@ -87,9 +87,10 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: 34c6bd71f58de4f63bb239572d274284, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: 34c6bd71f58de4f63bb239572d274284, type: 2}
   m_WrapMode: 0
-  m_PlayAutomatically: 1
+  m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
 --- !u!95 &2790446324617125026
@@ -102,7 +103,7 @@ Animator:
   m_GameObject: {fileID: 2011130864915054689}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 839166a9dae364184b5f0153adc1fd64, type: 2}
+  m_Controller: {fileID: 9100000, guid: aa772de261aa640758b77ddab96e9bb1, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -637,6 +638,7 @@ MonoBehaviour:
     type: 3}
   taskListGroup: {fileID: 4502347728829109561}
   newButton: {fileID: 4502347728176805421}
+  infoGlowEffectObj: {fileID: 2011130864915054689}
   slotComponent: {fileID: 4502347728829109562}
 --- !u!1 &8889857823160097056
 GameObject:

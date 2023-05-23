@@ -358,11 +358,16 @@ public class BuildManager : SingletonComponent<BuildManager>
 
     public void ExcavateArchealogicalDig(int index)
     {
-        foreach(GameObject obj in archealogicalDigs)
+        HideAllArchealogicalDig();
+        archealogicalDigs[index].SetActive(true);
+    }
+
+    public void HideAllArchealogicalDig()
+    {
+        foreach (GameObject obj in archealogicalDigs)
         {
             obj.SetActive(false);
         }
-        archealogicalDigs[index].SetActive(true);
     }
 
     public void ShowDigOnMap(int index)
@@ -425,6 +430,7 @@ public class BuildManager : SingletonComponent<BuildManager>
             {
                 if (isSuccess)
                 {
+                    gBuilding.Lbuilding.CheckProduce();
                     ArtworkSystem.Instance.CheckBuildingMilestone(gBuilding.GetBuildingObjectID, newVillagerList);
                     var logMsg = "";
                     foreach(LVillager villager in newVillagerList)
@@ -454,7 +460,10 @@ public class BuildManager : SingletonComponent<BuildManager>
                     }
                     if (logMsg != "")
                     {
-                        UIManager.Instance.ShowErrorDlg(logMsg);
+                        if (AppManager.Instance.GetCurrentMode() != Game_Mode.Task_Only)
+                        {
+                            UIManager.Instance.ShowErrorDlg(logMsg);
+                        }
                     }
                     gBuilding.CheckBuilders();
                 }
@@ -568,6 +577,30 @@ public class BuildManager : SingletonComponent<BuildManager>
         }
     }
 
+    /// <summary>
+    /// Check enough resources to constrcut a building
+    /// </summary>
+    /// <param name="category"> building category </param> 
+    /// <param name="isNormal"> true- normal build, false - ruby or diamond build </param>
+    /// <returns></returns>
+    public bool IsEnoughResource(BuildingsCategory category, bool isNormal)
+    {
+        var resDic = new Dictionary<EResources, float>();
+        if (isNormal)
+        {
+            resDic.Add(EResources.Gold, -category.GoldAmount);
+            resDic.Add(EResources.Lumber, -category.LumberAmount);
+            resDic.Add(EResources.Stone, -category.StoneAmount);
+            resDic.Add(EResources.Iron, -category.IronAmount);
+        }
+        else
+        {
+            resDic.Add(category.QResType, -category.QResAmount);
+        }
+
+        return ResourceViewController.Instance.CheckResource(resDic);
+    }
+
     public void RemoveBuildings()
     {
         foreach(GBuilding building in allBuildings)
@@ -618,6 +651,7 @@ public class BuildManager : SingletonComponent<BuildManager>
         }
         else
         {
+
             var resDic = new Dictionary<EResources, float>();
             resDic.Add(EResources.Gold, -category.GoldAmount);
             resDic.Add(EResources.Lumber, -category.LumberAmount);

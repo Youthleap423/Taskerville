@@ -295,7 +295,14 @@ public class ConstructionPage : Page
             }
             else
             {
-                PlaceOnMap();
+                if (BuildManager.Instance.IsEnoughResource(selectedCategory, true) == false)
+                {
+                    ShowImmediateDlg();
+                }
+                else
+                {
+                    PlaceOnMap();
+                }
             }
         }
     }

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement;
+using EasyMobile;
+
 public class UIManager : SingletonComponent<UIManager>
 {
     [SerializeField] private GameObject profilePage;
@@ -17,6 +18,9 @@ public class UIManager : SingletonComponent<UIManager>
     [Header("ErrorDlg")]
     [SerializeField] private GameObject errMsgObj;
     [SerializeField] private GameObject errMsgObjOnGame;
+
+    [Header("Notification")]
+    [SerializeField] private GameObject NotificationWidnowObj;
 
     [Header("Message")]
     [SerializeField] private GameObject messageObj;
@@ -148,7 +152,6 @@ public class UIManager : SingletonComponent<UIManager>
 
     public void ShowExcavationDlg()
     {
-        Debug.LogError("Popup>>>");
         PopUpManager.Instance.Add(EPopUpDlg.NewArtifact);
     }
 
@@ -183,6 +186,20 @@ public class UIManager : SingletonComponent<UIManager>
         }
         Invoke("HideErrorDlg", 3.0f);
         //Debug.LogError(errMsg);
+    }
+
+    public void ShowNotification(NotificationContent content)
+    {
+        try
+        {
+            var window = NotificationWidnowObj.GetComponent<NotificationWindow>();
+            window.SetData(content.title, content.subtitle, content.body);
+            window.ShowNotification();
+        }
+        catch
+        {
+
+        }
     }
 
     public static void LogError(object obj)

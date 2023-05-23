@@ -26,10 +26,10 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
     {
         CheckProduction();
         CheckHappinessReward();
+        Assistance();
         PaySalary();
         PayMaintenance();
         PayMeal();
-        Assistance();
     }
 
     public void CheckProduction()
@@ -102,7 +102,7 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
                 if (currentUser.dates.ContainsKey(EDates.Happy7075.ToString()))
                 {
                     System.DateTime dateTime = Convert.FDateToDateTime(currentUser.dates[EDates.Happy7075.ToString()]);
-                    double days = (System.DateTime.Now - dateTime).TotalDays;
+                    double days = Utilities.GetDays(dateTime);
                     if (days >= 7)
                     {
                         result = 75.0f;
@@ -113,7 +113,7 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
                 if (currentUser.dates.ContainsKey(EDates.Happy7580.ToString()))
                 {
                     System.DateTime dateTime = Convert.FDateToDateTime(currentUser.dates[EDates.Happy7580.ToString()]);
-                    double days = (System.DateTime.Now - dateTime).TotalDays;
+                    double days = Utilities.GetDays(dateTime);
                     if (days >= 7)
                     {
                         result = 150.0f;
@@ -124,7 +124,7 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
                 if (currentUser.dates.ContainsKey(EDates.Happy8085.ToString()))
                 {
                     System.DateTime dateTime = Convert.FDateToDateTime(currentUser.dates[EDates.Happy8085.ToString()]);
-                    double days = (System.DateTime.Now - dateTime).TotalDays;
+                    double days = Utilities.GetDays(dateTime);
                     if (days >= 7)
                     {
                         result = 175.0f;
@@ -135,7 +135,7 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
                 if (currentUser.dates.ContainsKey(EDates.Happy8590.ToString()))
                 {
                     System.DateTime dateTime = Convert.FDateToDateTime(currentUser.dates[EDates.Happy8590.ToString()]);
-                    double days = (System.DateTime.Now - dateTime).TotalDays;
+                    double days = Utilities.GetDays(dateTime);
                     if (days >= 7)
                     {
                         result = 200.0f;
@@ -146,7 +146,7 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
                 if (currentUser.dates.ContainsKey(EDates.Happy9095.ToString()))
                 {
                     System.DateTime dateTime = Convert.FDateToDateTime(currentUser.dates[EDates.Happy9095.ToString()]);
-                    double days = (System.DateTime.Now - dateTime).TotalDays;
+                    double days = Utilities.GetDays(dateTime);
                     if (days >= 7)
                     {
                         result = 225.0f;
@@ -157,7 +157,7 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
                 if (currentUser.dates.ContainsKey(EDates.Happy95Above.ToString()))
                 {
                     System.DateTime dateTime = Convert.FDateToDateTime(currentUser.dates[EDates.Happy95Above.ToString()]);
-                    double days = (System.DateTime.Now - dateTime).TotalDays;
+                    double days = Utilities.GetDays(dateTime);
                     if (days >= 7)
                     {
                         result = 250.0f;
@@ -650,8 +650,11 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
         {
             AITaskManager.Instance.CheckOnStartWithVillager(villager);
         }
-        
-        CharacterManager.Instance.CheckVillagers();
+
+        if (CharacterManager.Instance != null)
+        {
+            CharacterManager.Instance.CheckVillagers();
+        }
     }
 
     public void GenerateSpouseAndChild()
@@ -771,7 +774,7 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
         {
             if (PlayerPrefs.GetString("DailyDropHappiness") != Convert.DateTimeToFDate(System.DateTime.Now))
             {
-                UpdateResource(EResources.Happiness.ToString(), -3f, (isSuccess, errMsg) =>
+                UpdateResource(EResources.Happiness.ToString(), -8f, (isSuccess, errMsg) =>
                 {
                     UIManager.Instance.ShowErrorDlg("Not Enough Gold To Pay Maintenance");
                     PlayerPrefs.SetString("DailyDropHappiness", Convert.DateTimeToFDate(System.DateTime.Now));
@@ -844,9 +847,9 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
         {
             if (PlayerPrefs.GetString("DailyDropHappiness") != Convert.DateTimeToFDate(System.DateTime.Now))
             {
-                UpdateResource(EResources.Happiness.ToString(), -3f, (isSuccess, errMsg) =>
+                UpdateResource(EResources.Happiness.ToString(), -8f, (isSuccess, errMsg) =>
                 {
-                    UIManager.Instance.ShowErrorDlg("Not Enough Gold To Pay Maintenance");
+                    UIManager.Instance.ShowErrorDlg("Not Enough Food");
                     PlayerPrefs.SetString("DailyDropHappiness", Convert.DateTimeToFDate(System.DateTime.Now));
                 });
             }
@@ -985,7 +988,7 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
         return result;
     }
 
-    public void UpdateResource(Dictionary<EResources, float> resourceDic, System.Action<bool, string> callback)
+    public void UpdateResource(Dictionary<EResources, float> resourceDic, System.Action<bool, string> callback = null)
     {
         Dictionary<string, float> resourceStrDic = new Dictionary<string, float>();
 
@@ -993,7 +996,6 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
         {
             resourceStrDic.Add(key.ToString(), resourceDic[key]);
         }
-
 
         UpdateResource(resourceStrDic, callback);
     }
@@ -1014,7 +1016,10 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
             }
             ArtworkSystem.Instance.CheckHappinessMilestone(GetResourceValue(EResources.Happiness));
             UIManager.Instance.UpdateTopProfile();
-            callback(isSuccess, errMsg);
+            if (callback != null)
+            {
+                callback(isSuccess, errMsg);
+            }
         });
     }
 

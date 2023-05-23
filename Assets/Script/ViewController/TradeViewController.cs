@@ -22,15 +22,12 @@ public class TradeViewController : SingletonComponent<TradeViewController>
         LoadReceiveTrades((isSuccess, errMsg, tradeList) =>
         {
             this.currentReceiveTrades = tradeList;
-            foreach(FTrade trade in tradeList)
+            foreach(FTrade trade in this.currentReceiveTrades)
             {
-                if (trade.type == ETradeInviteType.Offer.ToString())
+                if (trade.type != ETradeInviteType.Offer.ToString())
                 {
-                    trade.Buy();
-                }
-                else
-                {
-                    trade.Sell();
+                    trade.Sell(trade.receiver_Id, trade.Pid);
+                    trade.update_at = Convert.DateTimeToFDate(System.DateTime.Now);
                 }
                 
             }
@@ -38,23 +35,32 @@ public class TradeViewController : SingletonComponent<TradeViewController>
             LoadSentTrades((isSuccess, errMsg, tradeList) =>
             {
                 this.currentSentTrades = tradeList;
-                foreach (FTrade trade in tradeList)
+                foreach (FTrade trade in this.currentSentTrades)
                 {
                     if (trade.type == ETradeInviteType.Offer.ToString())
                     {
-                        trade.Sell();
-                    }
-                    else
-                    {
-                        trade.Buy();
+                        trade.Sell(trade.Pid, trade.receiver_Id);
+                        trade.update_at = Convert.DateTimeToFDate(System.DateTime.Now);
                     }
                 }
-                DataManager.Instance.UpdateTrades(currentReceiveTrades, currentSentTrades, (isSuccess, errMsg) =>
+
+                DataManager.Instance.GetReceiveTradeItems(UserViewController.Instance.GetCurrentUser().id, (isSuccess, errMsg, list) =>
                 {
                     if (isSuccess)
                     {
-                        PlayerPrefs.SetString("TradeUpdate", Convert.DateTimeToFDate(System.DateTime.Now));
+                        foreach(FTradeItem item in list)
+                        {
+                            item.Buy();
+                        }
                     }
+
+                    DataManager.Instance.UpdateTrades(currentReceiveTrades, currentSentTrades, list, (isSuccess, errMsg) =>
+                    {
+                        if (isSuccess)
+                        {
+                            PlayerPrefs.SetString("TradeUpdate", Convert.DateTimeToFDate(System.DateTime.Now));
+                        }
+                    });
                 });
             });
 
@@ -63,28 +69,14 @@ public class TradeViewController : SingletonComponent<TradeViewController>
 
     public void LoadSentTrades(System.Action<bool, string, List<FTrade>> callback)
     {
-        if (currentSentTrades.Count == 0)
-        {
-            LUser me = UserViewController.Instance.GetCurrentUser();
-            DataManager.Instance.GetSentTrades(me.id, callback);
-        }
-        else
-        {
-            callback(true, "", currentSentTrades);
-        }
+        LUser me = UserViewController.Instance.GetCurrentUser();
+        DataManager.Instance.GetSentTrades(me.id, callback);
     }
 
     public void LoadReceiveTrades(System.Action<bool, string, List<FTrade>> callback)
     {
-        if (currentReceiveTrades.Count == 0)
-        {
-            LUser me = UserViewController.Instance.GetCurrentUser();
-            DataManager.Instance.GetReceiveTrades(me.id, callback);
-        }
-        else
-        {
-            callback(true, "", currentReceiveTrades);
-        }
+        LUser me = UserViewController.Instance.GetCurrentUser();
+        DataManager.Instance.GetReceiveTrades(me.id, callback);
     }
 
     public void CancelTrade(FTrade trade, System.Action<bool, string> callback)

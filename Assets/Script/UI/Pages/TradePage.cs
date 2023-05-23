@@ -74,6 +74,7 @@ public class TradePage : Page
                 FilterTrade(myTradeList);
                 if (!isSuccess)
                 {
+                    Debug.LogError("Sent");
                     UIManager.Instance.ShowErrorDlg(errMsg);
                 }
             });
@@ -81,6 +82,7 @@ public class TradePage : Page
             if (!isSuccess)
             {
                 UIManager.Instance.ShowLoadingBar(false);
+                Debug.LogError("Receive");
                 UIManager.Instance.ShowErrorDlg(errMsg);
             }
         });

@@ -19,7 +19,7 @@ public class AppManager : MonoBehaviour
     private static AppManager _instance = null;
     private string prevSceneStr = "";
 
-    public event Action<string> OnNotificationOpened = delegate { }; 
+    public event Action<string> OnNotificationOpened = delegate { };
     public static AppManager Instance
     {
         get
@@ -64,6 +64,7 @@ public class AppManager : MonoBehaviour
 
     private void Notifications_LocalNotificationOpened(EasyMobile.LocalNotification notify)
     {
+
         string notifPageId = "";
         if (notify.content.userInfo.TryGetValue("type", out object typeObj))
         {
@@ -74,14 +75,22 @@ public class AppManager : MonoBehaviour
 
         if (notifPageId != "")
         {
-            PlayerPrefs.SetString("NotifyPage", notifPageId);
-            if (SceneManager.GetActiveScene().name != "TaskScene")
+            if (notify.isAppInForeground)
             {
-                LoadTaskScene();
+                UIManager.Instance.ShowNotification(notify.content);
+                PlayerPrefs.SetString("NotifyPage", string.Empty);
             }
             else
             {
-                OnNotificationOpened(notifPageId);
+                PlayerPrefs.SetString("NotifyPage", notifPageId);
+                if (SceneManager.GetActiveScene().name != "TaskScene")
+                {
+                    LoadTaskScene();
+                }
+                else
+                {
+                    OnNotificationOpened(notifPageId);
+                }
             }
         }
     }
@@ -101,8 +110,19 @@ public class AppManager : MonoBehaviour
         PlayerPrefs.DeleteAll();
     }
 
+    [ContextMenu("Test")]
+    public void Test()
+    {
+        var notif = new NotificationContent();
+        notif.title = "Taskerville";
+        notif.subtitle = "Notification";
+        notif.body = "dsafdasfd";
+        UIManager.Instance.ShowNotification(notif);
+    }
+
     public void ChangeMode(Game_Mode game_mode)
     {
+        NotificationManager.Instance.CancelAllPendingLocalNotifications();
         UserViewController.Instance.UpdateSetting(game_mode);
         StartCoroutine(RestartGame());
     }
@@ -219,7 +239,6 @@ public class AppManager : MonoBehaviour
 
     public void LoadScene(string sceneName)
     {
-        Debug.LogError("LoadScene>>>>>>>>>>>" + sceneName);
         Resources.UnloadUnusedAssets();
         SceneManager.LoadSceneAsync(sceneName);
         

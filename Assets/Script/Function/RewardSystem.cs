@@ -407,7 +407,7 @@ public class RewardSystem : SingletonComponent<RewardSystem>
         if (ResourceViewController.Instance.GetCurrentResourceValue(EResources.Happiness) < 50.0f)
         {
             AudioManager.Instance.PlayFXSound(AudioManager.Instance.angryClip);
-            UIManager.Instance.ShowAdministratorPrompt("Your villagers are quite unhappy, Mayor. A group of them have gathered in the village square and are burning you in effigy. You may throw a festival in the villages square for $50 gold to raise moral and happiness (happiness will increase 10%)", (result) =>
+            UIManager.Instance.ShowAdministratorPrompt("Your villagers are quite unhappy, Mayor. A group of them have gathered in the village square and are burning you in effigy. You may throw a festival in the village square for $50 gold to raise morale and happiness (happiness will increase 10%)", (result) =>
             {
                 if (result == true)
                 {

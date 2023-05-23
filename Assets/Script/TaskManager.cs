@@ -7,14 +7,32 @@ public class TaskManager : SingletonComponent<TaskManager>
 {
     // Start is called before the first frame update
     private bool isupdating = false;
+    private ScreenOrientation orientation = ScreenOrientation.Portrait;
+
+    public static System.Action<ScreenOrientation> OnDeviceOrientationChanged;
+    protected override void Awake()
+    {
+        base.Awake();
+        UnityEngine.Screen.orientation = ScreenOrientation.Portrait;
+    }
+
     void Start()
     {
-        UnityEngine.Screen.orientation = ScreenOrientation.Portrait;
+        
         AppManager.Instance.singedIn = true;
         UIManager.Instance.UpdateTopProfile();
         CheckAllDailyUpdate();
         AppManager.Instance.HandleAIPlayer();
         AudioManager.Instance.FadeOut();
+    }
+
+    private void Update()
+    {
+        if (Screen.orientation != orientation)
+        {
+            orientation = Screen.orientation;
+            OnDeviceOrientationChanged(orientation);
+        }
     }
 
     public void CheckAllDailyUpdate()
@@ -29,9 +47,9 @@ public class TaskManager : SingletonComponent<TaskManager>
         DataManager.Instance.SerializeUser(false, (isSuccess, err) =>
         {
             UIManager.Instance.ShowLoadingBar(false);
-            TaskViewController.Instance.CheckDaily();
             ResourceViewController.Instance.CheckDailyMission();
             TradeViewController.Instance.CheckTrades();
+            TaskViewController.Instance.CheckDaily();
             //ArtifactSystem.Instance.CheckArtifacts();
             ArtworkSystem.Instance.CheckArtwork();
             isupdating = false;

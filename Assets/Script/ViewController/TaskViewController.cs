@@ -551,7 +551,7 @@ public class TaskViewController : SingletonComponent<TaskViewController>
 
         var currentUser = UserViewController.Instance.GetCurrentUser();
         var lastCheckedDate = Convert.FDateToDateTime(currentUser.GetDate(EDates.WeeklyTaskHabit));
-        if ((System.DateTime.Now - lastCheckedDate).TotalDays >= 7)
+        if (Utilities.GetDays(lastCheckedDate) >= 7)
         {
             UserViewController.Instance.GetCurrentUser().updateWeeklyTaskDate(System.DateTime.Now);
             ArtworkSystem.Instance.Pick(EArtworkReason.WeeklyTaskComplete);

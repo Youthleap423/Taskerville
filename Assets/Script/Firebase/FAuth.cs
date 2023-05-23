@@ -113,6 +113,7 @@ public class FAuth : SingletonComponent<FAuth>
     private IEnumerator SignInWithEmailAndPasswordAsync(string email, string password, System.Action<bool, string, string> callback)
     {
         var signInTask = auth.SignInWithEmailAndPasswordAsync(email, password);
+        Debug.LogError(email);
         yield return new WaitUntil(() => signInTask.IsCompleted);
 
         if (signInTask.Exception != null)
@@ -146,7 +147,39 @@ public class FAuth : SingletonComponent<FAuth>
     private string GetErrorMessage(FirebaseException exception)
     {
         AuthError errorCode = (AuthError)exception.ErrorCode;
-        return GetErrorMessage(errorCode);
+        var result = "";
+        switch (errorCode)
+        {
+            case AuthError.MissingPassword:
+                result = "Missing password.";
+                break;
+            case AuthError.WeakPassword:
+                result = "Too weak of a password.";
+                break;
+            case AuthError.InvalidEmail:
+                result = "Invalid email.";
+                break;
+            case AuthError.MissingEmail:
+                result = "Missing email.";
+                break;
+            case AuthError.UserNotFound:
+                result = "Account not found.";
+                break;
+            case AuthError.EmailAlreadyInUse:
+                result = "Email already in use.";
+                break;
+            case AuthError.TooManyRequests:
+                result = "Too many request. Please try again later";
+                break;
+            case AuthError.WrongPassword:
+                result = "Password is incorrect.";
+                break;
+            default:
+                result = exception.Message;
+                break;
+        }
+
+        return result;
     }
 
     private string GetErrorMessage(AuthError errorCode)
@@ -171,6 +204,12 @@ public class FAuth : SingletonComponent<FAuth>
                 break;
             case AuthError.EmailAlreadyInUse:
                 result = "Email already in use.";
+                break;
+            case AuthError.TooManyRequests:
+                result = "Too many request. Please try again later";
+                break;
+            case AuthError.WrongPassword:
+                result = "Wrong password.";
                 break;
             default:
                 result = "Unknown error occurred.";

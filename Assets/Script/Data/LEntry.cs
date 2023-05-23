@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LEntry : LTask
 {
-    public long orderId = 0;
+    public long orderId = -1;
     public int repeat_alarm = 0;
     public string remindAlarm = "";
     private EntryType type = EntryType.NULL;

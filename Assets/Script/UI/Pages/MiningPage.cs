@@ -76,7 +76,6 @@ public class MiningPage : Page
         foreach (LProduct product in provisions_ProductList)
         {
             GameObject clonedObj = Instantiate(productItemPrefab, provisionGroupTransform);
-            Debug.LogError(product.type);
             clonedObj.GetComponent<ProductionItem>().SetProduct(product);
         }
     }

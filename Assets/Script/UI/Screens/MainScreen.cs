@@ -34,7 +34,7 @@ public class MainScreen : IScreen
             ToggleValueChanged(gear_Toggle);
         });
         Load();
-
+        OnNotificationOpend();
         AppManager.Instance.OnNotificationOpened += Instance_OnNotificationOpened;
     }
 
