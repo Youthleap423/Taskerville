@@ -1227,7 +1227,7 @@ MonoBehaviour:
     IronAmount: 20
     TimeToBuild: 300
     QTimeToBuild: 1
-    culturePoint: 0
+    culturePoint: 3
     QResType: 44
     QResAmount: 2
     IdOfStoreIcon: temple

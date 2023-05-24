@@ -24,7 +24,6 @@ public class GameManager : SingletonComponent<GameManager>
         loadingCG.interactable = false;
 
         rotateInfoCG.alpha = 1;
-        StartCoroutine(FadeOut(rotateInfoCG, 0.5f, 3f));
         BuildManager.Instance.LoadBuildings();
         //AppManager.Instance.singedIn = true;
         //UIManager.Instance.UpdateTopProfile();
@@ -79,6 +78,7 @@ public class GameManager : SingletonComponent<GameManager>
     public void BuildingsLoaded()
     {
         StartCoroutine(FadeOut(1.5f));
+
     }
 
     public void CompletedExcavate()
@@ -99,6 +99,7 @@ public class GameManager : SingletonComponent<GameManager>
         loadingCG.interactable = false;
         AudioManager.Instance.PlayBackgroundSound(AudioManager.Instance.villagerClip);
         AudioManager.Instance.PlayFXSound(AudioManager.Instance.bellClip, false);
+        StartCoroutine(FadeOut(rotateInfoCG, 1.5f, 3f));
     }
 
     public void LoadTaskScene()
