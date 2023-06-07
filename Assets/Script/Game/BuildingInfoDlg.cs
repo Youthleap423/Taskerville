@@ -51,7 +51,15 @@ public class BuildingInfoDlg : MonoBehaviour
 
         if (gBuilding.Category != null)
         {
-            titleTF.text = gBuilding.Category.GetName();
+            if (gBuilding.GetBuildingObjectID == "100") // Temple
+            {
+                titleTF.text = DataManager.Instance.GetTempleBuildingName();
+            }
+            else
+            {
+                titleTF.text = gBuilding.Category.GetName();
+            }
+            
         }
 
         tHireVillager = gBuilding.NeedToHireSpecialist();

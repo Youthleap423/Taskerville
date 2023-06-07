@@ -232,6 +232,25 @@ public class ArtifactSystem : SingletonComponent<ArtifactSystem>
         return result;
     }
 
+    public int GetRemainDaysUntilAvailable()
+    {
+        var allArtifacts = GetAllArtifacts();
+        try
+        {
+            var lastArtifact = allArtifacts.OrderBy(item => item.created_at).Last();
+
+            var today = System.DateTime.Now.Date;
+            var lastDate = Convert.DetailedStringToDateTime(lastArtifact.created_at);
+            var days = (today - lastDate).Days;
+
+            return Mathf.Max(0, 7 - days);
+        }
+        catch
+        {
+            return -1;
+        }
+    }
+
     public EActionState IsReadyForNewArtifact(bool auto = false)
     {
         if (GetCurrentArtifact() != null)

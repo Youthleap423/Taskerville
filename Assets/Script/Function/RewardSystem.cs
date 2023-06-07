@@ -129,11 +129,13 @@ public class RewardSystem : SingletonComponent<RewardSystem>
 
     public void OnComplete(LToDoEntry entry)
     {
-        //Dictionary<EResources, float> dic = new Dictionary<EResources, float>();
-        //dic.Add(EResources.Gold, entry.goldCount);
-        //dic.Add(EResources.Happiness, 0.1f);
+        //2023/05/23 by pooh//
         GivesReward(EResources.Gold, entry.goldCount);
-        GivesReward(EResources.Happiness, 0.25f);
+        if (entry.isCompletedInTime())
+        {
+            GivesReward(EResources.Happiness, 0.25f);
+        }
+        /////////////////////
     }
 
     public void OnComplete(LAutoGoal entry)
@@ -246,7 +248,7 @@ public class RewardSystem : SingletonComponent<RewardSystem>
     public void OnCompleteWith(EResources type, float goldAmount)
     {
         //+2 for the negative habits
-        GivesReward(type, goldAmount + 2f);
+        GivesReward(type, goldAmount + 5f);//changed 2023/05/23 by pooh
     }
 
     public void GivesTradeReward(EResources res)

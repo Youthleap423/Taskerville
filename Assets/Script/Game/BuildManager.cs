@@ -234,6 +234,19 @@ public class BuildManager : SingletonComponent<BuildManager>
         return gBuilding.Lbuilding.progress > 0.99f;
     }
 
+    public bool hasExistBuildingToConstruct(int buildingID)
+    {
+        List<GameObject> result = new List<GameObject>();
+        foreach (GBuilding gBuilding in allBuildings)
+        {
+            if (gBuilding.GetBuildingID() == buildingID && gBuilding.GetProgress() == 0.0f)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void CheckHouseForVillagers(GBuilding gBuilding)
     {
         var id = gBuilding.Lbuilding.id;
@@ -395,7 +408,7 @@ public class BuildManager : SingletonComponent<BuildManager>
 
     public string GetTemplePrefabName()
     {
-        return DataManager.Instance.GetTemplePrefabName();
+        return  DataManager.Instance.GetTemplePrefabName();
     }
 
     public bool AnyFreeBuilder()

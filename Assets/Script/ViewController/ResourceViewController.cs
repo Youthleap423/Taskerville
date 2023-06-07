@@ -27,9 +27,18 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
         CheckProduction();
         CheckHappinessReward();
         Assistance();
+        PayMeal();
+
+        float currentGold = GetCurrentResourceValue(EResources.Gold);
+        float dailyGold = GetDailyMaintenance() + GetDailySalary();
+        if (currentGold > dailyGold && currentGold < dailyGold * 2)
+        {
+            DataManager.Instance.AddDailyReport("Mayor, funds are dangerously low.");
+        }
+        
         PaySalary();
         PayMaintenance();
-        PayMeal();
+
     }
 
     public void CheckProduction()
@@ -171,6 +180,26 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
         return result;
     }
 
+    /// <summary>
+    /// Get Meal Production per day each village
+    /// 2023_05_29 by pooh
+    /// </summary>
+    /// <returns></returns>
+    public float GetMealProduction(LUser user = null)
+    {
+        var result = 0f;
+        var allProducts = GetAllProducts(user);
+        foreach (LProduct product in allProducts)
+        {
+            var type = GetCResource(product.type);
+            if (type != null && type.effect_type == EEffect_Type.Meal)
+            {
+                result += product.amount * type.effect_amount_per_day;
+            }
+        }
+
+        return result;
+    }
 
     public List<LResource> GetUserResource(LUser user = null)
     {
@@ -296,6 +325,11 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
     public float GetAvailableMeals(LUser user = null)
     {
         return GetMealAmount(user) / GetMealConsumeVillaerPopulation(user);
+    }
+
+    public float GetMealProductionPerUser(LUser user = null)
+    {
+        return GetMealProduction(user) / GetMealConsumeVillaerPopulation(user);
     }
 
     public int GetMealTypesAmount(LUser user = null)
@@ -783,6 +817,7 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
 
             return;
         }
+       
 
         UpdateResource(EResources.Gold.ToString(), -maintenanceAmount, (isSuccess, errMsg) =>
         {
@@ -793,7 +828,12 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
     public void PayMeal()
     {
         float mealAmount = GetDailyMeal();
-
+        float totalMealAmount = GetMealAmount();
+        float productionMeal = GetMealProduction();
+        if (totalMealAmount > mealAmount && totalMealAmount + productionMeal < 2 * mealAmount)
+        {
+            DataManager.Instance.AddDailyReport("Mayor, food stores are dangerously low.");
+        }
         System.DateTime lastPaidDate = Convert.FDateToDateTime(DataManager.Instance.GetMealDate());
         int days = (int)Utilities.GetDays(lastPaidDate, System.DateTime.Now);
 
@@ -804,6 +844,8 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
 
         PayMeal(mealAmount);
     }
+
+    
 
     public void PayMeal(float amout)
     {
@@ -969,6 +1011,7 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
         if (GetResourceValue(EResources.Sapphire) >= 5.0f)
         {
             OnExchange(EResources.Sapphire, 5f, EResources.Ruby, 1f);
+            DataManager.Instance.AddDailyReport("Your acquisitions trader has exchanged 5 Sapphires for 1 Ruby. Keep up the great work!");
             UIManager.Instance.ShowRewardMessage("You've got", "a ruby", DataManager.Instance.ruby_Sprite, 1);
         }
     }
@@ -1101,10 +1144,10 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
         return ("", result);
     }
 
-    public List<LProduct> GetAllProducts()
+    public List<LProduct> GetAllProducts(LUser user = null)
     {
         var productList = new List<LProduct>();
-        foreach (LBuilding building in GetCurrentBuildings())
+        foreach (LBuilding building in GetCurrentBuildings(user))
         {
             //if (building.id != "18")//butcher shop
             //{

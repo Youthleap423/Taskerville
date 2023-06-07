@@ -305,7 +305,8 @@ public enum EPopUpDlg
     MissingTask,
     DailyReport,
     NewArtifact,
-    NewArtwork
+    NewArtwork,
+    DailyReminder,
 }
 
 public enum EArtworkReason

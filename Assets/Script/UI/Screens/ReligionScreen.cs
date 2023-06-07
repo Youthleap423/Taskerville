@@ -21,12 +21,11 @@ public class ReligionScreen : IScreen
     void Start()
     {
         religion_objList.Clear();
-        Debug.Log(DataManager.Instance.religion_list.Length);
-        for (int index = 0; index < DataManager.Instance.religion_list.Length; index++)
+        
+        foreach(CReligion religion in DataManager.Instance.ResourcesCategoryData.religions)
         {
-            
             GameObject obj = GameObject.Instantiate(item_Prefab);
-            obj.name = DataManager.Instance.religion_list[index];
+            obj.name = religion.name;
             obj.transform.parent = parent_Transform;
             religion_objList.Add(obj);
 

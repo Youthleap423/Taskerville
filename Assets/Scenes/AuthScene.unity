@@ -9037,13 +9037,13 @@ MonoBehaviour:
   - {fileID: 4758408421471890838, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
   - {fileID: -8992528635081033543, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
   religion_list:
-  - Roman Catholicism
+  - Catholicism
   - Christianity
   - Islam
   - Hinduism
   - Buddhism
   - Judaism
-  - Baha
+  - "Baha\u2019ism"
   - Sikhism
   - Taoism
   - Shinto

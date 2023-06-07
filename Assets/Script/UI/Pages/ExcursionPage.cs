@@ -10,6 +10,7 @@ public class ExcursionPage : MonoBehaviour
 
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private GameObject beginBtn;
+    [SerializeField] private Text txt_remainDays;
 
     private void OnEnable()
     {
@@ -24,12 +25,23 @@ public class ExcursionPage : MonoBehaviour
             canvasGroup.interactable = false;
             canvasGroup.blocksRaycasts = false;
             beginBtn.GetComponent<Image>().color = Color.gray;
+            var days = ArtifactSystem.Instance.GetRemainDaysUntilAvailable();
+            if (days > 0)
+            {
+                txt_remainDays.text = string.Format("(Archaeologist will be available in {0} {1})", days, Utilities.GetPluralWord("day"));
+                txt_remainDays.gameObject.SetActive(true);
+            }
+            else
+            {
+                txt_remainDays.gameObject.SetActive(false);
+            }
         }
         else
         {
             canvasGroup.interactable = true;
             canvasGroup.blocksRaycasts = true;
             beginBtn.GetComponent<Image>().color = Color.blue;
+            txt_remainDays.gameObject.SetActive(false);
         }
 
         if (currentState == EActionState.Progess)

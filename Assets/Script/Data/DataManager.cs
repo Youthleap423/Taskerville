@@ -11,8 +11,6 @@ using Newtonsoft.Json;
 public class DataManager : SingletonComponent<DataManager>
 {
     [SerializeField] public Sprite[] avatar_Images;
-    [SerializeField] public string[] religion_list;
-    [SerializeField] public string[] religion_perfab_list;
 
     [Header("Sprites")]
     [SerializeField] public Sprite gold_Sprite;
@@ -85,6 +83,9 @@ public class DataManager : SingletonComponent<DataManager>
     public List<EVillagerType> staffTypeGroup = new List<EVillagerType>() { EVillagerType.Mayor, EVillagerType.Administrator, EVillagerType.Currator, EVillagerType.Cabinet };
     public List<DayOfWeek> availableDaysOfShip = new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday };
     public List<EResources> exportResources = new List<EResources>() { EResources.Bread, EResources.Ale, EResources.Lumber, EResources.Stone, EResources.Iron };
+
+
+
     [HideInInspector]public List<int> rareBuildings = new List<int>() { 3, 5, 11, 12, 14, 61, 62, 63, 65};
 
     [HideInInspector] public Dictionary<DayOfWeek, List<int>> bonusBuildingsForVegetarin = new Dictionary<DayOfWeek, List<int>>() {
@@ -146,6 +147,7 @@ public class DataManager : SingletonComponent<DataManager>
     [HideInInspector]
     public List<string> dailyReportStrList = new List<string>();
 
+    private List<string> tempReport = new List<string>();
     public List<LVillager> CurrentVillagers
     {
         get
@@ -802,6 +804,11 @@ public class DataManager : SingletonComponent<DataManager>
         FirestoreManager.Instance.GetDataList<T>(collectionId, callback);
     }
 
+    public void GetDataList<T>(string collectionId, string fieldName, string value, System.Action<bool, string, List<T>> callback) where T : FData
+    {
+        FirestoreManager.Instance.GetList<T>(collectionId, fieldName, value, callback);
+    }
+
     public void GetTaskList<T>(EntryType type, System.Action<bool, string, List<T>> callback) where T: FTask
     {
         FirestoreManager.Instance.GetTaskList<T>(type.ToString(), "Pid", currentUser.id, callback);
@@ -975,17 +982,12 @@ public class DataManager : SingletonComponent<DataManager>
 
     public string GetTemplePrefabName()
     {
-        var index = 0;
-        for (int i = 0; i < religion_list.Length; i++)
-        {
-            if (religion_list[i].Equals(currentUser.Religion_Name))
-            {
-                index = i;
-                break;
-            }
-        }
+        return ResourcesCategoryData.GetTemplePrefabName(currentUser.Religion_Name);
+    }
 
-        return religion_perfab_list[index];
+    public string GetTempleBuildingName()
+    {
+        return ResourcesCategoryData.GetTempleBuildingName(currentUser.Religion_Name);
     }
 
     public void CreateVillager(LVillager villager)
@@ -1709,15 +1711,27 @@ public class DataManager : SingletonComponent<DataManager>
     {
         if (PlayerPrefs.GetString("DailyReport") == Convert.DateTimeToFDate(System.DateTime.Now) && dailyReportStrList.Count > 0)
         {
-            callback(dailyReportStrList);
+            var list = dailyReportStrList.ToList();
+            list.AddRange(tempReport.ToList());
+            callback(list);
             return;
         }
 
         GetDailyReportString(strList =>
         {
             PlayerPrefs.SetString("DailyReport", Convert.DateTimeToFDate(System.DateTime.Now));
-            callback(strList);
+            var list = strList.ToList();
+            list.AddRange(tempReport.ToList());
+            callback(list);
         });
+    }
+
+    public void AddDailyReport(string s)
+    {
+        if (!tempReport.Contains(s))
+        {
+            tempReport.Add(s);
+        }
     }
 
     private List<LBuilding> GetBuiltLBuildings(System.DateTime dateTime)
@@ -1874,6 +1888,7 @@ public class DataManager : SingletonComponent<DataManager>
             AITaskManager.Instance.CreateEntries();
         }
         dailyReportStrList.Clear();
+        PlayerPrefs.SetString("DailyReminder", "");
         SaveData();
     }
 
@@ -2009,6 +2024,7 @@ public class DataManager : SingletonComponent<DataManager>
 
     private void GetDailyReportString(System.Action<List<string>> callback)
     {
+
         dailyReportStrList.Clear();
         var day = System.DateTime.Now.DayOfWeek;
         if (availableDaysOfShip.Contains(day))
@@ -2103,7 +2119,16 @@ public class DataManager : SingletonComponent<DataManager>
                 dailyReportStrList.Add("Housing needed (build Cottage)");
             }
         }
+        
+        if (ResourceViewController.Instance.GetCurrentResourceValue(EResources.Culture) >= 40)
+        {
+            dailyReportStrList.Add("You have reached 40 culture and can begin building Unique Structures.");
+        }
 
+        if (ArtifactSystem.Instance.GetRemainDaysUntilAvailable() <= 0)
+        {
+            dailyReportStrList.Add("Your archaeologist is now available for a new excavation.");
+        }
 
         InvitationViewController.Instance.LoadInvitation((isSuccess, errMsg, invitationList) =>
         {
@@ -2119,7 +2144,22 @@ public class DataManager : SingletonComponent<DataManager>
                 {
                     dailyReportStrList.Add("You have new trade offers (check 'Member Offers' under 'Trade')");
                 }
-                callback(dailyReportStrList);
+
+                ArtworkSystem.Instance.LoadArtTrade((isSuccess, errMsg, tradeList) =>
+                {
+                    if (tradeList != null && tradeList.Count > 0)
+                    {
+                        foreach(FArtTrade trade in tradeList)
+                        {
+                            if (trade.state == EState.Created.ToString())
+                            {
+                                dailyReportStrList.Add("Your art exchange has been accepted. See ‘notifications’under 'Connections'");
+                                break;
+                            }
+                        }
+                    }
+                    callback(dailyReportStrList);
+                });
             });
         });
     }

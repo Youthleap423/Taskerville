@@ -52,19 +52,19 @@ public class ArtworkDlg :PopUpDlg
                 suffix = "raising your village happiness to 100%";
                 break;
             case EArtworkReason.Population65:
-                suffix = "raising your village population to 65%";
+                suffix = "raising your village population to 65";
                 break;
             case EArtworkReason.Population75:
-                suffix = "raising your village population to 75%";
+                suffix = "raising your village population to 75";
                 break;
             case EArtworkReason.Population85:
-                suffix = "raising your village population to 85%";
+                suffix = "raising your village population to 85";
                 break;
             case EArtworkReason.Population95:
-                suffix = "raising your village population to 95%";
+                suffix = "raising your village population to 95";
                 break;
             case EArtworkReason.Population100:
-                suffix = "raising your village population to 100%";
+                suffix = "raising your village population to 100";
                 break;
             case EArtworkReason.Build_Gallery:
                 suffix = "constructing an Art Gallery";
@@ -82,7 +82,8 @@ public class ArtworkDlg :PopUpDlg
                 suffix = "completing all your Repeat Tasks and Habits for 7 days straight!";
                 break;
             case EArtworkReason.Trade:
-                suffix = "completing your trade offer";
+                prefix = "Your art exchange has provided the Art Gallery with a new masterpiece";
+                suffix = "";
                 break;
             case EArtworkReason.Buy:
                 prefix = "You've bought a work of art";

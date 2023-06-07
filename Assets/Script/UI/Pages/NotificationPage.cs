@@ -75,10 +75,7 @@ public class NotificationPage : Page
         {
             if (trade.state == EState.Created.ToString())
             {
-                if (trade.Pid == UserViewController.Instance.GetCurrentUser().id)
-                {
-                    CreateObject(trade, artExchangeTranform);
-                }
+                CreateObject(trade, artExchangeTranform);
             }
         }
         LayoutRebuilder.ForceRebuildLayoutImmediate(artExchangeTranform.GetComponent<RectTransform>());
@@ -128,12 +125,12 @@ public class NotificationPage : Page
         });
 
         UIManager.Instance.ShowLoadingBar(true);
-        ArtworkSystem.Instance.LoadArtTrades((isSuccess, errMsg) =>
+        ArtworkSystem.Instance.LoadArtTrade((isSuccess, errMsg, tradeList) =>
         {
             UIManager.Instance.ShowLoadingBar(false);
             if (isSuccess)
             {
-                this.tradeList = ArtworkSystem.Instance.GetAllArtTrades();
+                this.tradeList = tradeList;
                 
             }
             else

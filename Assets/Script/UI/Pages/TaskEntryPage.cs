@@ -192,16 +192,16 @@ public class TaskEntryPage : EntryPage
         if (!isRemove)
         {
             newTaskEntry.taskName = taskNameIF.text;
-            for (int indexer = 0; indexer < Difficulty_Toggles.Count; indexer++)
-            {
-                Toggle toggle = Difficulty_Toggles[indexer];
-                if (toggle.isOn)
-                {
-                    newTaskEntry.diffculty = indexer;
-                }
-            }
+            //for (int indexer = 0; indexer < Difficulty_Toggles.Count; indexer++)
+            //{
+            //    Toggle toggle = Difficulty_Toggles[indexer];
+            //    if (toggle.isOn)
+            //    {
+            //        newTaskEntry.diffculty = indexer;
+            //    }
+            //}
 
-            newTaskEntry.goldCount = newTaskEntry.diffculty + 1;
+            newTaskEntry.goldCount = 5;//changed 2023/05/23 by pooh
             newTaskEntry.repeatDays.Clear();
             for (int indexer = 0; indexer < Week_Toggles.Count; indexer++)
             {

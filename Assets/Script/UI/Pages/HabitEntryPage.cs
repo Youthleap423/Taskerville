@@ -302,7 +302,7 @@ public class HabitEntryPage : EntryPage
             newHabitEntry.span_m = timespanMDropdown.options[timespanMDropdown.value].text;
             newHabitEntry.span_start = timespanStartTF.text;
             newHabitEntry.progress = timespanSlider.value;
-            newHabitEntry.goldCount = 2;
+            newHabitEntry.goldCount = 5;//changed 2023/05/23 by pooh
 
             newHabitEntry.streak = int.Parse(streakTF.text);
 

@@ -1084,3 +1084,64 @@ MonoBehaviour:
     unit_single: Basket
     unit_plural: Baskets
     bCleanMode: 0
+  religions:
+  - name: Animism
+    id: 1
+    prefabName: 100_animism
+    buildingInfo: Animist Hall
+  - name: "Baha\u2019ism"
+    id: 2
+    prefabName: 100_baha
+    buildingInfo: "Baha\u2019i Temple"
+  - name: Buddhism
+    id: 3
+    prefabName: 100_buddhism
+    buildingInfo: Buddhist Temple
+  - name: Catholicism
+    id: 4
+    prefabName: 100_catholic
+    buildingInfo: Catholic Church
+  - name: Christianity
+    id: 5
+    prefabName: 100_christian
+    buildingInfo: Christian Church
+  - name: Confucianism
+    id: 6
+    prefabName: 100_confucianism
+    buildingInfo: Confucius Temple
+  - name: Hinduism
+    id: 7
+    prefabName: 100_hinduisim
+    buildingInfo: Hindu Temple
+  - name: Islam
+    id: 8
+    prefabName: 100_islam
+    buildingInfo: Muslim Temple
+  - name: Jainism
+    id: 9
+    prefabName: 100_jainism
+    buildingInfo: Jain Temple
+  - name: Judaism
+    id: 10
+    prefabName: 100_judaism
+    buildingInfo: Jewish Temple
+  - name: Philosophy
+    id: 11
+    prefabName: 100_philosopher
+    buildingInfo: Hall of Reason
+  - name: Shintoism
+    id: 12
+    prefabName: 100_shinto
+    buildingInfo: Shinto Shrine
+  - name: Sikhism
+    id: 13
+    prefabName: 100_sikhism
+    buildingInfo: Gurdwara
+  - name: Taoism
+    id: 14
+    prefabName: 100_taoism
+    buildingInfo: Taoist Temple
+  - name: Wiccan
+    id: 15
+    prefabName: 100_wicca
+    buildingInfo: Wiccan Coven

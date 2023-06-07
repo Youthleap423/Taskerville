@@ -72,7 +72,7 @@ public class ProjectEntryPage : EntryPage
 
         taskNameIF.text = "";
         beginDateTF.text = System.DateTime.Now.ToString("MMMM d, yyyy");
-        endDateTF.text = System.DateTime.Now.AddDays(1.0).ToString("MMMM d, yyyy");
+        endDateTF.text = System.DateTime.Now.AddDays(3.0).ToString("MMMM d, yyyy");
         alarmTimeTF.text = "";
 
         foreach (Transform child in subTaskGroup.transform)
@@ -350,11 +350,10 @@ public class ProjectEntryPage : EntryPage
             if (result.IsSucceeded)
             {
                 beginDateTF.text = Convert.DateTimeToEntryDate(result.Year, result.Month, result.Day);
-                newProjectEntry.endDate = beginDateTF.text;
-            }
-            else
-            {
-                beginDateTF.text = "";
+ 
+                var endDate = Convert.EntryDateToDateTime(beginDateTF.text).AddDays(3.0);
+                endDateTF.text = endDate.ToString("MMMM d, yyyy");
+                newProjectEntry.endDate = endDateTF.text;
             }
         });
 #else
@@ -364,7 +363,8 @@ public class ProjectEntryPage : EntryPage
         datePicker.Show((dateTime) =>
         {
             beginDateTF.text = dateTime.ToString("MMMM d, yyyy");
-            newProjectEntry.beginDate = beginDateTF.text;
+            var endDate = dateTime.AddDays(3.0);
+            endDateTF.text = endDate.ToString("MMMM d, yyyy");
         });
 #endif
     }
@@ -378,12 +378,17 @@ public class ProjectEntryPage : EntryPage
         {
             if (result.IsSucceeded)
             {
-                endDateTF.text = Convert.DateTimeToEntryDate(result.Year, result.Month, result.Day);
-                newProjectEntry.endDate = endDateTF.text;
-            }
-            else
-            {
-                endDateTF.text = "";
+                dateStr = Convert.DateTimeToEntryDate(result.Year, result.Month, result.Day);
+                var endDate = Convert.EntryDateToDateTime(dateStr);
+                var beginDate = Convert.EntryDateToDateTime(beginDateTF.text);
+                if (Utilities.GetDays(beginDate, endDate) < 3.0)
+                {
+                    UIManager.Instance.ShowErrorDlg("Goals must be at least three days in length");
+                }
+                else
+                {
+                    endDateTF.text = endDate.ToString("MMMM d, yyyy");
+                }
             }
         });
 #else
@@ -392,8 +397,16 @@ public class ProjectEntryPage : EntryPage
 
         datePicker.Show((dateTime) =>
         {
-            endDateTF.text = dateTime.ToString("MMMM d, yyyy");
-            newProjectEntry.endDate = endDateTF.text;
+            var beginDate = Convert.EntryDateToDateTime(beginDateTF.text);
+            if (Utilities.GetDays(beginDate, dateTime) < 3.0)
+            {
+                UIManager.Instance.ShowErrorDlg("Goals must be at least three days in length");
+            }
+            else
+            {
+                endDateTF.text = dateTime.ToString("MMMM d, yyyy");
+            }
+
         });
 #endif
     }

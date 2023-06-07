@@ -55,7 +55,11 @@ public class FTrade : FTradeInvitation
                     ResourceViewController.Instance.UpdateResource(resourceDic);
                     UserViewController.Instance.GetCurrentUser().updateSales(System.DateTime.Now, cResource.sell_price_to_coalition);
                     nCount++;
-                }                
+                }
+                else
+                {
+                    DataManager.Instance.AddDailyReport("You lack certain resources that you are currently trading.");
+                }             
             }
         }
 

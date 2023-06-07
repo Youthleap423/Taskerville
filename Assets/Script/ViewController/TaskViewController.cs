@@ -307,10 +307,7 @@ public class TaskViewController : SingletonComponent<TaskViewController>
         entry.SetRemoved(true);
         entry.Update(subTasks);
 
-        if (entry.isCompletedInTime())
-        {
-            RewardSystem.Instance.OnComplete(entry);
-        }
+        RewardSystem.Instance.OnComplete(entry); //2023/05/23 by pooh
 
         LUser currentUser = DataManager.Instance.GetCurrentUser();
         currentUser.completed_ToDos += 1;

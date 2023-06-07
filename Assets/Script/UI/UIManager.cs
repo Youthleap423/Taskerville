@@ -155,6 +155,14 @@ public class UIManager : SingletonComponent<UIManager>
         PopUpManager.Instance.Add(EPopUpDlg.NewArtifact);
     }
 
+    public void ShowDailyReminder()
+    {
+        if (PlayerPrefs.GetString("DailyReminder") != "Do not show" && PlayerPrefs.GetString("DailyReminder") != Convert.DateTimeToEntryDate(System.DateTime.Now))
+        {
+            PopUpManager.Instance.Add(EPopUpDlg.DailyReminder);
+        }
+    }
+
     /// <summary>
     /// Error
     /// </summary>

@@ -222,6 +222,10 @@ public class LBuilding : LData
                 var curAmont = ResourceViewController.Instance.GetCurrentResourceValue(resProduct.type);
                 if (curAmont < resProduct.amount)
                 {
+                    if (Category.special_villagers.Count > 0)
+                    {
+                        DataManager.Instance.AddDailyReport(string.Format("{0} has no {1} required for {2}", Category.GetName(), resProduct.type.ToString(), Category.special_villagers[0].ToString()));
+                    }
                     return;
                 }
                 resDic.Add(resProduct.type, -resProduct.amount);

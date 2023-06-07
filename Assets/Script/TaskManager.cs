@@ -52,6 +52,7 @@ public class TaskManager : SingletonComponent<TaskManager>
             TaskViewController.Instance.CheckDaily();
             //ArtifactSystem.Instance.CheckArtifacts();
             ArtworkSystem.Instance.CheckArtwork();
+            UIManager.Instance.ShowDailyReminder();
             isupdating = false;
         });
     }

@@ -13,7 +13,7 @@ public class ArtworkSystem : SingletonComponent<ArtworkSystem>
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     private void OnEnable()
@@ -313,6 +313,11 @@ public class ArtworkSystem : SingletonComponent<ArtworkSystem>
             }
             callback(isSuccess, errMsg);
         });
+    }
+
+    public void LoadArtTrade(System.Action<bool, string, List<FArtTrade>> callback)
+    {
+        DataManager.Instance.GetDataList("ArtTrade", "Pid", UserViewController.Instance.GetCurrentUser().id, callback);
     }
 
     public List<FArtTrade> GetAllArtTrades()

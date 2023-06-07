@@ -133,15 +133,15 @@ public class ToDoEntryPage : EntryPage
         if (!isRemove)
         {
             newToDoEntry.taskName = taskNameIF.text;
-            for (int indexer = 0; indexer < Difficulty_Toggles.Count; indexer++)
-            {
-                Toggle toggle = Difficulty_Toggles[indexer];
-                if (toggle.isOn)
-                {
-                    newToDoEntry.diffculty = indexer;
-                }
-            }
-            newToDoEntry.goldCount = newToDoEntry.diffculty + 1;
+            //for (int indexer = 0; indexer < Difficulty_Toggles.Count; indexer++)
+            //{
+            //    Toggle toggle = Difficulty_Toggles[indexer];
+            //    if (toggle.isOn)
+            //    {
+            //        newToDoEntry.diffculty = indexer;
+            //    }
+            //}
+            newToDoEntry.goldCount = 5; //changed 2023/05/23 by pooh
             newToDoEntry.remindAlarm = alarmTimeTF.text;
             newToDoEntry.dueDate = dueDateTF.text.Equals("") ? "" : Convert.EntryDateToFDate(dueDateTF.text);
             if (newToDoEntry.orderId < 0)

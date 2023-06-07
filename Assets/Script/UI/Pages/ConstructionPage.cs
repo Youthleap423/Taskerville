@@ -242,8 +242,10 @@ public class ConstructionPage : Page
 
         foreach (BuildingsCategory item in buildingsCategories)
         {
-            
-            dropDown.options.Add(new Dropdown.OptionData(item.GetName()));
+            if (BuildManager.Instance.hasExistBuildingToConstruct(item.GetId())) //2023/05/24 by pooh - remove item that all contructed 
+            {
+                dropDown.options.Add(new Dropdown.OptionData(item.GetName()));
+            }
         }
 
         if (normalBuildingUIObj.activeSelf == true)
@@ -261,7 +263,10 @@ public class ConstructionPage : Page
         uniqueBuildingsCategories = DataManager.Instance.BuildingsCategoryData.category.FindAll(item => item.type == EBuildingType.Unique).OrderBy(item => item.GetName()).ToList();
         foreach (var category in uniqueBuildingsCategories)
         {
-            uniqueDropDown.options.Add(new Dropdown.OptionData(category.GetName()));
+            if (BuildManager.Instance.hasExistBuildingToConstruct(category.GetId())) //2023/05/24 by pooh - remove item that all contructed 
+            {
+                uniqueDropDown.options.Add(new Dropdown.OptionData(category.GetName()));
+            }
         }
 
         if (uniqueBuildingUIObj.activeSelf == true)

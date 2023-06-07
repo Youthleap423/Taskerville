@@ -73,7 +73,8 @@ public class ProfilePage : Page
         culture_TF.text = GetValue(EResources.Culture);
 
         village_population_TF.text = string.Format("{0}", ResourceViewController.Instance.GetVillagePopulation(user));
-        available_Meals_TF.text =  string.Format("{0:0.0}", ResourceViewController.Instance.GetAvailableMeals(user));
+        //available_Meals_TF.text =  string.Format("{0:0.0}", ResourceViewController.Instance.GetAvailableMeals(user));
+        available_Meals_TF.text = string.Format("{0:0.0}", ResourceViewController.Instance.GetMealProductionPerUser(user));//2023_05_29 by pooh
         settler_houses_TF.text = string.Format("{0}", ResourceViewController.Instance.GetGuestsFromInn(user).Count);
         salary_TF.text = string.Format("{0:0.0}", ResourceViewController.Instance.GetDailySalary(user));
         maintenance_TF.text = string.Format("{0:0.0}", ResourceViewController.Instance.GetDailyMaintenance(user));
