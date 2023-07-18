@@ -12,12 +12,15 @@ public class DailyReminderDlg : PopUpDlg
     {
         if (toggle.isOn)
         {
-            PlayerPrefs.SetString("DailyReminder", "Do not show");
+            PlayerPrefs.SetString("DRemind", "Do not show");
         }
         else
         {
-            PlayerPrefs.SetString("DailyReminder", Convert.DateTimeToEntryDate(System.DateTime.Now));
-        }        
+            if (PlayerPrefs.GetString("DRemind") != "Do not show")
+            {
+                PlayerPrefs.SetString("DRemind", Convert.DateTimeToEntryDate(System.DateTime.Now));
+            }
+        }
         Back();
     }
 }

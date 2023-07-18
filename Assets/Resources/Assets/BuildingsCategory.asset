@@ -1877,3 +1877,24 @@ MonoBehaviour:
       amount: 20
       duration: 7
     requireList: []
+  - Description: Fair Grounds
+    GoldAmount: 0
+    LumberAmount: 0
+    StoneAmount: 0
+    IronAmount: 0
+    TimeToBuild: 0
+    QTimeToBuild: 1
+    culturePoint: 1
+    QResType: 45
+    QResAmount: 1
+    IdOfStoreIcon: windmill
+    isStatic: 1
+    requirement: 2
+    name: Fair Grounds
+    id: 83
+    type: 42
+    maintenance_amount: 0
+    special_villagers: 
+    require_villagers: 
+    productList: []
+    requireList: []

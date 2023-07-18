@@ -248,7 +248,7 @@ public class NotificationManager : SingletonComponent<NotificationManager>
         notif.categoryId = entry.Type.ToString();
         if (triggerDate != DateTime.MinValue)
         {
-            TimeSpan timeSpan = triggerDate <= DateTime.Now ? TimeSpan.Zero : triggerDate - DateTime.Now;
+            TimeSpan timeSpan = triggerDate < DateTime.Now ? TimeSpan.Zero : triggerDate - DateTime.Now;
             if (repeat == NotificationRepeat.None)
             {
                 Notifications.ScheduleLocalNotification(entry.Type.ToString() + entry.id, timeSpan, notif);

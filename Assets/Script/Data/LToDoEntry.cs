@@ -66,6 +66,16 @@ public class LToDoEntry : LEntry
         {
             var dateStr = dueDate + "_" + remindAlarm;
             var date = Convert.DetailedStringToDateTime(dateStr);
+            //2023/07/03 fixed alarm problem for the past time
+            if (date < System.DateTime.Now)
+            {
+                dateStr = Convert.DateTimeToFDate(System.DateTime.Now) + "_" + remindAlarm;
+                date = Convert.DetailedStringToDateTime(dateStr);
+                if(date < System.DateTime.Now)
+                {
+                    date = date.AddDays(1);
+                }
+            }
             if (!isCompleted())
             {
                 return date;

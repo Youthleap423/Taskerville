@@ -1728,6 +1728,12 @@ public class DataManager : SingletonComponent<DataManager>
 
     public void AddDailyReport(string s)
     {
+        if (PlayerPrefs.GetString("TempDailyReport") != Convert.DateTimeToFDate(System.DateTime.Now))
+        {
+            tempReport.Clear();
+            PlayerPrefs.SetString("TempDailyReport", Convert.DateTimeToFDate(System.DateTime.Now));
+        }
+
         if (!tempReport.Contains(s))
         {
             tempReport.Add(s);
@@ -1737,6 +1743,11 @@ public class DataManager : SingletonComponent<DataManager>
     private List<LBuilding> GetBuiltLBuildings(System.DateTime dateTime)
     {
         return currentBuildings.FindAll(item => item.created_at == Convert.DateTimeToFDate(dateTime) && item.progress == 1.0f);
+    }
+
+    private List<LBuilding> GetAllBuiltLBuildings()
+    {
+        return currentBuildings.FindAll(item => item.progress == 1.0f);
     }
 
     private string GetBuildingName(LBuilding lBuilding)
@@ -1888,7 +1899,7 @@ public class DataManager : SingletonComponent<DataManager>
             AITaskManager.Instance.CreateEntries();
         }
         dailyReportStrList.Clear();
-        PlayerPrefs.SetString("DailyReminder", "");
+        PlayerPrefs.SetString("DRemind", "");
         SaveData();
     }
 
@@ -2061,7 +2072,8 @@ public class DataManager : SingletonComponent<DataManager>
         //'You've traded a Painting(noncoalition- see 'Art Exchange')--- if you or a non-coalition member made an offer to trade a piece of artwork, this pops up if
         //the trade is agreed to and successful(all modes)
 
-        var lBuildings = GetBuiltLBuildings(System.DateTime.Now.AddDays(-1));
+        //var lBuildings = GetBuiltLBuildings(System.DateTime.Now.AddDays(-1));
+        var lBuildings = GetAllBuiltLBuildings();
 
         foreach (LBuilding lBuilding in lBuildings)
         {
@@ -2076,7 +2088,10 @@ public class DataManager : SingletonComponent<DataManager>
             }
             else
             {
-                dailyReportStrList.Add(string.Format("{0} has been constructed.", buildingName));
+                if (lBuilding.created_at.Equals(Convert.DateTimeToFDate(System.DateTime.Now.AddDays(-1))))
+                {
+                    dailyReportStrList.Add(string.Format("{0} has been constructed.", buildingName));
+                }
             }
         }
 

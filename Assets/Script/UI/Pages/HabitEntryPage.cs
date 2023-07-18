@@ -8,6 +8,7 @@ using SA.iOS.UIKit;
 using SA.Android.App;
 using FantomLib;
 using TMPro;
+using System;
 
 public class HabitEntryPage : EntryPage
 {
@@ -106,7 +107,14 @@ public class HabitEntryPage : EntryPage
         durationToggle.OnValueChanged += DurationToggle_OnValueChanged;
         timespanToggle.OnValueChanged += TimespanToggle_OnValueChanged;
         recurrenceToggle.OnValueChanged += RecurrenceToggle_OnValueChanged;
-
+        timespanHDropdown.onValueChanged.AddListener(delegate
+        {
+            RefreshAlarm();
+        });
+        timespanMDropdown.onValueChanged.AddListener(delegate
+        {
+            RefreshAlarm();
+        });
         unitTypeDropdown.value = 1;
         Initialize();
     }
@@ -301,7 +309,7 @@ public class HabitEntryPage : EntryPage
             newHabitEntry.span_h = timespanHDropdown.options[timespanHDropdown.value].text;
             newHabitEntry.span_m = timespanMDropdown.options[timespanMDropdown.value].text;
             newHabitEntry.span_start = timespanStartTF.text;
-            newHabitEntry.progress = timespanSlider.value;
+            //newHabitEntry.progress = timespanSlider.value;
             newHabitEntry.goldCount = 5;//changed 2023/05/23 by pooh
 
             newHabitEntry.streak = int.Parse(streakTF.text);
@@ -310,7 +318,10 @@ public class HabitEntryPage : EntryPage
             {
                 if (unitToggle.isOn)
                 {
-                    newHabitEntry.span_startTime = "";
+                    if (newHabitEntry.progress == 0f)//if unit with timespan is in progress, it should save their span_startTime
+                    {
+                        newHabitEntry.span_startTime = "";
+                    }
                 }
                 else
                 {
@@ -352,8 +363,13 @@ public class HabitEntryPage : EntryPage
                 }
                 newHabitEntry.bJustToday = !recurrenceToggle.isOn;
             }
+
             newHabitEntry.begin_date = Convert.EntryDateToFDate(beginDate_TF.text);
-            newHabitEntry.span_startDate = newHabitEntry.begin_date;
+            if (newHabitEntry.begin_date != Convert.EntryDateToFDate(beginDate_TF.text) || newHabitEntry.span_startDate == "")
+            {
+                newHabitEntry.span_startDate = newHabitEntry.begin_date;
+            }
+            
             if (recurrenceToggle.isOn)
             {
                 newHabitEntry.repeat_alarm = alarmRepeat_dropdown.value;
@@ -406,6 +422,7 @@ public class HabitEntryPage : EntryPage
         timePicker.Show((dateTime) =>
         {
             timespanStartTF.text = dateTime.ToString("hh:mm tt");
+            RefreshAlarm();
             //alarmTimeTF.text = dateTime.ToString("hh:mm tt");
         });
 #endif
@@ -478,6 +495,20 @@ public class HabitEntryPage : EntryPage
 
 
     #region Private Members
+    private void RefreshAlarm()
+    {
+        try
+        {
+            if (!unitToggle.isOn && timespanToggle.isOn)
+            {
+                var stStr = Convert.DateTimeToFDate(System.DateTime.Now) + "_" + timespanStartTF.text;
+                var startTime = Convert.DetailedStringToDateTime(stStr);
+                alarmTimeTF.text = startTime.AddHours(double.Parse(timespanHDropdown.options[timespanHDropdown.value].text)).AddMinutes(double.Parse(timespanMDropdown.options[timespanMDropdown.value].text)).ToString("hh:mm tt");
+            }
+        }
+        catch { }
+    }
+
     private void negativeToggle_valueChanged(Toggle toggle)
     {
         if (toggle.isOn == true)
@@ -502,7 +533,6 @@ public class HabitEntryPage : EntryPage
 
     private void unitType_dropdown_valueChanged(Dropdown dropdown)
     {
-        Debug.LogError(dropdown.value); 
         if (dropdown.value == 31)//custom unit type
         {
             customUnit_IF.gameObject.transform.parent.gameObject.SetActive(true);

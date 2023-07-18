@@ -4113,7 +4113,7 @@ MonoBehaviour:
     spriteTextureGUIDs:
     - ef7a2e96ec56740cc9d12480c7654043
     spriteTextureTimeStamps:
-    - 1659915905
+    - 1687089769
     managedSpriteCollection: 0
     loadable: 0
     assetName: 
@@ -13858,6 +13858,7 @@ MonoBehaviour:
     - market8
     - market9
     - market10
+    - Festival_tent
     spriteTextureGUIDs:
     - cd22cfd8f5267415ab626a0cad54416b
     - 9739adefedd5b4a9fac75064d31e8408
@@ -13868,6 +13869,7 @@ MonoBehaviour:
     - adba7c15115134e65be12529d7e0def4
     - 855961c614d26481ea06e8dcbb98f2fd
     - 662aa44d5e06a449d9c7a7364563b6c9
+    - 7c2c866c9a3454e35ba157bceb739727
     spriteTextureTimeStamps:
     - 1667462212
     - 1667462242
@@ -13878,6 +13880,7 @@ MonoBehaviour:
     - 1667462424
     - 1667462470
     - 1667462506
+    - 1687120445
     managedSpriteCollection: 0
     loadable: 0
     assetName: 

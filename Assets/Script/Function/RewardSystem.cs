@@ -189,7 +189,7 @@ public class RewardSystem : SingletonComponent<RewardSystem>
         var setting = UserViewController.Instance.GetCurrentSetting();
         if (!setting.shelter_storm)
         {
-            GivesReward(EResources.Happiness, -0.5f);
+            GivesReward(EResources.Happiness, -1.0f);//changed 0.5 to 1.0 by pooh 2023/06/14
         }
     }
 
@@ -356,11 +356,17 @@ public class RewardSystem : SingletonComponent<RewardSystem>
             GivesReward(EResources.Happiness, 0.5f);
         }
     }
+
+    public void GiveSkipOpenReward(int days)
+    {
+        GivesReward(EResources.Happiness, -days);
+    }
     #endregion
 
     #region Private Members
     private void GivesReward(EResources resource, float amount)
     {
+        Debug.LogError("Gives Reward" + resource.ToString() + amount);
         if (DataManager.Instance.GetCurrentSetting().shelter_storm)
         {
             UIManager.Instance.ShowErrorDlg("Take shelter from the storm.  All tasks and habits are frozen.");

@@ -235,7 +235,8 @@ public enum EBuildingType
     Hospital,
     BuilderDepot,
     MedicinalGarden,
-    Inn
+    Inn,
+    FairGround
 }
 
 public enum EInviteType

@@ -577,7 +577,10 @@ public class BuildManager : SingletonComponent<BuildManager>
             gBuildings.Add(gBuilding);
         }
 
+
         //For Test
+        var fairGroundBuilding = allBuildings.Find(b => b.GetBuildingObjectID == "253");
+        gBuildings.Add(fairGroundBuilding);
 
         StartCoroutine(LoadBuilding(gBuildings));
 

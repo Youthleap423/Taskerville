@@ -157,7 +157,7 @@ public class UIManager : SingletonComponent<UIManager>
 
     public void ShowDailyReminder()
     {
-        if (PlayerPrefs.GetString("DailyReminder") != "Do not show" && PlayerPrefs.GetString("DailyReminder") != Convert.DateTimeToEntryDate(System.DateTime.Now))
+        if (PlayerPrefs.GetString("DRemind") != "Do not show" && PlayerPrefs.GetString("DRemind") != Convert.DateTimeToEntryDate(System.DateTime.Now))
         {
             PopUpManager.Instance.Add(EPopUpDlg.DailyReminder);
         }

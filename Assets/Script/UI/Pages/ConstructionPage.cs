@@ -237,15 +237,12 @@ public class ConstructionPage : Page
             buildingsCategories.Remove(butcher);
         }
 
-
+        buildingsCategories.RemoveAll(item => BuildManager.Instance.hasExistBuildingToConstruct(item.GetId()) == false);//2023/05/24 by pooh - remove item that all contructed 
         dropDown.options.Clear();
 
         foreach (BuildingsCategory item in buildingsCategories)
         {
-            if (BuildManager.Instance.hasExistBuildingToConstruct(item.GetId())) //2023/05/24 by pooh - remove item that all contructed 
-            {
-                dropDown.options.Add(new Dropdown.OptionData(item.GetName()));
-            }
+            dropDown.options.Add(new Dropdown.OptionData(item.GetName()));
         }
 
         if (normalBuildingUIObj.activeSelf == true)
@@ -261,12 +258,10 @@ public class ConstructionPage : Page
 
         uniqueDropDown.options.Clear();
         uniqueBuildingsCategories = DataManager.Instance.BuildingsCategoryData.category.FindAll(item => item.type == EBuildingType.Unique).OrderBy(item => item.GetName()).ToList();
+        uniqueBuildingsCategories.RemoveAll(item => BuildManager.Instance.hasExistBuildingToConstruct(item.GetId()) == false);//2023/05/24 by pooh - remove item that all contructed 
         foreach (var category in uniqueBuildingsCategories)
         {
-            if (BuildManager.Instance.hasExistBuildingToConstruct(category.GetId())) //2023/05/24 by pooh - remove item that all contructed 
-            {
-                uniqueDropDown.options.Add(new Dropdown.OptionData(category.GetName()));
-            }
+            uniqueDropDown.options.Add(new Dropdown.OptionData(category.GetName()));
         }
 
         if (uniqueBuildingUIObj.activeSelf == true)

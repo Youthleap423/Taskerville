@@ -53,8 +53,22 @@ public class TaskManager : SingletonComponent<TaskManager>
             //ArtifactSystem.Instance.CheckArtifacts();
             ArtworkSystem.Instance.CheckArtwork();
             UIManager.Instance.ShowDailyReminder();
+            //2023/07/18 by pooh
+            var lastOpenDate = PlayerPrefs.GetString("LastOpenTime");
+            if (lastOpenDate != "" && lastOpenDate != Convert.DateTimeToFDate(System.DateTime.Now))
+            {
+                var days = Utilities.GetDays(Convert.FDateToDateTime(lastOpenDate), System.DateTime.Now);
+                if (days >= 2)
+                {
+                    RewardSystem.Instance.GiveSkipOpenReward((int)(days - 1));
+                }
+            }
+            PlayerPrefs.SetString("LastOpenTime", Convert.DateTimeToFDate(System.DateTime.Now));
+            ////////////////////
             isupdating = false;
         });
+
+        
     }
 
     private void OnApplicationFocus(bool focus)

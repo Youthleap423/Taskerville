@@ -116,7 +116,7 @@ public class AppManager : MonoBehaviour
         var notif = new NotificationContent();
         notif.title = "Taskerville";
         notif.subtitle = "Notification";
-        notif.body = "dsafdasfd";
+        notif.body = "test";
         UIManager.Instance.ShowNotification(notif);
     }
 
