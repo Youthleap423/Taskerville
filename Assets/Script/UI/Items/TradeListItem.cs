@@ -25,7 +25,7 @@ public class TradeListItem : MonoBehaviour
         var trade = list[0];
         if (trade.type == ETradeInviteType.Offer.ToString())
         {
-            if (trade.Pid == UserViewController.Instance.GetCurrentUser().id)
+            if (trade.sender == UserViewController.Instance.GetCurrentUser().id)
             {
                 this.requester_villageName = string.Format("To: {0}", trade.receiver_village);
             }
@@ -36,7 +36,7 @@ public class TradeListItem : MonoBehaviour
         }
         else
         {
-            if (trade.Pid == UserViewController.Instance.GetCurrentUser().id)
+            if (trade.sender == UserViewController.Instance.GetCurrentUser().id)
             {
                 this.requester_villageName = string.Format("From: {0}", trade.receiver_village);
             }

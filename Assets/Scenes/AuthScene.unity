@@ -4559,7 +4559,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &348065917
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8974,134 +8974,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 734989324}
-  - component: {fileID: 734989323}
   - component: {fileID: 734989325}
   m_Layer: 0
-  m_Name: DataManager
+  m_Name: AITaskManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &734989323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 734989322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ed3990b77dbd481fa83c105054c295d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  avatar_Images:
-  - {fileID: -5150704196045627465, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: 3592501329240012411, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -907785441676145175, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -6584786122434931471, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -479065516292362610, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: 5511788214152504796, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: 1493462567595645042, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: 1603797692055866151, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -8784389379036675553, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: 1604980891458435277, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -4863447972332392063, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -5442689984717955418, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: 7204995853187133493, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -4903177978202235656, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: 5199293577271956171, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -9014509128258412973, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -2696073497148054899, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: 3358164073653175608, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -6523162020209228873, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -863433979067512234, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -5426847735790492010, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: 5425606565533733204, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -2849882197115197329, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: 9002086541434338485, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: 7560314416622897855, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -5726362162730173498, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -3316532464304008565, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: 2844450067030185663, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -5676228918081893320, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: 2688878102826645061, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: 1424850611021754692, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -8561799195163121631, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: 4476567315437494860, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -1906635160541885976, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -4569788883447996128, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -477683975655995941, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: 675194798727185559, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -3818979255903948057, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: 4758408421471890838, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  - {fileID: -8992528635081033543, guid: 460df0ed0d9b84b51b6ea965888cad8a, type: 3}
-  religion_list:
-  - Catholicism
-  - Christianity
-  - Islam
-  - Hinduism
-  - Buddhism
-  - Judaism
-  - "Baha\u2019ism"
-  - Sikhism
-  - Taoism
-  - Shinto
-  - Wicca
-  - Jainism
-  - Confucianism
-  - Animism
-  - Philosophy
-  religion_perfab_list:
-  - 100_catholic
-  - 100_christian
-  - 100_islam
-  - 100_hinduism
-  - 100_buddhism
-  - 100_judaism
-  - 100_baha
-  - 100_sikhism
-  - 100_taoism
-  - 100_shinto
-  - 100_wicca
-  - 100_jainism
-  - 100_confucianism
-  - 100_animism
-  - 100_philosopher
-  gold_Sprite: {fileID: 21300000, guid: 954c976f2dd7f48d49b14a8f560a1a17, type: 3}
-  happy_Sprite: {fileID: 21300000, guid: e448bf35c0cb44a93b0d3ab59edb940f, type: 3}
-  set_Sprite: {fileID: 21300000, guid: f05aa65271cae4f4d89bb3ba12bff311, type: 3}
-  wine_Sprite: {fileID: 21300000, guid: 318acf31d954d4f64906d9db5eb87174, type: 3}
-  diamond_Sprite: {fileID: 21300000, guid: 43e394ac2e0014fd28c60f81db9e6105, type: 3}
-  ruby_Sprite: {fileID: 21300000, guid: ce6836b45f9004c9cac5280380280737, type: 3}
-  sapphire_Sprite: {fileID: 21300000, guid: 3aee392ef2c22436da24f4562680c715, type: 3}
-  paint_Sprite: {fileID: 21300000, guid: 33d4654672e484572b05002661423fb9, type: 3}
-  backMode_Sprite: {fileID: 0}
-  buildingFN: FNB
-  villagerFN: FNV
-  resourceFN: FNRS
-  dailyTaskFN: RNDT
-  toDOFN: FNTD
-  projectGoalFN: FNPG
-  subTaskFN: FNST
-  subToDoFN: FNSTD
-  subProjectFN: FNSP
-  settingFN: FNSETTING
-  userFN: FNUSER
-  autoFN: FNAUTO
-  habitFN: FNHabit
-  autoTodoFN: autoToDO
-  autoGoalFN: autoGoal
-  artifactFN: artifact
-  artworkFN: artwork
-  laborTypeGroup: 04000000050000000600000008000000090000000a000000150000000c00000012000000070000000b0000000d0000000e0000000f00000010000000110000001400000013000000160000001700000002000000
-  guardTypeGroup: 190000001a0000001b0000001d000000
-  staffTypeGroup: 00000000010000000200000003000000
-  availableDaysOfShip: 01000000030000000400000006000000
-  exportResources: 1700000009000000070000000500000008000000
-  rareBuildings: 03000000050000000b0000000c0000000e0000003d0000003e0000003f00000041000000
-  HappyId: 19
-  dailyReportStrList: []
 --- !u!4 &734989324
 Transform:
   m_ObjectHideFlags: 0
@@ -10699,7 +10579,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &853811060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10831,7 +10711,7 @@ MonoBehaviour:
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0
-  m_HideMobileInput: 1
+  m_HideMobileInput: 0
   m_CharacterValidation: 0
   m_CharacterLimit: 0
   m_OnEndEdit:
@@ -11955,7 +11835,7 @@ MonoBehaviour:
   m_InputType: 0
   m_AsteriskChar: 42
   m_KeyboardType: 0
-  m_LineType: 0
+  m_LineType: 1
   m_HideMobileInput: 0
   m_CharacterValidation: 0
   m_CharacterLimit: 0
@@ -16726,49 +16606,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1341475627}
   m_CullTransparentMesh: 1
---- !u!1 &1354413315
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1354413316}
-  - component: {fileID: 1354413317}
-  m_Layer: 0
-  m_Name: FirestorageManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1354413316
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1354413315}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1978377937}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1354413317
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1354413315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bd9ac4af04334c3084af1b5b18ee777, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1356521239
 GameObject:
   m_ObjectHideFlags: 0
@@ -18136,7 +17973,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: (no ranchers, fisherman or hunters or butchers)
+  m_Text: (no ranchers, fisherman  or butchers)
 --- !u!222 &1458956809
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19383,7 +19220,7 @@ MonoBehaviour:
   m_InputType: 0
   m_AsteriskChar: 42
   m_KeyboardType: 0
-  m_LineType: 0
+  m_LineType: 1
   m_HideMobileInput: 0
   m_CharacterValidation: 0
   m_CharacterLimit: 0
@@ -20665,13 +20502,13 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 40
     m_FontStyle: 1
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 4
     m_MaxSize: 48
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
-    m_HorizontalOverflow: 1
+    m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Nelrina
@@ -22341,7 +22178,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1978377937}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1794017526
 GameObject:
@@ -22813,7 +22650,7 @@ MonoBehaviour:
   m_InputType: 1
   m_AsteriskChar: 42
   m_KeyboardType: 0
-  m_LineType: 0
+  m_LineType: 1
   m_HideMobileInput: 0
   m_CharacterValidation: 0
   m_CharacterLimit: 0
@@ -23511,13 +23348,13 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 40
     m_FontStyle: 1
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 4
     m_MaxSize: 48
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
-    m_HorizontalOverflow: 1
+    m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Simon
@@ -23578,7 +23415,6 @@ Transform:
   - {fileID: 194460586}
   - {fileID: 734989324}
   - {fileID: 853811061}
-  - {fileID: 1354413316}
   - {fileID: 1779908427}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -24117,13 +23953,13 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 40
     m_FontStyle: 1
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 4
     m_MaxSize: 48
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
-    m_HorizontalOverflow: 1
+    m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Tarquez

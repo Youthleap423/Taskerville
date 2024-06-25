@@ -24,6 +24,8 @@ public class TradeRequestItem : MonoBehaviour
     private EResources marketResource = EResources.Ale;
     private ETradeRepeat repeat = ETradeRepeat.Once;
     private Dictionary<string, ETradeRepeat> dic = new Dictionary<string, ETradeRepeat>();
+    float amount1 = 0.0f;
+    float amount2 = 0.0f;
     // Start is called before the first frame update
 
     private void Awake()
@@ -96,12 +98,16 @@ public class TradeRequestItem : MonoBehaviour
         {
             amountTF.text = string.Format("{0}", fResource.market_amount);
             priceTF.text = string.Format("{0}", marketPrice);
+            amount1 = fResource.market_amount;
+            amount2 = marketPrice;
             //item1Amount = fResource.market_amount;
         }
         else
         {
             amountTF.text = "";
             priceTF.text = "";
+            amount1 = 0f;
+            amount2 = 0f;
             //item1Amount = 0;
         }
     }
@@ -123,8 +129,15 @@ public class TradeRequestItem : MonoBehaviour
 
     public void OnRequest()
     {
+        if (amount2 == 0.0f)
+        {
+            UIManager.Instance.ShowErrorDlg("You have not enough resources!");
+            return;
+        }
+
         UIManager.Instance.ShowLoadingBar(true);
-        InvitationViewController.Instance.SendTradeInvitation(you, ETradeInviteType.Request, marketResource, repeat, (isSuccess, errMsg) =>
+        
+        InvitationViewController.Instance.SendTradeInvitation(you.id, ETradeInviteType.Request, EResources.Gold, amount2, marketResource, amount1, repeat, (isSuccess, errMsg) =>
         {
             UIManager.Instance.ShowLoadingBar(false);
             if (!isSuccess)
@@ -140,8 +153,14 @@ public class TradeRequestItem : MonoBehaviour
 
     public void OnOffer()
     {
+        if (amount1 == 0.0f)
+        {
+            UIManager.Instance.ShowErrorDlg("You have not enough resources!");
+            return;
+        }
+
         UIManager.Instance.ShowLoadingBar(true);
-        InvitationViewController.Instance.SendTradeInvitation(you, ETradeInviteType.Offer, marketResource, repeat, (isSuccess, errMsg) =>
+        InvitationViewController.Instance.SendTradeInvitation(you.id, ETradeInviteType.Offer, marketResource, amount1, EResources.Gold, amount2, repeat, (isSuccess, errMsg) =>
         {
             UIManager.Instance.ShowLoadingBar(false);
             if (!isSuccess)

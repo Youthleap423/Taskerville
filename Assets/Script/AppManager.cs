@@ -54,17 +54,18 @@ public class AppManager : MonoBehaviour
 
     private void Start()
     {
+        Notifications.RemoteNotificationOpened += Notifications_RemoteNotificationOpened;
         Notifications.LocalNotificationOpened += Notifications_LocalNotificationOpened;
     }
 
     private void OnDestroy()
     {
+        Notifications.RemoteNotificationOpened -= Notifications_RemoteNotificationOpened;
         Notifications.LocalNotificationOpened -= Notifications_LocalNotificationOpened;
     }
 
     private void Notifications_LocalNotificationOpened(EasyMobile.LocalNotification notify)
     {
-
         string notifPageId = "";
         if (notify.content.userInfo.TryGetValue("type", out object typeObj))
         {
@@ -94,13 +95,47 @@ public class AppManager : MonoBehaviour
             }
         }
     }
+    private void Notifications_RemoteNotificationOpened(EasyMobile.RemoteNotification notify)
+    {
+        Debug.LogError(">>>>>>>>>>>>>>>1");
+        Debug.LogError(JsonUtility.ToJson(notify.content));
+        Debug.LogError(JsonUtility.ToJson(notify.content.userInfo));
+        string notifPageId = "";
+        if (notify.content.userInfo.TryGetValue("type", out object typeObj))
+        {
+            notifPageId = System.Convert.ToString(typeObj);
+        };
+
+        //NotificationManager.Instance.RescheduleLocalNotification(notify.content);
+        
+        if (notifPageId != "")
+        {
+            if (notify.isAppInForeground)
+            {
+                UIManager.Instance.ShowNotification(notify.content);
+                PlayerPrefs.SetString("NotifyPage", string.Empty);
+            }
+            else
+            {
+                PlayerPrefs.SetString("NotifyPage", notifPageId);
+                if (SceneManager.GetActiveScene().name != "TaskScene")
+                {
+                    LoadTaskScene();
+                }
+                else
+                {
+                    OnNotificationOpened(notifPageId);
+                }
+            }
+        }
+    }
 
     IEnumerator RestartGame()
     {
         yield return new WaitForEndOfFrame();
 
-        isRestart = true;
         userID = UserViewController.Instance.GetCurrentUser().id;
+        isRestart = true;
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
     }
 
@@ -120,25 +155,45 @@ public class AppManager : MonoBehaviour
         UIManager.Instance.ShowNotification(notif);
     }
 
-    public void ChangeMode(Game_Mode game_mode)
+    public void ChangeMode(Game_Mode game_mode, bool needRestart = false)
     {
         NotificationManager.Instance.CancelAllPendingLocalNotifications();
-        UserViewController.Instance.UpdateSetting(game_mode);
+        UIManager.Instance.ShowLoadingBar(true);
+        UserViewController.Instance.UpdateSetting(game_mode, (isSuccess, errMsg) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (isSuccess)
+            {
+                if (needRestart) OnRestartGame();
+            }
+            else
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+        });
+    }
+
+    public void OnRestartGame()
+    {
         StartCoroutine(RestartGame());
     }
 
     public Game_Mode GetCurrentMode()
     {
-        return (Game_Mode)(UserViewController.Instance.GetCurrentSetting().current_mode);
+        return (Game_Mode)(UserViewController.Instance.GetCurrentSetting().game_mode);
     }
 
     public void SignOut()
     {
-        isRestart = true;
-        NotificationManager.Instance.CancelAllPendingLocalNotifications();
-        UserViewController.Instance.OnSignOut();
-        userID = "";
-        SceneManager.LoadSceneAsync("AuthScene");
+        UserViewController.Instance.OnSignOut((isSuccess) =>
+        {
+            if (isSuccess)
+            {
+                userID = "";
+                isRestart = true;
+                SceneManager.LoadSceneAsync("AuthScene");
+            }
+        });
     }
 
     public void HandleAIPlayer()

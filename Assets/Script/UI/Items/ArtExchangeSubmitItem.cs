@@ -28,16 +28,16 @@ public class ArtExchangeSubmitItem : MonoBehaviour
             return;
         }
 
-        _cArtworks = ArtworkSystem.Instance.GetSelectedCArtworks(_fArtTrade.artistName2);
+        _cArtworks = ArtworkSystem.Instance.GetSelectedCArtworks(_fArtTrade.artist2);
 
         LoadUI();
     }
 
     private void LoadUI()
     {
-        painting1_TF.text = _fArtTrade.painting1;
-        poster_TF.text = _fArtTrade.readers.Count > 0 ? _fArtTrade.readers[0] : "";
-        artist2_TF.text = _fArtTrade.artistName2;
+        painting1_TF.text = _fArtTrade.paint1;
+        poster_TF.text = _fArtTrade.sender;
+        artist2_TF.text = _fArtTrade.artist2;
 
         painting2_dropdown.options.Clear();
         foreach (CArtwork art in _cArtworks)

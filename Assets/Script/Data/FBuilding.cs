@@ -82,15 +82,4 @@ public class FBuilding : FData
         build_at = "";
         isRemovable = true;
     }
-
-    public void UpdateProgress(float progress)
-    {
-        this.progress = progress;
-        Dictionary<string, object> dic = new Dictionary<string, object>();
-        dic.Add("progress", progress);
-        FirestoreManager.Instance.UpdateData(collectionId, Id, dic, (isSuccess, errMsg) =>
-        {
-            
-        });
-    }
 }

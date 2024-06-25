@@ -57,7 +57,7 @@ public class BuildingInfoDlg : MonoBehaviour
             }
             else
             {
-                titleTF.text = gBuilding.Category.GetName();
+                titleTF.text = gBuilding.Category.name;
             }
             
         }

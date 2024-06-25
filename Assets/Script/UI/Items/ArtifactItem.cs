@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ArtifactItem : ImageOutline
 {
+    [SerializeField] private GameObject loadingBar;
     private CArtifact artifact = null;
     private int index = -1;
 
@@ -21,7 +22,12 @@ public class ArtifactItem : ImageOutline
     {
         this.artifact = cArtifact;
         this.index = index;
-        sprite = artifact.image;
+        loadingBar.SetActive(true);
+        DownloadManager.instance.AddQueue(cArtifact.GetImagePath(), (_, texture) =>
+        {
+            loadingBar.SetActive(false);
+            sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+        });
     }
 
 }

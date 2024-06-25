@@ -1,12 +1,17 @@
 ﻿using System;
 using UnityEngine;
 
-public class CData
+[Serializable]
+public class CData : Data
 {
     public string name = "";
     public string id = "";
 }
 
+[Serializable]
+public class Data{
+
+}
 [Serializable]
 struct CTutor
 {

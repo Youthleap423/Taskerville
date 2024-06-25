@@ -3,7 +3,7 @@ public enum Game_Mode
 {
     Task_Only = 0,
     Task_And_Game,
-    Game_Only
+    Game_Only,
 }
 
 public enum Interaction_Mode
@@ -163,7 +163,7 @@ public enum EVillagerType
     Miller,
     Spiritual_Leader,
     Sawyer,
-    Currator,
+    Curator,
     Butcher,
     Wharf_Master,
     Merchant,
@@ -174,7 +174,7 @@ public enum EVillagerType
     Spouse,
     Child,
     Commander,
-    Kinght,
+    Knight,
     Crossbowman,
     Cabinet,
     Archer,
@@ -189,7 +189,7 @@ public enum EVillagerType
     Swordsman,
     Philosopher,
     ShopKeeper,
-    Casetle_Servant
+    Castle_Servant
 }
 
 public enum EBuildingType
@@ -335,4 +335,21 @@ public enum EArtworkReason
     Build_Park,
     Build_Cemetery,
     Build_HerbGarden
+}
+
+public class LocalReport
+{
+    public string report = "";
+    public string date = "";
+
+    public LocalReport()
+    {
+
+    }
+
+    public LocalReport(string report, string date)
+    {
+        this.report = report;
+        this.date = date;
+    }
 }

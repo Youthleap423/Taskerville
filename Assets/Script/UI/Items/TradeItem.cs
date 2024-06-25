@@ -18,8 +18,8 @@ public class TradeItem : MonoBehaviour
     {
         if (this.trade != null)
         {
-            resNameTF.text = trade.resource;
-            repeatTF.text = trade.repeat;
+            resNameTF.text = trade.sender_res.ToString();
+            repeatTF.text = trade.repeat.ToString();
         }
     }
 

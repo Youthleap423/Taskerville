@@ -47,7 +47,7 @@ public class ChecklistPage : Page
 
         infoGlowEffectObj.SetActive(UserViewController.Instance.GetCurrentUser().GetPlayerAgesAsDays() < 7);
 
-        if (UserViewController.Instance.GetCurrentSetting().current_mode == (int)Game_Mode.Game_Only)
+        if (UserViewController.Instance.GetCurrentSetting().game_mode == (int)Game_Mode.Game_Only)
         {
             newButton.SetActive(false);
             CreateAutoTaskList(TaskViewController.Instance.GetAutoToDos());
@@ -89,7 +89,7 @@ public class ChecklistPage : Page
             entryList.Add(entry);
         }
         
-        TaskViewController.Instance.UpdateEntries(entryList);
+        TaskViewController.Instance.ArrangeToDo(entryList);
     }
 
     public void ShowInfoPage()
@@ -149,10 +149,12 @@ public class ChecklistPage : Page
 
     private void OnApplicationFocus(bool focus)
     {
+#if !UNITY_EDITOR
         if (focus)
         {
             Initialize();
         }
+#endif
     }
     #endregion
 }

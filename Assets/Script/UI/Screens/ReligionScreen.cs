@@ -62,7 +62,19 @@ public class ReligionScreen : IScreen
     public void OnContinue()
     {
         DataManager.Instance.UpdateReligion(selectedReligionName);
-        ScreenManager.Instance.Show("gamemode");
+        UserViewController.Instance.SerializeUser(true, (isSuccess, err) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(err);
+            }
+            else
+            {
+                ScreenManager.Instance.Show("gamemode");
+            }
+        });
+        
     }
     #endregion
 

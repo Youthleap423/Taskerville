@@ -86,7 +86,7 @@ public class LBuilding : LData
         var rWorker = 0;
 
         var Category = DataManager.Instance.GetBuilding(int.Parse(id));
-        var specialVillagers = Category.special_villagers;
+        var specialVillagers = Category.specialVillagers;
         if (specialVillagers.Count == 0)
         {
             return 0;
@@ -100,7 +100,6 @@ public class LBuilding : LData
             {
                 if (ResourceViewController.Instance.GetCVillager(villager.id).type == specialVillagers[0])
                 {
-
                     sWorker++;
                 }
                 else
@@ -114,7 +113,7 @@ public class LBuilding : LData
         var result = 0;
         for (int i = 0; i < sWorker; i++)
         {
-            if (rWorker >= (i + 1) * Category.require_villagers.Count)
+            if (rWorker >= (i + 1) * Category.requireVillagers.Count)
             {
                 result = i + 1;
             }
@@ -129,8 +128,8 @@ public class LBuilding : LData
         if (productList.Count == 0)
         {
             var Category = DataManager.Instance.GetBuilding(int.Parse(id));
-            productList = Category.productList;
-            requireList = Category.requireList;
+            productList = Category.products;
+            requireList = Category.requires;
         }
 
         var producerCount = GetProducer();
@@ -162,7 +161,7 @@ public class LBuilding : LData
         return result;
     }
 
-
+    /*
     public void CheckProduce()
     {
         if (id == "18")//butcher shop
@@ -172,7 +171,7 @@ public class LBuilding : LData
         }
 
         var Category = DataManager.Instance.GetBuilding(int.Parse(id));
-        productList = Category.productList;
+        productList = Category.products;
 
         if (productList.Count == 0)
         {
@@ -222,9 +221,9 @@ public class LBuilding : LData
                 var curAmont = ResourceViewController.Instance.GetCurrentResourceValue(resProduct.type);
                 if (curAmont < resProduct.amount)
                 {
-                    if (Category.special_villagers.Count > 0)
+                    if (Category.specialVillagers.Count > 0)
                     {
-                        DataManager.Instance.AddDailyReport(string.Format("{0} has no {1} required for {2}", Category.GetName(), resProduct.type.ToString(), Category.special_villagers[0].ToString()));
+                        DataManager.Instance.AddDailyReport(string.Format("{0} has no {1} required for {2}", Category.name, resProduct.type.ToString(), Category.specialVillagers[0].ToString()));
                     }
                     return;
                 }
@@ -256,7 +255,7 @@ public class LBuilding : LData
             }
         }
     }
-
+    
     public void CheckProduceForButcherShop()
     {
         if (productList.Count == 0)
@@ -335,5 +334,5 @@ public class LBuilding : LData
                 UpdateProduceTime(Convert.DateTimeToFDate(System.DateTime.Now));
             }
         });
-    }
+    }*/
 }

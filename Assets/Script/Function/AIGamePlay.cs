@@ -155,7 +155,7 @@ public class AIGamePlay : SingletonComponent<AIGamePlay>
                 }
             }
 
-            if (gold < cBuilding.GoldAmount || lumber < cBuilding.LumberAmount || stone < cBuilding.StoneAmount || iron < cBuilding.IronAmount)
+            if (gold < cBuilding.goldAmount || lumber < cBuilding.lumberAmount || stone < cBuilding.stoneAmount || iron < cBuilding.ironAmount)
             {
                 //UIManager.LogError(schedule.id + ":NotEnoughResource");
                 continue;

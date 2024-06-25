@@ -30,19 +30,19 @@ public class MemberOffer : Page
         {
             if (invitation.type == ETradeInviteType.Offer.ToString())
             {
-                if (!filteredOfferDic.ContainsKey(invitation.Pid))
+                if (!filteredOfferDic.ContainsKey(invitation.sender))
                 {
-                    filteredOfferDic.Add(invitation.Pid, new List<FTradeInvitation>());
+                    filteredOfferDic.Add(invitation.sender, new List<FTradeInvitation>());
                 }
-                filteredOfferDic[invitation.Pid].Add(invitation);
+                filteredOfferDic[invitation.sender].Add(invitation);
             }
             else
             {
-                if (!filteredRequestDic.ContainsKey(invitation.Pid))
+                if (!filteredRequestDic.ContainsKey(invitation.sender))
                 {
-                    filteredRequestDic.Add(invitation.Pid, new List<FTradeInvitation>());
+                    filteredRequestDic.Add(invitation.sender, new List<FTradeInvitation>());
                 }
-                filteredRequestDic[invitation.Pid].Add(invitation);
+                filteredRequestDic[invitation.sender].Add(invitation);
             }
             
         }

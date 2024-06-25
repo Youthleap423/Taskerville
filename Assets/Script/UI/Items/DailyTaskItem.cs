@@ -37,6 +37,7 @@ public class DailyTaskItem : EntryItem
 
     public void SetTask(LTaskEntry task)
     {
+        
         this.task = task;
         ReloadUI();
     }
@@ -78,7 +79,7 @@ public class DailyTaskItem : EntryItem
 
     public void EditTask()
     {
-        if (UserViewController.Instance.GetCurrentSetting().current_mode != (int)Game_Mode.Game_Only)
+        if (UserViewController.Instance.GetCurrentSetting().game_mode != (int)Game_Mode.Game_Only)
         {
             transform.GetComponentInParent<NavigationPage>().Show<TaskEntryPage>("task_entry", this.task);
         }
@@ -97,16 +98,36 @@ public class DailyTaskItem : EntryItem
     {
         if (toggle.isOn == true && task.isEnabled() == true)
         {
-            TaskViewController.Instance.OnComplete(task, true);
-            UpdateCanvasGroup(false);
+            TaskViewController.Instance.CompleteDailyTask(task, (isSuccess) =>
+            {
+                if (!isSuccess)
+                {
+                    UpdateCanvasGroup(false);
+                }
+                else
+                {
+                    task.OnComplete();
+                    this.ReloadUI();
+                }
+            });
+            
         }
 
         if (toggle.isOn == false)
         {
-            TaskViewController.Instance.CancelComplete(task);
-            UpdateCanvasGroup(true);
+            TaskViewController.Instance.CancelDailyTaskComplete(task, (isSuccess) =>
+            {
+                if (!isSuccess)
+                {
+                    UpdateCanvasGroup(true);
+                }
+                else
+                {
+                    task.CancelComplete();
+                    this.ReloadUI();
+                }
+            });
         }
-        ReloadUI();
     }
     #endregion
 

@@ -34,7 +34,7 @@ public class ProjectItem : EntryItem
     #region Public Members
     public override void ShowSubTaskList(bool bShow)
     {
-        if (UserViewController.Instance.GetCurrentSetting().current_mode == (int)Game_Mode.Game_Only)
+        if (UserViewController.Instance.GetCurrentSetting().game_mode == (int)Game_Mode.Game_Only)
         {
             return;
         }
@@ -92,7 +92,7 @@ public class ProjectItem : EntryItem
 
     public void EditProject()
     {
-        if (UserViewController.Instance.GetCurrentSetting().current_mode == (int)Game_Mode.Game_Only)
+        if (UserViewController.Instance.GetCurrentSetting().game_mode == (int)Game_Mode.Game_Only)
         {
             return;
         }
@@ -142,8 +142,6 @@ public class ProjectItem : EntryItem
         GameObject newObj = GameObject.Instantiate(linkitemPrefab, linkTaskGroup);
         LinkItem item = newObj.GetComponent<LinkItem>();
         item.SetTaskEntry(entry, this.projectEntry);
-
-        
     }
 
     public void CreateLink(LHabitEntry entry)
@@ -151,8 +149,6 @@ public class ProjectItem : EntryItem
         GameObject newObj = GameObject.Instantiate(linkitemPrefab, linkHabitGroup);
         LinkItem item = newObj.GetComponent<LinkItem>();
         item.SetHabitEntry(entry, this.projectEntry);
-
-
     }
 
     protected void DeleteLinkedTasks()
@@ -185,17 +181,22 @@ public class ProjectItem : EntryItem
 
     private void OnComplete(Toggle toggle)
     {
-        if (UserViewController.Instance.GetCurrentSetting().current_mode == (int)Game_Mode.Game_Only)
+        if (UserViewController.Instance.GetCurrentSetting().game_mode == (int)Game_Mode.Game_Only)
         {
             return;
         }
         if (toggle.isOn && projectEntry.isEnabled() == true)
         {
-            TaskViewController.Instance.OnComplete(projectEntry);
-            if (this.parentPage != null)
+            TaskViewController.Instance.CompleteProject(projectEntry, (isSuccess) =>
             {
-                parentPage.Reload();
-            }
+                if (isSuccess)
+                {
+                    if (this.parentPage != null)
+                    {
+                        parentPage.Reload();
+                    }
+                }
+            });
         }
     }
     #endregion

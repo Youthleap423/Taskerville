@@ -39,9 +39,9 @@ public class ConstructionPage : Page
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private Dropdown uniqueDropDown;
 
-    private List<BuildingsCategory> buildingsCategories = new List<BuildingsCategory>();
-    private List<BuildingsCategory> uniqueBuildingsCategories = new List<BuildingsCategory>();
-    private BuildingsCategory selectedCategory = null;
+    private List<CBuilding> buildingsCategories = new List<CBuilding>();
+    private List<CBuilding> uniqueBuildingsCategories = new List<CBuilding>();
+    private CBuilding selectedCategory = null;
     private List<GameObject> buildingConstructionList = new List<GameObject>();
     private List<BuildingCreator> buildingCreatorList = new List<BuildingCreator>();
     private int selectedUniqueBuildingIndex = 0;
@@ -194,6 +194,16 @@ public class ConstructionPage : Page
     {
         base.Initialize();
 
+        LoadUI();
+    }
+
+    private void OnEnable()
+    {
+        LoadUI();
+    }
+
+    private void LoadUI()
+    {
         if (ResourceViewController.Instance.GetCurrentResourceValue(EResources.Culture) >= 40f)
         {
             canvasGroup.alpha = 1f;
@@ -214,35 +224,35 @@ public class ConstructionPage : Page
 
         var user = UserViewController.Instance.GetCurrentUser();
 
-        buildingsCategories = DataManager.Instance.BuildingsCategoryData.category.FindAll(item => item.isStatic == false).OrderBy(item => item.GetName()).ToList();
+        buildingsCategories = DataManager.Instance.InitCBuilddings.FindAll(item => item.isStatic == false).OrderBy(item => item.name).ToList();
 
-        
+
         var dayOfWeek = Convert.FDateToDateTime(user.mode_at).DayOfWeek;
         var bonusList = user.isVegetarian ? DataManager.Instance.bonusBuildingsForVegetarin[dayOfWeek] : DataManager.Instance.bonusBuildingsForNotVegetarin[dayOfWeek];
         buildingsCategories.RemoveAll(item => DataManager.Instance.rareBuildings.Contains(item.id) && !bonusList.Contains(item.id));
 
         if (user.hasReligion == false)
         {
-            var temple = buildingsCategories.Find(item => item.id == 55);
+            var temple = buildingsCategories.Find(item => item.id == "55");
             buildingsCategories.Remove(temple);
         }
 
         if (user.isVegetarian == true)
         {
-            var ranch = buildingsCategories.Find(item => item.id == 1);
-            var fishercabin = buildingsCategories.Find(item => item.id == 19);
-            var butcher = buildingsCategories.Find(item => item.id == 18);
+            var ranch = buildingsCategories.Find(item => item.id == "1");
+            var fishercabin = buildingsCategories.Find(item => item.id == "19");
+            var butcher = buildingsCategories.Find(item => item.id == "18");
             buildingsCategories.Remove(ranch);
             buildingsCategories.Remove(fishercabin);
             buildingsCategories.Remove(butcher);
         }
 
-        buildingsCategories.RemoveAll(item => BuildManager.Instance.hasExistBuildingToConstruct(item.GetId()) == false);//2023/05/24 by pooh - remove item that all contructed 
+        buildingsCategories.RemoveAll(item => BuildManager.Instance.hasExistBuildingToConstruct(item.id) == false);//2023/05/24 by pooh - remove item that all contructed 
         dropDown.options.Clear();
 
-        foreach (BuildingsCategory item in buildingsCategories)
+        foreach (CBuilding item in buildingsCategories)
         {
-            dropDown.options.Add(new Dropdown.OptionData(item.GetName()));
+            dropDown.options.Add(new Dropdown.OptionData(item.name));
         }
 
         if (normalBuildingUIObj.activeSelf == true)
@@ -254,14 +264,14 @@ public class ConstructionPage : Page
                 this.SelectBuilding(0);
             }
         }
-        
+
 
         uniqueDropDown.options.Clear();
-        uniqueBuildingsCategories = DataManager.Instance.BuildingsCategoryData.category.FindAll(item => item.type == EBuildingType.Unique).OrderBy(item => item.GetName()).ToList();
-        uniqueBuildingsCategories.RemoveAll(item => BuildManager.Instance.hasExistBuildingToConstruct(item.GetId()) == false);//2023/05/24 by pooh - remove item that all contructed 
+        uniqueBuildingsCategories = DataManager.Instance.InitCBuilddings.FindAll(item => item.type == EBuildingType.Unique).OrderBy(item => item.name).ToList();
+        uniqueBuildingsCategories.RemoveAll(item => BuildManager.Instance.hasExistBuildingToConstruct(item.id) == false);//2023/05/24 by pooh - remove item that all contructed 
         foreach (var category in uniqueBuildingsCategories)
         {
-            uniqueDropDown.options.Add(new Dropdown.OptionData(category.GetName()));
+            uniqueDropDown.options.Add(new Dropdown.OptionData(category.name));
         }
 
         if (uniqueBuildingUIObj.activeSelf == true)
@@ -274,6 +284,7 @@ public class ConstructionPage : Page
             }
         }
     }
+
 
     public void OnConstruct()
     {
@@ -355,10 +366,10 @@ public class ConstructionPage : Page
         //buildingImage.sprite = storeImage;
 
 
-        goldDTF.text = string.Format("{0}", category.GoldAmount);
-        lumberDTF.text = string.Format("{0}", category.LumberAmount);
-        stoneDTF.text = string.Format("{0}", category.StoneAmount);
-        ironDTF.text = string.Format("{0}", category.IronAmount);
+        goldDTF.text = string.Format("{0}", category.goldAmount);
+        lumberDTF.text = string.Format("{0}", category.lumberAmount);
+        stoneDTF.text = string.Format("{0}", category.stoneAmount);
+        ironDTF.text = string.Format("{0}", category.ironAmount);
     }
 
     private void SelectUniqueBuilding(int index)

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CommunicationViewController : SingletonComponent<CommunicationViewController>
 {
+    private List<FCoalition> coalitionList = new List<FCoalition>();
+
     public FCoalition GetCurrentCoalition()
     {
         var currentUser = UserViewController.Instance.GetCurrentUser();
@@ -20,7 +22,7 @@ public class CommunicationViewController : SingletonComponent<CommunicationViewC
 
     public FCoalition GetCoalitionWithId(string id)
     {
-        return GetCurrentCoalitionList().Find(item => item.Id == id);
+        return GetCurrentCoalitionList().Find(item => item.id == id);
     }
 
     public FCoalition GetCoalitionWithName(string name)
@@ -44,25 +46,12 @@ public class CommunicationViewController : SingletonComponent<CommunicationViewC
             }
         }
 
-        LUser user = UserViewController.Instance.GetCurrentUser();
-        FCoalition coalition = new FCoalition(user, name);
-        
-        DataManager.Instance.CreateCoalition(coalition, (isSuccess, errMsg) =>
-        {
-            if (isSuccess)
-            {
-                DataManager.Instance.UpdateUser(coalition.name, coalition.name, callback);
-            }
-            else
-            {
-                callback(isSuccess, errMsg);
-            }
-        });
+        DataManager.Instance.CreateCoalition(name, Convert.GetSTZ(System.TimeZoneInfo.Local), callback);
     }
 
     public FCoalition FindCoalition(string id)
     {
-        foreach(FCoalition coalition in GetCurrentCoalitionList())
+        foreach(FCoalition coalition in this.coalitionList)
         {
             if (coalition.isMemberOf(id))
             {
@@ -89,58 +78,35 @@ public class CommunicationViewController : SingletonComponent<CommunicationViewC
             return;
         }
 
-        var fCoalition = GetCoalitionWithName(fUser.joined_coalition);
-
-        if (fCoalition == null)
-        {
-            callback(false, "Couldn't find your coalition.", null);
-            return;
-        }
-
         List<LUser> resultList = new List<LUser>();
-        UserViewController.Instance.LoadCurrentUserList((isSuccess, errMsg) =>
+        DataManager.Instance.GetCoalitionMembers((isSuccess, errMsg, list) =>
         {
             if (isSuccess)
             {
-                List<LUser> userList = UserViewController.Instance.GetCurrentUserList();
-                foreach (LUser user in userList)
-                {
-                    
-                    if (user.id == fUser.id)
-                    {
-                        continue;
-                    }
-
-                    if (fCoalition.members.Contains(user.id))
-                    {
-                        resultList.Add(user);
-                    }
-                }
-                callback(true, "", resultList);
+                callback(true, "", list);
             }
             else
             {
-                callback(false, "Error to load users", null);
+                callback(false, "Error to get coalition members: " + errMsg, null);
             }
         });
     }
 
     public void LoadCoalitions(System.Action<bool, string> callback)
     {
-        DataManager.Instance.LoadCoalitionData((isSuccess, errMsg, coalitionList) =>
-        {
-            callback(isSuccess, errMsg);
-        });
-    }
-
-    public void GetCurrentCoalitionList(System.Action<bool, string, List<FCoalition>> callback)
-    {
         DataManager.Instance.LoadCoalitionData(callback);
     }
 
-    public void ChangePublic(FCoalition coalition, System.Action<bool, string> callback)
+    public void ChangePublic(bool isOpen, System.Action<bool, string> callback)
     {
-        DataManager.Instance.UpdateCoalition(coalition, callback);
+        if (isOpen)
+        {
+            DataManager.Instance.OpenCoalition(callback);
+        }
+        else
+        {
+            DataManager.Instance.CloseCoalition(callback);
+        }
     }
 
     public void JoinCoalition(string name, System.Action<bool, string> callback)
@@ -153,43 +119,7 @@ public class CommunicationViewController : SingletonComponent<CommunicationViewC
             return;
         }
 
-        if (user.created_coalition.ToLower().Equals(name.ToLower()))
-        {
-            JoinOwnCoalition(callback);
-            return;
-        }
-
-        FCoalition joinCoalition = GetCoalitionWithName(name);
-        
-        if (joinCoalition == null)
-        {
-            callback(false, "There is no coalition named " + name);
-            return;
-        }
-
-        InvitationViewController.Instance.SendInvitation(joinCoalition.Pid, EInviteType.Join_Coalition, callback);
-    }
-
-    public void JoinOwnCoalition(System.Action<bool, string> callback)
-    {
-        LUser user = UserViewController.Instance.GetCurrentUser();
-        DataManager.Instance.UpdateUser(user.created_coalition, user.created_coalition, (isSuccess, errMsg) =>
-        {
-            if (isSuccess)
-            {
-                var fCoalition = DataManager.Instance.GetCurrentCoalitions().ToList().Find(item => item.name.ToLower() == user.created_coalition.ToLower());
-                if (fCoalition == null)
-                {
-                    callback(false, "Couldn't joined your coalition.");
-                    return;
-                }
-                fCoalition.AddMember(user.id, callback);
-            }
-            else
-            {
-                callback(isSuccess, errMsg);
-            }
-        });
+        DataManager.Instance.SendJoinInvite(name, callback);
     }
 
     public void JoinedCoalition(string id)
@@ -218,56 +148,24 @@ public class CommunicationViewController : SingletonComponent<CommunicationViewC
         user.UpdateJoinCoalition(coalition.name);
     }
 
-    public void LeaveCoalition()
-    {
-        LUser user = UserViewController.Instance.GetCurrentUser();
-        user.UpdateJoinCoalition("");
-    }
-
     public void LeaveCoalition(System.Action<bool, string> callback)
     {
-        LUser user = UserViewController.Instance.GetCurrentUser();
-        var fCoalition = GetCoalitionWithName(user.joined_coalition);
-        if (fCoalition == null)
-        {
-            callback(false, "Couldn't find your coalition.");
-            return;
-        }
+        DataManager.Instance.LeaveCoalition(callback);
+    }
 
-        fCoalition.RemoveMember(user.id, (isSuccess, errMsg) =>
-        {
-            if (isSuccess)
-            {
-                DataManager.Instance.UpdateUser(user.created_coalition, "", callback);
-            }
-            else
-            {
-                callback(isSuccess, errMsg);
-            }
-        });
+    public void InviteUserToCoalition(string invitee, System.Action<bool, string> callback)
+    {
+        DataManager.Instance.InviteUserToCoalition(invitee, callback);
+    }
+
+    public void InviteVillagerToCoalition(string villager, System.Action<bool, string> callback)
+    {
+        DataManager.Instance.InviteVillagerToCoalition(villager, callback);
     }
 
     public void KickCoalitionMember(LUser user, System.Action<bool, string> callback)
     {
-        var fCoalition = GetCoalitionWithName(user.joined_coalition);
-        if (fCoalition == null)
-        {
-            callback(false, "Couldn't find your coalition.");
-            return;
-        }
-
-        fCoalition.RemoveMember(user.id, (isSuccess, errMsg) =>
-        {
-            if (isSuccess)
-            {
-                user.joined_coalition = "";
-                user.Update(user.created_coalition, "", callback);
-            }
-            else
-            {
-                callback(isSuccess, errMsg);
-            }
-        });
+        DataManager.Instance.InviteVillagerToCoalition(user.id, callback);
     }
 
     public string GetSimilarNames(string prefix)
@@ -295,24 +193,14 @@ public class CommunicationViewController : SingletonComponent<CommunicationViewC
     /// <summary>
     /// Messages Part
     /// </summary>
-    public void SendFMessageToCoalition(List<LUser> userList, string msg, System.Action<bool, string, FMessage> callback)
+    public void SendFMessageToCoalition(string msg, System.Action<bool, string, FMessage> callback)
     {
-        LUser me = UserViewController.Instance.GetCurrentUser();
-        FMessage fMessage = new FMessage(me, userList, msg, EMessageType.Public);
-        DataManager.Instance.CreateMessages(fMessage, (isSuccess, errMsg) =>
-        {
-            callback(isSuccess, errMsg, fMessage);
-        });
+        DataManager.Instance.SendCoalitionMessage(msg, callback);
     }
 
     public void SendFMessage(LUser receiver, string msg, System.Action<bool, string, FMessage> callback)
     {
-        LUser me = UserViewController.Instance.GetCurrentUser();
-        FMessage fMessage = new FMessage(me, receiver, msg, EMessageType.Private);
-        DataManager.Instance.CreateMessages(fMessage, (isSuccess, errMsg) =>
-        {
-            callback(isSuccess, errMsg, fMessage);
-        });
+        DataManager.Instance.SendPrivateMessage(receiver.id, msg, callback);
     }
 
     public void LoadPublicMessages(string coalitionName, System.Action<bool, string, List<FMessage>> callback)
@@ -320,8 +208,19 @@ public class CommunicationViewController : SingletonComponent<CommunicationViewC
         DataManager.Instance.GetPublicMessages(coalitionName, callback);
     }
 
-    public void LoadPrivateMessages(List<string> userIds, System.Action<bool, string, List<FMessage>> callback)
+    public void LoadPrivateMessages(string otheruser, System.Action<bool, string, List<FMessage>> callback)
     {
-        DataManager.Instance.GetPrivateMessages(userIds, callback);
+        DataManager.Instance.GetPrivateMessages((isSuccess, errMsg, list) =>
+        {
+            if (isSuccess)
+            {
+                var newList = list.FindAll((item) => item.members.Contains(otheruser)).ToList();
+                callback?.Invoke(isSuccess, errMsg, newList);
+            }
+            else
+            {
+                callback?.Invoke(isSuccess, errMsg, null);
+            }
+        });
     }
 }

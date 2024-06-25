@@ -59,22 +59,6 @@ public class GameManager : SingletonComponent<GameManager>
         
     }
 
-    
-    public void CheckAllDailyUpdate()
-    {
-        UIManager.Instance.ShowLoadingBar(true);
-        DataManager.Instance.SerializeUser(false, (isSuccess, err) =>
-        {
-            UIManager.Instance.ShowLoadingBar(false);
-            ResourceViewController.Instance.CheckDailyMission();
-            TradeViewController.Instance.CheckTrades();
-            TaskViewController.Instance.CheckDaily();
-            //ArtifactSystem.Instance.CheckArtifacts();
-            ArtworkSystem.Instance.CheckArtwork();
-        });
-        
-    }
-
     public void BuildingsLoaded()
     {
         StartCoroutine(FadeOut(1.5f));

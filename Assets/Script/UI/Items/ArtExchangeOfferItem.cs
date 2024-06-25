@@ -29,8 +29,8 @@ public class ArtExchangeOfferItem : MonoBehaviour
     private void LoadUI()
     {
         index_TF.text = _index.ToString();
-        painting1_TF.text = string.Format("{0},\n{1}", _fArtTrade.painting1, _fArtTrade.artistName1);
-        artist2_TF.text = _fArtTrade.artistName2;
+        painting1_TF.text = string.Format("{0},\n{1}", _fArtTrade.paint1, _fArtTrade.artist1);
+        artist2_TF.text = _fArtTrade.artist2;
     }
 
     public void SetData(int index, FArtTrade data)

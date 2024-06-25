@@ -19,13 +19,13 @@ public class ArtTradeRequestItem : MonoBehaviour
         {
             yes_Button.SetActive(true);
             no_Button.SetActive(true);
-            message_TF.text = string.Format("{0} offers: {1}, {2}. In changes for: {3}, {4}\n", artTrade.readers[1], artTrade.painting2, artTrade.artistName2, artTrade.painting1, artTrade.artistName1);
+            message_TF.text = string.Format("{0} offers: {1}, {2}. In changes for: {3}, {4}\n", artTrade.receiverName, artTrade.paint2, artTrade.artist2, artTrade.paint1, artTrade.artist1);
         }
         else
         {
             yes_Button.SetActive(false);
             no_Button.SetActive(false);
-            message_TF.text = string.Format("{0} offers: {1}, {2}. In changes for: {3}, {4}\n", artTrade.readers[0], artTrade.painting2, artTrade.artistName2, artTrade.painting1, artTrade.artistName1);
+            message_TF.text = string.Format("{0} offers: {1}, {2}. In changes for: {3}, {4}\n", artTrade.senderName, artTrade.paint2, artTrade.artist2, artTrade.paint1, artTrade.artist1);
         }
 
         
@@ -41,18 +41,14 @@ public class ArtTradeRequestItem : MonoBehaviour
 
     public void Accept()
     {
-        artTrade.Accept();
         UIManager.Instance.ShowLoadingBar(true);
-        DataManager.Instance.UpdateData(artTrade, (isSuccess, errMsg) =>
+        DataManager.Instance.AcceptArtTrades(artTrade.id, (isSuccess, errMsg) =>
         {
             UIManager.Instance.ShowLoadingBar(false);
             if (isSuccess)
             {
                 ArtworkSystem.Instance.Trade(artTrade);
-                DataManager.Instance.RemoveData(artTrade, (isSuccess, errMsg) =>
-                {
-                    parentPage.Back();
-                });
+                parentPage.Back();
             }
             else
             {
@@ -64,16 +60,11 @@ public class ArtTradeRequestItem : MonoBehaviour
 
     public void Decline()
     {
-        artTrade.Decline();
         UIManager.Instance.ShowLoadingBar(true);
-        DataManager.Instance.RemoveData(artTrade, (isSuccess, errMsg) =>
+        DataManager.Instance.RejectArtTrades(artTrade.id, (isSuccess, errMsg, _) =>
         {
             UIManager.Instance.ShowLoadingBar(false);
-            if (isSuccess)
-            {
-
-            }
-            else
+            if (!isSuccess)
             {
                 UIManager.Instance.ShowErrorDlg(errMsg);
             }

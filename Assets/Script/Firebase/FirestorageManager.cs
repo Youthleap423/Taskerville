@@ -44,6 +44,25 @@ public class FirestorageManager : SingletonComponent<FirestorageManager>
         });
         */
     }
-    
 
+    public void UploadFile()
+    {
+        //byte[] bytes = FileBrowserHelpers.ReadBytesFromFile(FileBrowser.Result[0]);
+        ////Editing Metadata
+        //var newMetadata = new MetadataChange();
+        //newMetadata.ContentType = "image/jpeg";
+        //Firebase.Storage.StorageReference storageReference = storage.GetReferenceFromUrl("gs://carilson-designs.appspot.com");
+        //Firebase.Storage.StorageReference uploadRef = storageReference.Child("Artifact/newFile.jpeg");
+        //Debug.Log("File upload started");
+        //uploadRef.PutBytesAsync(bytes, newMetadata).ContinueWithOnMainThread((task) => {
+        //    if (task.IsFaulted || task.IsCanceled)
+        //    {
+        //        Debug.Log(task.Exception.ToString());
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("File Uploaded Successfully!");
+        //    }
+        //});
+    }
 }

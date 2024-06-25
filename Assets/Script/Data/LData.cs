@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LData
+[System.Serializable]
+public class LData : Data
 {
     public string id = "";
     public string created_at = "";

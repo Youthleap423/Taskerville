@@ -41,7 +41,7 @@ public class GameModeScreen : IScreen
     {
         UIManager.Instance.ShowLoadingBar(true);
 
-        UserViewController.Instance.SerializeUser(false, (isSuccess, err) =>
+        UserViewController.Instance.SerializeUser(true, (isSuccess, err) =>
         {
             UIManager.Instance.ShowLoadingBar(false);
             if (!isSuccess)
@@ -51,7 +51,6 @@ public class GameModeScreen : IScreen
             else
             {
                 AppManager.Instance.LoadTaskScene();
-
             }
         });
     }
@@ -65,8 +64,8 @@ public class GameModeScreen : IScreen
     #region Private Members
     private void ChangeGameMode(Game_Mode mode)
     {
-        AppManager.Instance.ChangeMode(mode);
         UpdateUI(mode);
+        AppManager.Instance.ChangeMode(mode);
     }
 
     private void UpdateUI(Game_Mode mode) 

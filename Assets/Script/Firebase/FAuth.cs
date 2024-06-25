@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Firebase;
 using Firebase.Auth;
-
+using Firebase.Extensions;
+using System.Threading.Tasks;
+using UnityEngine.SceneManagement;
 public class FAuth : SingletonComponent<FAuth>
 {
     [Header("Firebase")]
@@ -16,7 +18,9 @@ public class FAuth : SingletonComponent<FAuth>
     {
         auth.SignOut();
         user = null;
-        DataManager.Instance.SignOut();
+        Firebase.Messaging.FirebaseMessaging.DeleteTokenAsync();
+        //DataManager.Instance.SignOut();
+        //SceneManager.LoadSceneAsync("LogoScene");
     }
 
     #region Properties
@@ -27,12 +31,14 @@ public class FAuth : SingletonComponent<FAuth>
     #region Unity Methods
     private void Start()
     {
+        
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
         {
             dependencyStatus = task.Result;
             if (dependencyStatus == DependencyStatus.Available)
             {
                 InitializeFirebase();
+                Firebase.Messaging.FirebaseMessaging.TokenReceived += FirebaseMessaging_TokenReceived;
             }
             else
             {
@@ -41,7 +47,13 @@ public class FAuth : SingletonComponent<FAuth>
         });
     }
 
-    
+
+    private void FirebaseMessaging_TokenReceived(object sender, Firebase.Messaging.TokenReceivedEventArgs e)
+    {
+        DataManager.Instance.SetTokenValue(e.Token);
+    }
+
+
     #endregion
 
     #region Private Methods
@@ -55,8 +67,6 @@ public class FAuth : SingletonComponent<FAuth>
         //AuthStateChanged(this, null);
     }
 
-    
-
     private void AuthStateChanged(object sender, System.EventArgs eventArgs)
     {
         if (auth.CurrentUser != user)
@@ -67,15 +77,14 @@ public class FAuth : SingletonComponent<FAuth>
                 if (OnFAuthLoginFailed != null)
                 {
                     OnFAuthLoginFailed("Signed Out");
-                    
                 }
+                
                 return;
             }
 
             user = auth.CurrentUser;
             if (signIn)
             {
-                Debug.LogErrorFormat("Signed in {0}", user.UserId);
                 if (OnFAuthLoginSucceeded != null)
                 {
                     OnFAuthLoginSucceeded(user.UserId);
@@ -112,10 +121,13 @@ public class FAuth : SingletonComponent<FAuth>
 
     private IEnumerator SignInWithEmailAndPasswordAsync(string email, string password, System.Action<bool, string, string> callback)
     {
+        yield return new WaitForEndOfFrame();
+        Debug.LogError("Start Sign....");
         var signInTask = auth.SignInWithEmailAndPasswordAsync(email, password);
-        Debug.LogError(email);
+        
+        //yield return new WaitForSeconds(3f);
         yield return new WaitUntil(() => signInTask.IsCompleted);
-
+        Debug.LogError(signInTask.IsCompleted);
         if (signInTask.Exception != null)
         {
             FirebaseException firebaseException = signInTask.Exception.GetBaseException() as FirebaseException;
@@ -141,7 +153,6 @@ public class FAuth : SingletonComponent<FAuth>
         {
             callback(true, "Password reset email sent successfully.");
         }
-
     }
 
     private string GetErrorMessage(FirebaseException exception)
@@ -228,6 +239,25 @@ public class FAuth : SingletonComponent<FAuth>
 
     public void SignIn(string email, string password, System.Action<bool, string, string> callback)
     {
+        /*var task = auth.SignInWithEmailAndPasswordAsync(email, password);
+        task.ContinueWith(signInTask =>
+        {
+            task.Dispose();
+            Debug.LogError(">>>>>>>>>>>>>");
+            if (signInTask.IsCanceled)
+            {
+                callback(false, "Sign in With email and password was cancelled", "");
+            }
+
+            if (signInTask.IsFaulted)
+            {
+                FirebaseException firebaseException = signInTask.Exception.GetBaseException() as FirebaseException;
+                callback(false, "Sign In Failed:" + GetErrorMessage(firebaseException), "");
+            }
+
+            FirebaseUser newUser = signInTask.Result.User;
+            callback(true, string.Format("Firebase user signed in successfully: {0}, {1}", newUser.DisplayName, newUser.UserId), newUser.UserId);
+        });*/
         StartCoroutine(SignInWithEmailAndPasswordAsync(email, password, callback));
     }
 

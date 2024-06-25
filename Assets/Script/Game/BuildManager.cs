@@ -77,12 +77,12 @@ public class BuildManager : SingletonComponent<BuildManager>
         }
     }
 
-    private List<GameObject> GetBuildingObjects(int buildingID)
+    private List<GameObject> GetBuildingObjects(string buildingID)
     {
         List<GameObject> result = new List<GameObject>();
         foreach (GBuilding gBuilding in allBuildings)
         {
-            if (gBuilding.GetBuildingID() == buildingID)
+            if (gBuilding.GetBuildingID().ToString() == buildingID)
             {
                 result.Add(gBuilding.gameObject);
             }
@@ -234,7 +234,7 @@ public class BuildManager : SingletonComponent<BuildManager>
         return gBuilding.Lbuilding.progress > 0.99f;
     }
 
-    public bool hasExistBuildingToConstruct(int buildingID)
+    public bool hasExistBuildingToConstruct(string buildingID)
     {
         List<GameObject> result = new List<GameObject>();
         foreach (GBuilding gBuilding in allBuildings)
@@ -443,7 +443,7 @@ public class BuildManager : SingletonComponent<BuildManager>
             {
                 if (isSuccess)
                 {
-                    gBuilding.Lbuilding.CheckProduce();
+                    //gBuilding.Lbuilding.CheckProduce();
                     ArtworkSystem.Instance.CheckBuildingMilestone(gBuilding.GetBuildingObjectID, newVillagerList);
                     var logMsg = "";
                     foreach(LVillager villager in newVillagerList)
@@ -479,6 +479,7 @@ public class BuildManager : SingletonComponent<BuildManager>
                         }
                     }
                     gBuilding.CheckBuilders();
+                    DataManager.Instance.SaveData();
                 }
                 else
                 {
@@ -526,7 +527,7 @@ public class BuildManager : SingletonComponent<BuildManager>
             {
                 AITaskManager.Instance.CheckOnStartWithBuilding(gBuilding.Lbuilding);
             }
-            
+            DataManager.Instance.CompleteBuilding(gBuilding.Lbuilding.bID, Utilities.GetFormattedDate());
         }
 
         
@@ -549,22 +550,22 @@ public class BuildManager : SingletonComponent<BuildManager>
         var bonusItems = DataManager.Instance.bonusBuildingsForVegetarin[day];
 
 
-        if (bonusItems.Contains(61))
+        if (bonusItems.Contains("61"))
         {
             ironObj.SetActive(true);
         }
 
-        if (bonusItems.Contains(62))
+        if (bonusItems.Contains("62"))
         {
             siliverObj.SetActive(true);
         }
 
-        if (bonusItems.Contains(63))
+        if (bonusItems.Contains("63"))
         {
             quarry.SetActive(true);
         }
 
-        if (bonusItems.Contains(65))
+        if (bonusItems.Contains("65"))
         {
             goldObj.SetActive(true);
         }
@@ -599,15 +600,15 @@ public class BuildManager : SingletonComponent<BuildManager>
     /// <param name="category"> building category </param> 
     /// <param name="isNormal"> true- normal build, false - ruby or diamond build </param>
     /// <returns></returns>
-    public bool IsEnoughResource(BuildingsCategory category, bool isNormal)
+    public bool IsEnoughResource(CBuilding category, bool isNormal)
     {
         var resDic = new Dictionary<EResources, float>();
         if (isNormal)
         {
-            resDic.Add(EResources.Gold, -category.GoldAmount);
-            resDic.Add(EResources.Lumber, -category.LumberAmount);
-            resDic.Add(EResources.Stone, -category.StoneAmount);
-            resDic.Add(EResources.Iron, -category.IronAmount);
+            resDic.Add(EResources.Gold, -category.goldAmount);
+            resDic.Add(EResources.Lumber, -category.lumberAmount);
+            resDic.Add(EResources.Stone, -category.stoneAmount);
+            resDic.Add(EResources.Iron, -category.ironAmount);
         }
         else
         {
@@ -636,7 +637,7 @@ public class BuildManager : SingletonComponent<BuildManager>
         GBuilding gBuilding = buildingObj.GetComponent<GBuilding>();
         LBuilding lbuidling = gBuilding.Lbuilding;
 
-        var category = DataManager.Instance.BuildingsCategoryData.category.Find(item => item.GetId().ToString() == lbuidling.id);
+        var category = DataManager.Instance.InitCBuilddings.Find(item => item.id == lbuidling.id);
 
         if (category == null)
         {
@@ -649,10 +650,6 @@ public class BuildManager : SingletonComponent<BuildManager>
         {
             //12/14/2022 when a person uses a ruby to build a structure, the cost to build should be reduced to 1/2 of original => free 
             var resDic = new Dictionary<EResources, float>();
-            //resDic.Add(EResources.Gold, Mathf.Floor(-category.GoldAmount / 2));
-            //resDic.Add(EResources.Lumber, Mathf.Floor(-category.LumberAmount / 2));
-            //resDic.Add(EResources.Stone, Mathf.Floor(-category.StoneAmount / 2));
-            //resDic.Add(EResources.Iron, Mathf.Floor(-category.IronAmount / 2));
             resDic.Add(category.QResType, -category.QResAmount);
 
             if (ResourceViewController.Instance.CheckResource(resDic))
@@ -669,10 +666,10 @@ public class BuildManager : SingletonComponent<BuildManager>
         {
 
             var resDic = new Dictionary<EResources, float>();
-            resDic.Add(EResources.Gold, -category.GoldAmount);
-            resDic.Add(EResources.Lumber, -category.LumberAmount);
-            resDic.Add(EResources.Stone, -category.StoneAmount);
-            resDic.Add(EResources.Iron, -category.IronAmount);
+            resDic.Add(EResources.Gold, -category.goldAmount);
+            resDic.Add(EResources.Lumber, -category.lumberAmount);
+            resDic.Add(EResources.Stone, -category.stoneAmount);
+            resDic.Add(EResources.Iron, -category.ironAmount);
 
             if (ResourceViewController.Instance.CheckResource(resDic))
             {
@@ -685,53 +682,43 @@ public class BuildManager : SingletonComponent<BuildManager>
             }
         }
 
-
-        ResourceViewController.Instance.UpdateResource(resourceDic, (isSuccess, errMsg) =>
+        var Construction = Instantiate(GetConstructionObj(gBuilding.Lbuilding), buildingObj.transform);
+        Construction.transform.SetSiblingIndex(2);
+        Construction.transform.localPosition = Vector3.zero;
+        if (lbuidling.GetBuildingType() == EBuildingType.Building)
         {
-            if (isSuccess)
-            {
-                var Construction = Instantiate(GetConstructionObj(gBuilding.Lbuilding), buildingObj.transform);
-                Construction.transform.SetSiblingIndex(2);
-                Construction.transform.localPosition = Vector3.zero;
-                if (lbuidling.GetBuildingType() == EBuildingType.Building)
-                {
-                    BuildingCreator bCreator = Construction.GetComponent<BuildingCreator>();
-                    bCreator.SetGBuilding(gBuilding);
-                    bCreator.buildingTime = QuickBuild ? 1 : gBuilding.Category.TimeToBuild;
+            BuildingCreator bCreator = Construction.GetComponent<BuildingCreator>();
+            bCreator.SetGBuilding(gBuilding);
+            bCreator.buildingTime = QuickBuild ? 1 : (int)gBuilding.Category.timeToBuild;
 
-                    bCreator.progress = 0f;
-                    gBuilding.SetBuildingCreator(bCreator);
-                    Construction.GetComponent<ConstructionPath>().ResetPath();
-                }
-                else
-                {
-                    MineCreator bCreator = Construction.GetComponent<MineCreator>();
-                    bCreator.SetGBuilding(gBuilding);
-                    bCreator.buildingTime = QuickBuild ? 1 : gBuilding.Category.TimeToBuild;
+            bCreator.progress = 0f;
+            gBuilding.SetBuildingCreator(bCreator);
+            Construction.GetComponent<ConstructionPath>().ResetPath();
+        }
+        else
+        {
+            MineCreator bCreator = Construction.GetComponent<MineCreator>();
+            bCreator.SetGBuilding(gBuilding);
+            bCreator.buildingTime = QuickBuild ? 1 : (int)gBuilding.Category.timeToBuild;
 
-                    bCreator.progress = 0f;
-                    gBuilding.SetBuildingCreator(bCreator);
-                }
-                gBuilding.QuickBuild = QuickBuild;
-                current_builder_count++;
-                if (celeBuildingIds.Contains(lbuidling.id))
-                {
-                    AudioManager.Instance.PlayFXSound(AudioManager.Instance.specialConstructionClip);
-                }
-                else
-                {
-                    AudioManager.Instance.PlayFXSound(new List<AudioClip>() { AudioManager.Instance.constructionClip});
-                }
-                
-            }
-            else
-            {
-                UIManager.Instance.ShowErrorDlg(errMsg);
-            }
-        });
+            bCreator.progress = 0f;
+            gBuilding.SetBuildingCreator(bCreator);
+        }
+        gBuilding.QuickBuild = QuickBuild;
+        current_builder_count++;
+        if (celeBuildingIds.Contains(lbuidling.id))
+        {
+            AudioManager.Instance.PlayFXSound(AudioManager.Instance.specialConstructionClip);
+        }
+        else
+        {
+            AudioManager.Instance.PlayFXSound(new List<AudioClip>() { AudioManager.Instance.constructionClip });
+        }
+
+        DataManager.Instance.StartToBuild(lbuidling.bID, category.id, QuickBuild, Utilities.SystemTimeInMillisecondsString);
     }
 
-    public void StartToBuild(BuildingsCategory category, int uniqueBuildingIndex, System.Action<bool, string> callback)
+    public void StartToBuild(CBuilding category, int uniqueBuildingIndex, System.Action<bool, string> callback)
     {
         if (!AnyFreeBuilder())
         {
@@ -739,7 +726,7 @@ public class BuildManager : SingletonComponent<BuildManager>
             return;
         }
 
-        GBuilding gBuilding = allBuildings.Find(item => item.GetBuildingID() == category.GetId()); //GetUnBuiltObjects(GetBuildingObjects(category.GetId()));
+        GBuilding gBuilding = allBuildings.Find(item => item.GetBuildingID().ToString() == category.id); //GetUnBuiltObjects(GetBuildingObjects(category.GetId()));
         
         if (gBuilding == null)
         {
@@ -762,32 +749,32 @@ public class BuildManager : SingletonComponent<BuildManager>
         }
 
         var requireItems = ResourceViewController.Instance.GetResourceValue(category.QResType);
+
         if (requireItems < category.QResAmount)
         {
-            callback(false, "Not enough Rubys to construct this building.");
+            callback(false, string.Format("Not enough {0}s to construct this building.", category.QResType.ToString()));
             return;
         }
 
-        ResourceViewController.Instance.UpdateResource(category.QResType.ToString(), category.QResAmount, (isSuccess, errMsg) =>
-        {
-            var Construction = Instantiate(GetConstructionObj(gBuilding.Lbuilding), gBuilding.gameObject.transform);
-            Construction.transform.SetSiblingIndex(2);
-            Construction.transform.localPosition = Vector3.zero;
-            BuildingCreator bCreator = Construction.GetComponent<BuildingCreator>();
-            bCreator.SetGBuilding(gBuilding);
-            bCreator.buildingTime = 1;
-            gBuilding.QuickBuild = QuickBuild;
+        var Construction = Instantiate(GetConstructionObj(gBuilding.Lbuilding), gBuilding.gameObject.transform);
+        Construction.transform.SetSiblingIndex(2);
+        Construction.transform.localPosition = Vector3.zero;
+        BuildingCreator bCreator = Construction.GetComponent<BuildingCreator>();
+        bCreator.SetGBuilding(gBuilding);
+        bCreator.buildingTime = 1;
+        gBuilding.QuickBuild = QuickBuild;
 
-            bCreator.progress = 0f;
-            gBuilding.SetBuildingCreator(bCreator);
-            Construction.GetComponent<ConstructionPath>().ResetPath();
-            gBuilding.Category = category;
-            CameraController.Instance.MoveCamera(gBuilding.transform.position);
+        bCreator.progress = 0f;
+        gBuilding.SetBuildingCreator(bCreator);
+        Construction.GetComponent<ConstructionPath>().ResetPath();
+        gBuilding.Category = category;
+        CameraController.Instance.MoveCamera(gBuilding.transform.position);
 
-            current_builder_count++;
-            callback(isSuccess, errMsg);
-            AudioManager.Instance.PlayFXSound(AudioManager.Instance.specialConstructionClip);
-        });
+        current_builder_count++;
+        
+        AudioManager.Instance.PlayFXSound(AudioManager.Instance.specialConstructionClip);
+
+        DataManager.Instance.StartToBuild(lbuidling.bID, category.id, QuickBuild, Utilities.SystemTimeInMillisecondsString, callback);
     }
 
     public void StartToBuild(CSchedule schedule)
@@ -805,7 +792,7 @@ public class BuildManager : SingletonComponent<BuildManager>
 
         LBuilding lbuidling = gBuilding.Lbuilding;
 
-        var category = DataManager.Instance.BuildingsCategoryData.category.Find(item => item.GetId().ToString() == lbuidling.id);
+        var category = DataManager.Instance.InitCBuilddings.Find(item => item.id == lbuidling.id);
 
         if (category == null)
         {
@@ -815,42 +802,37 @@ public class BuildManager : SingletonComponent<BuildManager>
 
 
         var resDic = new Dictionary<EResources, float>();
-        resDic.Add(EResources.Gold, -category.GoldAmount);
-        resDic.Add(EResources.Lumber, -category.LumberAmount);
-        resDic.Add(EResources.Stone, -category.StoneAmount);
-        resDic.Add(EResources.Iron, -category.IronAmount);
+        resDic.Add(EResources.Gold, -category.goldAmount);
+        resDic.Add(EResources.Lumber, -category.lumberAmount);
+        resDic.Add(EResources.Stone, -category.stoneAmount);
+        resDic.Add(EResources.Iron, -category.ironAmount);
 
-        ResourceViewController.Instance.UpdateResource(resDic, (isSuccess, errMsg) =>
+        var Construction = Instantiate(GetConstructionObj(gBuilding.Lbuilding), gBuilding.transform);
+        Construction.transform.SetSiblingIndex(2);
+        Construction.transform.localPosition = Vector3.zero;
+        gBuilding.QuickBuild = QuickBuild;
+        if (lbuidling.GetBuildingType() == EBuildingType.Building)
         {
-            if (isSuccess)
-            {
-                var Construction = Instantiate(GetConstructionObj(gBuilding.Lbuilding), gBuilding.transform);
-                Construction.transform.SetSiblingIndex(2);
-                Construction.transform.localPosition = Vector3.zero;
-                gBuilding.QuickBuild = QuickBuild;
-                if (lbuidling.GetBuildingType() == EBuildingType.Building)
-                {
-                    BuildingCreator bCreator = Construction.GetComponent<BuildingCreator>();
-                    bCreator.SetGBuilding(gBuilding);
-                    bCreator.buildingTime = QuickBuild ? 1 : gBuilding.Category.TimeToBuild;
+            BuildingCreator bCreator = Construction.GetComponent<BuildingCreator>();
+            bCreator.SetGBuilding(gBuilding);
+            bCreator.buildingTime = QuickBuild ? 1 : (int)gBuilding.Category.timeToBuild;
 
-                    bCreator.progress = 0f;
-                    gBuilding.SetBuildingCreator(bCreator);
-                }
-                else
-                {
-                    MineCreator bCreator = Construction.GetComponent<MineCreator>();
-                    bCreator.SetGBuilding(gBuilding);
-                    bCreator.buildingTime = QuickBuild ? 1 : gBuilding.Category.TimeToBuild;
+            bCreator.progress = 0f;
+            gBuilding.SetBuildingCreator(bCreator);
+        }
+        else
+        {
+            MineCreator bCreator = Construction.GetComponent<MineCreator>();
+            bCreator.SetGBuilding(gBuilding);
+            bCreator.buildingTime = QuickBuild ? 1 : (int)gBuilding.Category.timeToBuild;
 
-                    bCreator.progress = 0f;
-                    gBuilding.SetBuildingCreator(bCreator);
-                }
-                Construction.GetComponent<ConstructionPath>().ResetPath();
-                current_builder_count++;
-                DataManager.Instance.UpdateAutoBuilding(new LAutoBuilding(schedule.id, false));
-            }
-        });
+            bCreator.progress = 0f;
+            gBuilding.SetBuildingCreator(bCreator);
+        }
+        Construction.GetComponent<ConstructionPath>().ResetPath();
+        current_builder_count++;
+        DataManager.Instance.UpdateAutoBuilding(new LAutoBuilding(schedule.id, false));
+        DataManager.Instance.StartToBuild(lbuidling.bID, category.id, QuickBuild, Utilities.SystemTimeInMillisecondsString);
     }
 
     public void ConvertToQuickBuild(GameObject buildingObj)
@@ -862,66 +844,57 @@ public class BuildManager : SingletonComponent<BuildManager>
             return;
         }
 
-        var category = DataManager.Instance.BuildingsCategoryData.category.Find(item => item.GetId().ToString() == gBuilding.Lbuilding.id);
+        var category = DataManager.Instance.InitCBuilddings.Find(item => item.id == gBuilding.Lbuilding.id);
         if (category == null)
         {
             return;
         }
-
+       
         var requireItems = ResourceViewController.Instance.GetResourceValue(category.QResType);
         if (requireItems < category.QResAmount)
         {
-            UIManager.Instance.ShowErrorDlg("Not enough Rubys to construct this building.");
+            UIManager.Instance.ShowErrorDlg(string.Format("Not enough {0}s to construct this building.", category.QResType.ToString()));
             return;
         }
-
+        Debug.LogError(category.QResType.ToString());
+        Debug.LogError(category.QResAmount);
+        Debug.LogError(requireItems);
         var resDic = new Dictionary<EResources, float>();
-        resDic.Add(EResources.Gold, Mathf.Floor(category.GoldAmount));
-        resDic.Add(EResources.Lumber, Mathf.Floor(category.LumberAmount));
-        resDic.Add(EResources.Stone, Mathf.Floor(category.StoneAmount));
-        resDic.Add(EResources.Iron, Mathf.Floor(category.IronAmount));
+        resDic.Add(EResources.Gold, Mathf.Floor(category.goldAmount));
+        resDic.Add(EResources.Lumber, Mathf.Floor(category.lumberAmount));
+        resDic.Add(EResources.Stone, Mathf.Floor(category.stoneAmount));
+        resDic.Add(EResources.Iron, Mathf.Floor(category.ironAmount));
         resDic.Add(category.QResType, -category.QResAmount);
 
-        ResourceViewController.Instance.UpdateResource(resDic, (isSuccess, errMsg) =>
+        if (gBuilding.Lbuilding.GetBuildingType() == EBuildingType.Building)
         {
-            if (isSuccess)
+            BuildingCreator bCreator = buildingObj.GetComponentInChildren<BuildingCreator>();
+            if (bCreator == null)
             {
-                if (gBuilding.Lbuilding.GetBuildingType() == EBuildingType.Building)
-                {
-                    BuildingCreator bCreator = buildingObj.GetComponentInChildren<BuildingCreator>();
-                    if (bCreator == null)
-                    {
-                        return;
-                    }
-                    bCreator.buildingTime = 1;
-                    bCreator.progress = 0f;
-                    gBuilding.SetBuildingCreator(bCreator);
-
-                }
-                else
-                {
-                    MineCreator bCreator = buildingObj.GetComponentInChildren<MineCreator>();
-                    if (bCreator == null)
-                    {
-                        return;
-                    }
-                    bCreator.buildingTime = 1;
-                    bCreator.progress = 0f;
-                    gBuilding.SetBuildingCreator(bCreator);
-                }
-                gBuilding.Lbuilding.created_at = Utilities.SystemTimeInMillisecondsString;
-                gBuilding.QuickBuild = true;
-                
-
+                return;
             }
-            else
+            bCreator.buildingTime = 1;
+            bCreator.progress = 0f;
+            gBuilding.SetBuildingCreator(bCreator);
+
+        }
+        else
+        {
+            MineCreator bCreator = buildingObj.GetComponentInChildren<MineCreator>();
+            if (bCreator == null)
             {
-                UIManager.Instance.ShowErrorDlg(errMsg);
+                return;
             }
-        });
+            bCreator.buildingTime = 1;
+            bCreator.progress = 0f;
+            gBuilding.SetBuildingCreator(bCreator);
+        }
+        gBuilding.Lbuilding.created_at = Utilities.SystemTimeInMillisecondsString;
+        gBuilding.QuickBuild = true;
+        DataManager.Instance.ConvertQuickBuilding(gBuilding.Lbuilding.bID, category.id, Utilities.SystemTimeInMillisecondsString);
     }
 
-    public void SelectPosition(BuildingsCategory category, System.Action<bool, string> callback)
+    public void SelectPosition(CBuilding category, System.Action<bool, string> callback)
     {
         foreach (GBuilding building in flaggedGBuldings)
         {
@@ -929,7 +902,7 @@ public class BuildManager : SingletonComponent<BuildManager>
         }
         flaggedGBuldings.Clear();
 
-        List<GameObject> selectedObjs = GetUnBuiltObjects(GetBuildingObjects(category.GetId())); //GetUnBuiltObjects(GetBuildingObjects(category.GetId()));
+        List<GameObject> selectedObjs = GetUnBuiltObjects(GetBuildingObjects(category.id)); //GetUnBuiltObjects(GetBuildingObjects(category.GetId()));
         if (selectedObjs.Count == 0)
         {
             callback(false, "You have already constructed this building.");

@@ -50,11 +50,11 @@ public class ArtworkDetailPage : Page
         }
 
         var cArtwork = ArtworkSystem.Instance.GetCArtwork(artworkList[currentIndex]);
-        
-        StartCoroutine(ImageLoader.Start(cArtwork.image_path, (sprite =>
+
+        DownloadManager.instance.AddQueue(cArtwork.GetImagePath(), (_, texture) =>
         {
-            image.sprite = sprite;
-        })));
+            image.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+        });
         nameTF.text = cArtwork.name;
         dateTF.text = cArtwork.artist_name;
         contactTF.text = cArtwork.contactInfo;

@@ -22,7 +22,7 @@ public class AITaskManager : SingletonComponent<AITaskManager>
     // Start is called before the first frame update
     void Start()
     {
-        GetData();
+        //GetData();
     }
 
     public void CreateEntries()
@@ -134,17 +134,21 @@ public class AITaskManager : SingletonComponent<AITaskManager>
         return (int)user.GetExport(curRes);
     }
 
-    public void CheckOnCompleteWithBuilding(BuildingsCategory building)
+    public void CheckOnCompleteWithBuilding(CBuilding building)
     {
         var goal = DataManager.Instance.CurrentAutoGoals.Find(it => it.id == "3");
-        if (goal != null && building.id == goal.completeAmount)
+        if (goal == null)
+        {
+            return;
+        }
+        if (building != null && building.id == goal.completeAmount.ToString())
         {
             CompleteGoal(goal);
             return;
         }
         
         goal = DataManager.Instance.CurrentAutoGoals.Find(it => it.id == "2");
-        if (goal != null &&  building.id == goal.completeAmount)
+        if (goal != null &&  building.id == goal.completeAmount.ToString())
         {
             CompleteGoal(goal);
         }
@@ -271,7 +275,7 @@ public class AITaskManager : SingletonComponent<AITaskManager>
                     {
                         newEntry.begin_date = newEntry.created_at;
                         newEntry.completeAmount = rareBuildingTypes;
-                        newEntry.taskName = "Build " + DataManager.Instance.BuildingsCategoryData.category.Find(it => it.id == rareBuildingTypes).GetName();
+                        newEntry.taskName = "Build " + DataManager.Instance.InitCBuilddings.Find(it => it.id == rareBuildingTypes.ToString()).name;
                     }
                     break;    
                 case "3":

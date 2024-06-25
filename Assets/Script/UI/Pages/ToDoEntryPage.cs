@@ -158,23 +158,18 @@ public class ToDoEntryPage : EntryPage
                     newToDoEntry.checkList.Add(task.id);
                 }
             }
+            TaskViewController.Instance.CreateToDo(newToDoEntry, this.subLTasks, (_) =>
+            {
+                ShowToDoList();
+            });
         }
         else
         {
-            newToDoEntry.SetRemoved(true);
-
-            this.subLTasks = taskDic.Values.ToList();
-            newToDoEntry.checkList.Clear();
-
-            foreach (LTask task in this.subLTasks)
+            TaskViewController.Instance.RemoveToDo(newToDoEntry, (_) =>
             {
-                task.SetRemoved(true);
-                newToDoEntry.checkList.Add(task.id);
-            }
+                ShowToDoList();
+            });
         }
-
-        newToDoEntry.Update(subLTasks);
-        ShowToDoList();
     }
 
     public void ShowToDoList()

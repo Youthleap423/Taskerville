@@ -10,7 +10,7 @@ public class ExcavationDlg : PopUpDlg
     [SerializeField] private ImageOutline image;
     [SerializeField] private Text nameTF;
     [SerializeField] private Text dateTF;
-
+    [SerializeField] private GameObject loadingBar;
     private LArtifact artifact = null;
     // Start is called before the first frame update
     void Start()
@@ -29,7 +29,13 @@ public class ExcavationDlg : PopUpDlg
             return;
         }
         var cArtifact = ArtifactSystem.Instance.GetCArtifact(artifact);
-        image.sprite = cArtifact.image;
+        image.sprite = null;
+        loadingBar.SetActive(true);
+        DownloadManager.instance.AddQueue(cArtifact.GetImagePath(), (_, texture) =>
+        {
+            loadingBar.SetActive(false);
+            image.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+        });
         nameTF.text = cArtifact.name;
         dateTF.text = cArtifact.date;
 

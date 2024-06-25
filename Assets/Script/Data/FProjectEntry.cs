@@ -26,11 +26,6 @@ public class FProjectEntry : FEntry
         linkedTasks = new List<string>();
     }
 
-    public void Update(List<FTask> subProjectList, List<FTaskEntry> linkedTaskList, System.Action<bool, string> callback)
-    {
-        FirestoreManager.Instance.CreateEntry(this, subProjectList, linkedTaskList, callback);
-    }
-
     public override bool isCompleted()
     {
         return !completedDate.Equals("");

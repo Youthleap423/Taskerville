@@ -15,26 +15,35 @@ public class SplashScreen : IScreen
     // Start is called before the first frame update
     void Start()
     {
-
         UIManager.Instance.ShowLoadingBar(true);
-        //Invoke("CheckUserLoggedIn", 1);
         if (AppManager.Instance.isRestart)
         {
-            UserViewController.Instance.OnAuthLogin(AppManager.Instance.userID, (isSuccess, errMsg) =>
+            CheckLoginStatus();
+            AppManager.Instance.isRestart = false;
+        }
+    }
+
+    private void CheckLoginStatus()
+    {
+        if (DataManager.Instance.CurrentFUser.id != "")
+        {
+            UserViewController.Instance.OnGetFUser(DataManager.Instance.CurrentFUser.id, (isSuccess, errMsg) =>
             {
-                AppManager.Instance.isRestart = false;
                 AppManager.Instance.userID = "";
                 if (isSuccess)
                 {
-                    Invoke("ShowMainScreen", 2);
+                    ShowMainScreen();
                 }
                 else
                 {
-                    Invoke("ShowLoginScreen", 2);
+                    ShowLoginScreen();
                     //UIManager.Instance.ShowErrorDlg(errMsg);
                 }
-
             });
+        }
+        else
+        {
+            ShowLoginScreen();
         }
     }
     #endregion
@@ -54,18 +63,16 @@ public class SplashScreen : IScreen
         Debug.LogError("Success:" + userId);
         FAuth.Instance.OnFAuthLoginFailed -= OnFAuthLoginFailed;
         FAuth.Instance.OnFAuthLoginSucceeded -= OnFAuthLoginSucceeded;
-        UserViewController.Instance.OnAuthLogin(userId, (isSuccess, errMsg) =>
+        UserViewController.Instance.OnGetFUser(userId, (isSuccess, errMsg) =>
         {
-            AppManager.Instance.isRestart = false;
             AppManager.Instance.userID = "";
             if (isSuccess)
             {
-                Invoke("ShowMainScreen", 2);
+                Invoke(nameof(ShowMainScreen), 2);
             }
             else
             {
                 ShowLoginScreen();
-                //UIManager.Instance.ShowErrorDlg(errMsg);
             }
             
         });

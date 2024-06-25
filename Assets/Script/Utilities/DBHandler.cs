@@ -22,11 +22,8 @@ public static class DBHandler
         PlayerPrefs.SetString(filename, content);
     }
 
-    public static List<T> ReadListFromJSON<T>(string filename)
+    public static List<T> ReadListFromJSON<T>(string content)
     {
-        string content = PlayerPrefs.GetString(filename);
-        //string content = ReadFile(GetPath(filename));
-        
         if (string.IsNullOrEmpty(content) || content == "{}")
         {
             return new List<T>();
@@ -38,11 +35,8 @@ public static class DBHandler
 
     }
 
-    public static T ReadFromJSON<T>(string filename)
+    public static T ReadFromJSON<T>(string content)
     {
-        string content = PlayerPrefs.GetString(filename);
-        //string content = ReadFile(GetPath(filename));
-
         if (string.IsNullOrEmpty(content) || content == "{}")
         {
             return default(T);

@@ -22,6 +22,7 @@ public class PasswordRecoveryScreen : IScreen
         UserViewController.Instance.OnResetPassword(email_IF.text, (isSuccess, errMsg) =>
         {
             UIManager.Instance.ShowLoadingBar(false);
+            UIManager.Instance.ShowErrorDlg(errMsg);
             if (isSuccess)
             {
                 ScreenManager.Instance.Show("login");

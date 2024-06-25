@@ -256,7 +256,7 @@ public class HabitItem : EntryItem
 
     public void EditTask()
     {
-        if (UserViewController.Instance.GetCurrentSetting().current_mode != (int)Game_Mode.Game_Only)
+        if (UserViewController.Instance.GetCurrentSetting().game_mode != (int)Game_Mode.Game_Only)
         {
             transform.GetComponentInParent<NavigationPage>().Show<HabitEntryPage>("habit_entry", this.task);
         }
@@ -264,6 +264,7 @@ public class HabitItem : EntryItem
 
     public void SetUnitClicked(int index)
     {
+        var bCompleted = false;
         if (index == this.task.complete_unit)
         {
             if (this.task.timespan == true)
@@ -284,9 +285,15 @@ public class HabitItem : EntryItem
                 {
                     complete_Toggle.isOn = true;
                     OnComplete();
+                    bCompleted = true;
                 }
             }
-            
+
+            if (!bCompleted)
+            {
+                Debug.LogError(">>>>>>>>>>>");
+                this.task.Update();
+            }
         }
     }
 
@@ -313,15 +320,21 @@ public class HabitItem : EntryItem
             if (!task.isPositive)
             {
                 toggle.isOn = true;
-                TaskViewController.Instance.OnComplete(task);
+                OnComplete();
             }
         }
     }
 
     private void OnComplete()
     {
-        TaskViewController.Instance.OnComplete(task);
-        UpdateCanvasGroup(false);
+        TaskViewController.Instance.CompleteHabit(task, (isSuccess) =>
+        {
+            UpdateCanvasGroup(false);
+            if (isSuccess)
+            {
+                ReloadUI();
+            }
+        });
     }
 
 

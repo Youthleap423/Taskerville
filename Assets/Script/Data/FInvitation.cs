@@ -1,43 +1,18 @@
-using Firebase.Firestore;
+using System;
 
-[FirestoreData]
-public class FInvitation : FData
+[Serializable]
+public class FInvitation : Data
 {
-    [FirestoreProperty]
-    public string receiver_Id { get; set; }
 
-    [FirestoreProperty]
-    public string type { get; set; }
-
-    [FirestoreProperty]
-    public string reply_at { get; set; }
-
-    [FirestoreProperty]
-    public string state { get; set; }
-
-    public LUser sender = null;
-    public LUser receiver = null;
-
-    public FInvitation()
-    {
-        receiver_Id = "";
-        type = "";
-        state = "";
-        reply_at = "";
-    }
-
-    public FInvitation(LUser sender, LUser receiver, EInviteType type)
-    {
-        this.sender = sender;
-        this.receiver = receiver;
-        collectionId = "Invitation";
-        Pid = sender.id;
-        reply_at = "";
-        receiver_Id = receiver.id;
-        this.type = type.ToString();
-        state = EState.Created.ToString();
-    }
-
+    public string id = "";
+    public string sender = "";
+    public string receiver = "";
+    public string reply_at = "";
+    public string state = "";
+    public string coalitionId = "";
+    public string type = "";
+    public string created_at = "";
+    
     public bool isOutOfDate()
     {
         var days = reply_at == "" ? Utilities.GetDays(Convert.FDateToDateTime(created_at), System.DateTime.Now) : Utilities.GetDays(Convert.FDateToDateTime(reply_at), System.DateTime.Now);

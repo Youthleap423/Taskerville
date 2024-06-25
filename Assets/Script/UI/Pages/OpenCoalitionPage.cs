@@ -63,21 +63,8 @@ public class OpenCoalitionPage : Page
     {
         base.Initialize();
 
-        UIManager.Instance.ShowLoadingBar(true);
-        CommunicationViewController.Instance.GetCurrentCoalitionList((isSuccess, errMsg, coalitionList) =>
-        {
-            UIManager.Instance.ShowLoadingBar(false);
-
-            if (isSuccess)
-            {
-                fCoalitions = coalitionList;
-                LoadUI();
-            }
-            else
-            {
-                UIManager.Instance.ShowErrorDlg(errMsg);
-            }
-        });
+        fCoalitions = CommunicationViewController.Instance.GetCurrentCoalitionList();
+        LoadUI();
     }
     #endregion
 }

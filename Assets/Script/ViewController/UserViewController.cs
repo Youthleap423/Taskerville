@@ -17,70 +17,66 @@ public class UserViewController : SingletonComponent<UserViewController>
 
     public void OnRegister(string username, string email, string password, System.Action<bool, string> callback)
     {
-        DataManager.Instance.CheckUsername(username, (isSuccess, errMsg, user, lUser) =>
-        {
-            if (!isSuccess)
-            {
-                FAuth.Instance.Register(username, email, password, (isSuccess, errMsg, userId) =>
-                {
-                    if (isSuccess)
-                    {
-                        var newFUser = new FUser(userId);
-                        DataManager.Instance.UpdateNewUser(newFUser);
-                        DataManager.Instance.UpdateUser(userId, username, email);
-                        DataManager.Instance.SerializeUser(true, callback);
-                        //ResourceViewController.Instance.Initialize();
-                        //BuildManager.Instance.LoadBuildings();
-
-                        //AppManager.Instance.singedIn = true;
-                    }
-                    else
-                    {
-                        callback(isSuccess, errMsg);
-                    }
-                });
-            }
-            else
-            {
-                callback(false, "This user email already exists. Plese input new user & email.");
-            }
-        });
+        DataManager.Instance.CreateFUser(email, password, username, callback);
     }
 
     public void OnSignIn(string username, string password, System.Action<bool, string> callback)
     {
-        
-        DataManager.Instance.CheckUsername(username, (isSuccess, errMsg, fUser, lUser) =>
+        DataManager.Instance.GetEmailWithUserName(username, (isSuccess, errMsg, email) =>
         {
-            if (isSuccess)
+            if (isSuccess == false)
             {
-                FAuth.Instance.SignIn(lUser.Email, password, (isSuccess, errMsg, userId) =>
+                callback(isSuccess, "Can't find user with username. Please check again");
+            }
+            else
+            {
+                FAuth.Instance.SignIn(email, password, (isSuccess, errMsg, userId) =>
                 {
                     if (isSuccess)
                     {
-                        DataManager.Instance.UpdateUser(fUser, callback);
-                        NotificationManager.Instance.RescheduleAllTaskNotification();
-                        //ResourceViewController.Instance.LoadData(fUser);
-                        //BuildManager.Instance.LoadBuildings();
-                        //BuildManager.Instance.HandleAIPlayer();
-                        //AppManager.Instance.singedIn = true;
+                        DataManager.Instance.GetFUser(userId, (isSuccess, errMsg) =>
+                        {
+                            if (isSuccess)
+                            {
+                                //NotificationManager.Instance.RescheduleAllTaskNotification();
+                                //ResourceViewController.Instance.LoadData(fUser);
+                                //BuildManager.Instance.LoadBuildings();
+                                //BuildManager.Instance.HandleAIPlayer();
+                                //AppManager.Instance.singedIn = true;
+                            }
+                            callback(isSuccess, errMsg);
+                        });
+                        
                     }
                     else
                     {
                         callback(isSuccess, errMsg);
                     }
                 });
+            }
+            Debug.LogError(email);
+            
+        });
+        /*
+        
+
+        DataManager.Instance.CheckUsername(username, (isSuccess, errMsg, fUser, lUser) =>
+        {
+            if (isSuccess)
+            {
+                
+                
             }
             else
             {
                 callback(false, errMsg);
             }
-        });
+        });*/
     }
 
-    public void OnAuthLogin(string userId, System.Action<bool, string> callback)
-    {
-        DataManager.Instance.UpdateUser(userId, callback);
+    public void OnGetFUser(string userId, System.Action<bool, string> callback)
+    {        
+        DataManager.Instance.GetFUser(userId, callback);
         //ResourceViewController.Instance.LoadData(userId);
         //BuildManager.Instance.LoadBuildings();
         //BuildManager.Instance.HandleAIPlayer();
@@ -88,13 +84,27 @@ public class UserViewController : SingletonComponent<UserViewController>
         //DataManager.Instance.SerializeUser(false, callback);
     }
 
-    public void OnSignOut()
+    public void OnSignOut(System.Action<bool> callback)
     {
-        FAuth.Instance.SignOut();
-        DataManager.Instance.SignOut();
-        NotificationManager.Instance.CancelAllPendingLocalNotifications();
-        NotificationManager.Instance.RemoveAllDeliveredNotifications();
-        AppManager.Instance.singedIn = false;
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.SignOut((isSuccess, errMsg) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (isSuccess)
+            {
+                NotificationManager.Instance.CancelAllPendingLocalNotifications();
+                NotificationManager.Instance.RemoveAllDeliveredNotifications();
+                AppManager.Instance.singedIn = false;
+                FAuth.Instance.SignOut();
+                callback?.Invoke(true);
+            }
+            else
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+                callback?.Invoke(false);
+            }
+        });
+        
     }
 
     public void OnResetPassword(string strEmail, System.Action<bool, string> callback)
@@ -125,7 +135,7 @@ public class UserViewController : SingletonComponent<UserViewController>
 
     public FUser GetFUser(string id)
     {
-        return GetCurrentFUserList().Find(item => item.Id == id);
+        return GetCurrentFUserList().Find(item => item.id == id);
     }
 
     public List<FUser> GetCurrentFUserList()
@@ -153,9 +163,9 @@ public class UserViewController : SingletonComponent<UserViewController>
         DataManager.Instance.UpdateSetting(shelter_storm);
     }
 
-    public void UpdateSetting(Game_Mode game_Mode)
+    public void UpdateSetting(Game_Mode game_Mode, System.Action<bool, string> callback)
     {
-        DataManager.Instance.UpdateSetting(game_Mode);
+        DataManager.Instance.UpdateSetting(game_Mode, callback);
     }
 
     public Sprite GetCurrentAvatarSprite()
@@ -168,28 +178,36 @@ public class UserViewController : SingletonComponent<UserViewController>
         return DataManager.Instance.GetAvatarSprite(nIndex);
     }
 
-    public void LoadCurrentUserList(System.Action<bool, string> callback)
+    public void GetCurrentUserList(System.Action<bool, List<LUser>> callback)
     {
-        DataManager.Instance.LoadUserData((isSuccess, errMsg, userList) =>
+        var list =  DataManager.Instance.GetCurrentMemberList().ToList();
+        if (list.Count == 0)
         {
-            this.currentUserList.Clear();
-            foreach (LUser user in userList)
+            UIManager.Instance.ShowLoadingBar(true);
+            DataManager.Instance.GetCoalitionMembers((isSuccess, errMsg, list) =>
             {
-                this.currentUserList.Add(user);
-            }
-            callback(isSuccess, errMsg);
-        });
-    }
-
-    public List<LUser> GetCurrentUserList()
-    {
-        return this.currentUserList;
+                UIManager.Instance.ShowLoadingBar(false);
+                if (isSuccess)
+                {
+                    callback?.Invoke(true, list);
+                }
+                else
+                {
+                    UIManager.Instance.ShowErrorDlg(errMsg);
+                    callback?.Invoke(false, null);
+                }
+            });
+        }
+        else
+        {
+            callback?.Invoke(true, list);
+        }
     }
 
     public void AddExport(EResources res, float amount)
     {
         GetCurrentUser().AddExport(res, amount);
-        if (GetCurrentSetting().current_mode == (int)Game_Mode.Game_Only)
+        if (GetCurrentSetting().game_mode == (int)Game_Mode.Game_Only)
         {
             AITaskManager.Instance.CheckOnCompleteWithExports();
         }

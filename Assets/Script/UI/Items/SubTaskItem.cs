@@ -39,30 +39,31 @@ public class SubTaskItem : MonoBehaviour
     {
         if (toggle.isOn && task.isEnabled() == true)
         {
-            TaskViewController.Instance.OnComplete(task);
+            TaskViewController.Instance.CompleteSubTask(task, (isSuccess) =>
+            {
+                if (isSuccess)
+                {
+                    task.OnComplete();
+                }
+                if (this.parent != null)
+                {
+                    this.parent.ReloadUI();
+                }
+            });
         }
         if (toggle.isOn == false)
         {
-            TaskViewController.Instance.CancelComplete(task);
-        }
-
-        if (this.parent != null)
-        {
-            this.parent.ReloadUI();
-        }
-    }
-
-    private void UpdateCanvasGroup(bool isEnable)
-    {
-        if (isEnable)
-        {
-            canvasGroup.blocksRaycasts = true;
-            canvasGroup.interactable = true;
-        }
-        else
-        {
-            canvasGroup.blocksRaycasts = false;
-            canvasGroup.interactable = false;
+            TaskViewController.Instance.CancelSubTaskComplete(task, (isSuccess) =>
+            {
+                if (isSuccess)
+                {
+                    task.CancelComplete();
+                }
+                if (this.parent != null)
+                {
+                    this.parent.ReloadUI();
+                }
+            });
         }
     }
 }

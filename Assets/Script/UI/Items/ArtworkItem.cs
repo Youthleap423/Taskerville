@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ArtworkItem : ImageOutline
 {
+    [SerializeField] private GameObject loadingBar;
+    [SerializeField] private Image image;
     private CArtwork artwork = null;
     private int index = -1;
 
@@ -21,10 +24,14 @@ public class ArtworkItem : ImageOutline
     {
         this.artwork = cArtwork;
         this.index = index;
-        StartCoroutine(ImageLoader.Start(cArtwork.image_path, (sprite =>
+        this.sprite = null;
+        image.sprite = null;
+        loadingBar.SetActive(true);
+        DownloadManager.instance.AddQueue(cArtwork.GetImagePath(), (_, texture) =>
         {
-            this.sprite = sprite;
-        })));
+            loadingBar.SetActive(false);
+            this.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+        });
     }
 
 }

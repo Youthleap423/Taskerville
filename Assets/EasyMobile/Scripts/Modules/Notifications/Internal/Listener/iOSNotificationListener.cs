@@ -135,7 +135,6 @@ namespace EasyMobile.Internal.Notifications
         private void HandleOnFirebaseNotificationReceived(Firebase.Messaging.MessageReceivedEventArgs receivedMessage)
         {
             var delivered = receivedMessage.ToCrossPlatformRemoteNotification();
-
             if (!iOSNotificationHelper.IsEMLocalNotification(delivered.content.userInfo))
             {
                 // Not EM's local notification

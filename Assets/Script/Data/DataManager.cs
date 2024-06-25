@@ -10,6 +10,8 @@ using Newtonsoft.Json;
 
 public class DataManager : SingletonComponent<DataManager>
 {
+    public static event System.Action<bool> OnDataUpdated;
+
     [SerializeField] public Sprite[] avatar_Images;
 
     [Header("Sprites")]
@@ -21,7 +23,6 @@ public class DataManager : SingletonComponent<DataManager>
     [SerializeField] public Sprite ruby_Sprite;
     [SerializeField] public Sprite sapphire_Sprite;
     [SerializeField] public Sprite paint_Sprite;
-    [SerializeField] public Sprite backMode_Sprite;
     [Space]
     [SerializeField]
     private FUser currentFUser = new FUser();
@@ -51,6 +52,10 @@ public class DataManager : SingletonComponent<DataManager>
     private List<LVillager> initVillagers = new List<LVillager>();
     private List<LBuilding> initBuildings = new List<LBuilding>();
 
+    private List<CResource> initCResources = new List<CResource>();
+    private List<CVillager> initCVillagers = new List<CVillager>();
+    private List<CBuilding> initCBuildings = new List<CBuilding>();
+
     private LUser currentUser = new LUser();
     private LSetting currentSetting = new LSetting();
     private List<LUser> currentUserList = new List<LUser>();
@@ -69,44 +74,43 @@ public class DataManager : SingletonComponent<DataManager>
     private List<LArtifact> currentArtifacts = new List<LArtifact>();
     private List<LArtwork> currentArtworks = new List<LArtwork>();
     private List<FCoalition> currentCoalitions = new List<FCoalition>();
-    
-    private BuildingsCategoryData _buildingsCategoryData;
-    private BuildingsCategoryData _roadCategoryData;
+    private List<LTaskEntry> yesterdayTasks = new List<LTaskEntry>();
+    private List<FTrade> currentTrades = new List<FTrade>();
+
     private ResourceData _resourceCategoryData;
-    private VillageData _villagerCategoryData;
     private ScheduleData _scheduleData;
     private ArtifactData _artifactData;
     
     public List<EVillagerType> laborTypeGroup = new List<EVillagerType>() { EVillagerType.Farmer, EVillagerType.Woodcutter, EVillagerType.Baker,
                                                                     EVillagerType.Builder, EVillagerType.Miller, EVillagerType.Laborer, EVillagerType.Sawyer, EVillagerType.Quarryman, EVillagerType.Rancher, EVillagerType.Miner};
-    public List<EVillagerType> guardTypeGroup = new List<EVillagerType>() { EVillagerType.Commander, EVillagerType.Kinght, EVillagerType.Archer, EVillagerType.Crossbowman };
-    public List<EVillagerType> staffTypeGroup = new List<EVillagerType>() { EVillagerType.Mayor, EVillagerType.Administrator, EVillagerType.Currator, EVillagerType.Cabinet };
+    public List<EVillagerType> guardTypeGroup = new List<EVillagerType>() { EVillagerType.Commander, EVillagerType.Knight, EVillagerType.Archer, EVillagerType.Crossbowman };
+    public List<EVillagerType> staffTypeGroup = new List<EVillagerType>() { EVillagerType.Mayor, EVillagerType.Administrator, EVillagerType.Curator, EVillagerType.Cabinet };
     public List<DayOfWeek> availableDaysOfShip = new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday };
     public List<EResources> exportResources = new List<EResources>() { EResources.Bread, EResources.Ale, EResources.Lumber, EResources.Stone, EResources.Iron };
 
 
 
-    [HideInInspector]public List<int> rareBuildings = new List<int>() { 3, 5, 11, 12, 14, 61, 62, 63, 65};
+    [HideInInspector]public List<string> rareBuildings = new List<string>() { "3", "5", "11", "12", "14", "61", "62", "63", "65"};
 
-    [HideInInspector] public Dictionary<DayOfWeek, List<int>> bonusBuildingsForVegetarin = new Dictionary<DayOfWeek, List<int>>() {
-        {DayOfWeek.Sunday, new List<int>{3, 5, 12, 61} },
-        {DayOfWeek.Monday, new List<int>{12, 11, 3, 61} },
-        {DayOfWeek.Tuesday, new List<int>{5, 14, 11, 63} },
-        {DayOfWeek.Wednesday, new List<int>{12, 11, 14, 63} },
-        {DayOfWeek.Thursday, new List<int>{65, 5} },
-        {DayOfWeek.Friday, new List<int>{62, 12} },
-        {DayOfWeek.Saturday, new List<int>{14, 5, 63, 3} },
+    [HideInInspector] public Dictionary<DayOfWeek, List<string>> bonusBuildingsForVegetarin = new Dictionary<DayOfWeek, List<string>>() {
+        {DayOfWeek.Sunday, new List<string>{"3", "5", "12", "61"} },
+        {DayOfWeek.Monday, new List<string>{"12", "11", "3", "61"} },
+        {DayOfWeek.Tuesday, new List<string>{"5", "14", "11", "63"} },
+        {DayOfWeek.Wednesday, new List<string>{"12", "11", "14", "63"} },
+        {DayOfWeek.Thursday, new List<string>{"65", "5"} },
+        {DayOfWeek.Friday, new List<string>{"62", "12"} },
+        {DayOfWeek.Saturday, new List<string>{"14", "5", "63", "3"} },
     };
 
     [HideInInspector]
-    public Dictionary<DayOfWeek, List<int>> bonusBuildingsForNotVegetarin = new Dictionary<DayOfWeek, List<int>>() {
-        {DayOfWeek.Sunday, new List<int>{3, 5, 61} },
-        {DayOfWeek.Monday, new List<int>{12, 11, 61} },
-        {DayOfWeek.Tuesday, new List<int>{5, 14, 63} },
-        {DayOfWeek.Wednesday, new List<int>{12, 11, 63} },
-        {DayOfWeek.Thursday, new List<int>{65} },
-        {DayOfWeek.Friday, new List<int>{62} },
-        {DayOfWeek.Saturday, new List<int>{14, 63, 3} },
+    public Dictionary<DayOfWeek, List<string>> bonusBuildingsForNotVegetarin = new Dictionary<DayOfWeek, List<string>>() {
+        {DayOfWeek.Sunday, new List<string>{"3", "5", "61"} },
+        {DayOfWeek.Monday, new List<string>{"12", "11", "61"} },
+        {DayOfWeek.Tuesday, new List<string>{"5", "14", "63"} },
+        {DayOfWeek.Wednesday, new List<string>{"12", "11", "63"} },
+        {DayOfWeek.Thursday, new List<string>{"65"} },
+        {DayOfWeek.Friday, new List<string>{"62"} },
+        {DayOfWeek.Saturday, new List<string>{"14", "63", "3"} },
     };
 
     [HideInInspector]
@@ -147,7 +151,25 @@ public class DataManager : SingletonComponent<DataManager>
     [HideInInspector]
     public List<string> dailyReportStrList = new List<string>();
 
-    private List<string> tempReport = new List<string>();
+    private List<LocalReport> tempReport = new List<LocalReport>();
+
+    private bool bTokenRegister = false;
+    private DateTime startTime = DateTime.Now;
+
+    public FUser CurrentFUser
+    {
+        get
+        {
+            return currentFUser;
+        }
+
+        set
+        {
+            currentFUser = value;
+            LoadData();
+        }
+    }
+
     public List<LVillager> CurrentVillagers
     {
         get
@@ -157,12 +179,7 @@ public class DataManager : SingletonComponent<DataManager>
 
         set
         {
-            if (value.Count != 0)
-            {
-                currentVillagers = value;
-            }
-            
-            DBHandler.SaveToJSON(currentVillagers, villagerFN);
+            currentVillagers = value;
         }
     }
 
@@ -175,11 +192,7 @@ public class DataManager : SingletonComponent<DataManager>
 
         set
         {
-            if (value.Count != 0)
-            {
-                currentBuildings = value;
-            }
-            DBHandler.SaveToJSON(currentBuildings, buildingFN);
+            currentBuildings = value;
         }
     }
 
@@ -192,11 +205,7 @@ public class DataManager : SingletonComponent<DataManager>
 
         set
         {
-            if (value.Count != 0)
-            {
-                currentResources = value;
-            }
-            DBHandler.SaveToJSON(currentResources, resourceFN);
+            currentResources = value;
         }
     }
 
@@ -209,11 +218,7 @@ public class DataManager : SingletonComponent<DataManager>
 
         set
         {
-            if (value.Count != 0)
-            {
-                currentAutoBuildings = value;
-            }
-            DBHandler.SaveToJSON(currentAutoBuildings, autoFN);
+            currentAutoBuildings = value;
         }
     }
 
@@ -226,39 +231,11 @@ public class DataManager : SingletonComponent<DataManager>
 
         set
         {
-            if (value.Count != 0)
-            {
-                currentHabits = value;
-            }
-            DBHandler.SaveToJSON(currentHabits, habitFN);
+            currentHabits = value;
         }
     }
 
-    public BuildingsCategoryData BuildingsCategoryData
-    {
-        get
-        {
-            if (_buildingsCategoryData == null)
-            {
-                _buildingsCategoryData = Resources.Load<BuildingsCategoryData>(Constants.PATH_FOR_BUILDINGS_CATEGORY_ASSET_LOAD);
-            }
-            return _buildingsCategoryData;
-        }
-    }
-
-    public BuildingsCategoryData RoadsCategoryData
-    {
-        get
-        {
-            if (_roadCategoryData == null)
-            {
-                _roadCategoryData = Resources.Load<BuildingsCategoryData>(Constants.PATH_FOR_ROAD_CATEGORY_ASSET_LOAD);
-            }
-            return _roadCategoryData;
-        }
-    }
-
-    public ResourceData ResourcesCategoryData 
+    public ResourceData ResourcesCategoryData
     {
         get
         {
@@ -267,18 +244,6 @@ public class DataManager : SingletonComponent<DataManager>
                 _resourceCategoryData = Resources.Load<ResourceData>(Constants.PATH_FOR_RESOURCE_CATEGORY_ASSET_LOAD);
             }
             return _resourceCategoryData;
-        }
-    }
-
-    public VillageData VillagersCategoryData
-    {
-        get
-        {
-            if (_villagerCategoryData == null)
-            {
-                _villagerCategoryData = Resources.Load<VillageData>(Constants.PATH_FOR_VILLAGER_CATEGORY_ASSET_LOAD);
-            }
-            return _villagerCategoryData;
         }
     }
 
@@ -320,11 +285,7 @@ public class DataManager : SingletonComponent<DataManager>
 
         set
         {
-            if (value.Count != 0)
-            {
-                currentDailyTasks = value;
-            }
-            DBHandler.SaveToJSON(currentDailyTasks, dailyTaskFN);
+            currentDailyTasks = value;
         }
     }
 
@@ -342,11 +303,7 @@ public class DataManager : SingletonComponent<DataManager>
 
         set
         {
-            if (value.Count != 0)
-            {
-                currentSubTasks = value;
-            }
-            DBHandler.SaveToJSON(currentSubTasks, subTaskFN);
+            currentSubTasks = value;
         }
     }
 
@@ -363,11 +320,7 @@ public class DataManager : SingletonComponent<DataManager>
 
         set
         {
-            if (value.Count != 0)
-            {
-                currentToDos = value;
-            }
-            DBHandler.SaveToJSON(currentToDos, toDOFN);
+            currentToDos = value;
         }
     }
 
@@ -380,11 +333,7 @@ public class DataManager : SingletonComponent<DataManager>
 
         set
         {
-            if (value.Count != 0)
-            {
-                currentAutoToDos = value;
-            }
-            DBHandler.SaveToJSON(currentAutoToDos, autoTodoFN);
+            currentAutoToDos = value;
         }
     }
 
@@ -397,11 +346,7 @@ public class DataManager : SingletonComponent<DataManager>
 
         set
         {
-            if (value.Count != 0)
-            {
-                currentAutoGoals = value;
-            }
-            DBHandler.SaveToJSON(currentAutoGoals, autoGoalFN);
+            currentAutoGoals = value;
         }
     }
 
@@ -418,11 +363,7 @@ public class DataManager : SingletonComponent<DataManager>
 
         set
         {
-            if (value.Count != 0)
-            {
-                currentProjects = value;
-            }
-            DBHandler.SaveToJSON(currentProjects, projectGoalFN);
+            currentProjects = value;
         }
     }
 
@@ -439,11 +380,7 @@ public class DataManager : SingletonComponent<DataManager>
 
         set
         {
-            if (value.Count != 0)
-            {
-                currentArtifacts = value;
-            }
-            DBHandler.SaveToJSON(currentArtifacts, artifactFN);
+            currentArtifacts = value;
         }
     }
 
@@ -460,11 +397,31 @@ public class DataManager : SingletonComponent<DataManager>
 
         set
         {
-            if (value.Count != 0)
-            {
-                currentArtworks = value;
-            }
-            DBHandler.SaveToJSON(currentArtworks, artworkFN);
+            currentArtworks = value;
+        }
+    }
+
+    public List<CBuilding> InitCBuilddings
+    {
+        get
+        {
+            return initCBuildings;
+        }
+    }
+
+    public List<CVillager> InitCVillagers
+    {
+        get
+        {
+            return initCVillagers;
+        }
+    }
+
+    public List<CResource> InitCResources
+    {
+        get
+        {
+            return initCResources;
         }
     }
 
@@ -486,47 +443,36 @@ public class DataManager : SingletonComponent<DataManager>
     }
 
 
-    public void SignOut()
+    public void SignOut(System.Action<bool, string> callback)
     {
-        currentUser = new LUser();
-        currentSetting = new LSetting();
-        currentUserList.Clear();
-        currentVillagers.Clear();
-        currentBuildings.Clear();
-        currentAutoBuildings.Clear();
-        currentResources.Clear();
-        currentDailyTasks.Clear();
-        currentSubTasks.Clear();
-        currentToDos.Clear();
-        currentProjects.Clear();
-        currentCoalitions.Clear();
-        currentHabits.Clear();
-        currentAutoToDos.Clear();
-        currentAutoGoals.Clear();
-        currentArtifacts.Clear();
-        currentArtworks.Clear();
-        currentFUser = new FUser();
-
-        Clear_LocalData();
-        SaveData();
+        ServerManager.Instance.SaveFUser(CurrentFUser, (isSuccess, errMsg, _) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = new FUser();
+                Clear_LocalData();
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
     }
 
     public void SaveData()
     {
-        DBHandler.SaveToJSON(currentVillagers, villagerFN);
-        DBHandler.SaveToJSON(currentBuildings, buildingFN);
-        DBHandler.SaveToJSON(currentResources, resourceFN);
-        DBHandler.SaveToJSON(currentAutoBuildings, autoFN);
-        DBHandler.SaveToJSON(currentDailyTasks, dailyTaskFN);
-        DBHandler.SaveToJSON(currentSubTasks, subTaskFN);
-        DBHandler.SaveToJSON(currentToDos, toDOFN);
-        DBHandler.SaveToJSON(currentProjects, projectGoalFN);
-        DBHandler.SaveToJSON(currentSetting, settingFN);
-        DBHandler.SaveToJSON(currentHabits, habitFN);
-        DBHandler.SaveToJSON(currentAutoToDos, autoTodoFN);
-        DBHandler.SaveToJSON(currentAutoGoals, autoGoalFN);
-        DBHandler.SaveToJSON(currentArtifacts, artifactFN);
-        DBHandler.SaveToJSON(currentArtworks, artworkFN);
+        //DBHandler.SaveToJSON(currentVillagers, villagerFN);
+        //DBHandler.SaveToJSON(currentBuildings, buildingFN);
+        //DBHandler.SaveToJSON(currentResources, resourceFN);
+        //DBHandler.SaveToJSON(currentAutoBuildings, autoFN);
+        //DBHandler.SaveToJSON(currentDailyTasks, dailyTaskFN);
+        //DBHandler.SaveToJSON(currentSubTasks, subTaskFN);
+        //DBHandler.SaveToJSON(currentToDos, toDOFN);
+        //DBHandler.SaveToJSON(currentProjects, projectGoalFN);
+        //DBHandler.SaveToJSON(currentSetting, settingFN);
+        //DBHandler.SaveToJSON(currentHabits, habitFN);
+        //DBHandler.SaveToJSON(currentAutoToDos, autoTodoFN);
+        //DBHandler.SaveToJSON(currentAutoGoals, autoGoalFN);
+        //DBHandler.SaveToJSON(currentArtifacts, artifactFN);
+        //DBHandler.SaveToJSON(currentArtworks, artworkFN);
+        SaveFUser();
     }
     #region Unity_Members
     // Use this for initialization
@@ -556,19 +502,20 @@ public class DataManager : SingletonComponent<DataManager>
         currentCoalitions = new List<FCoalition>();
         currentArtifacts = new List<LArtifact>();
         currentArtworks = new List<LArtwork>();
-
-        FirestoreManager.Instance.OnCoalitionUpdated += OnCoalitionUpdated;
+        startTime = DateTime.Now;
+        //InvokeRepeating(nameof(AutoSave), 300.0f, 1);
     }
-
-    private void OnDestroy()
-    {
-        FirestoreManager.Instance.OnCoalitionUpdated -= OnCoalitionUpdated;
-    }
-
     #endregion
 
-    #region Public_Members
+    #region Public_Membersunity 
 
+    public void AutoSave()
+    {
+        if (CurrentFUser.id != "")
+        {
+            SaveFUser();
+        }
+    }
     public void HandleAITaskManager()
     {
         var aiTaskManager = GetComponent<AITaskManager>();
@@ -638,10 +585,7 @@ public class DataManager : SingletonComponent<DataManager>
         return resList;
     }
 
-    public FUser GetCurrentFUser()
-    {
-        return currentFUser;
-    }
+
 
     public LUser GetCurrentUser()
     {
@@ -668,7 +612,7 @@ public class DataManager : SingletonComponent<DataManager>
         var fUser = GetFUserFromUser(user);
         if (fUser != null)
         {
-            return JsonHelper.FromJson<LVillager>(fUser.Villager).ToList();
+            return fUser.villager;
         }
 
         return new List<LVillager>();
@@ -684,7 +628,7 @@ public class DataManager : SingletonComponent<DataManager>
         var fUser = GetFUserFromUser(user);
         if (fUser != null)
         {
-            return JsonHelper.FromJson<LBuilding>(fUser.Building).ToList();
+            return fUser.building;
         }
 
         return new List<LBuilding>();
@@ -700,7 +644,7 @@ public class DataManager : SingletonComponent<DataManager>
         var fUser = GetFUserFromUser(user);
         if (fUser != null)
         {
-            return JsonHelper.FromJson<LResource>(fUser.Resource).ToList();
+            return fUser.resource;
         }
 
         return new List<LResource>();
@@ -711,7 +655,7 @@ public class DataManager : SingletonComponent<DataManager>
         var fUser = GetFUserFromUser(user);
         if (fUser != null)
         {
-            return JsonHelper.FromJson<LArtwork>(fUser.Artwork).ToList();
+            return fUser.artwork;
         }
 
         return new List<LArtwork>();
@@ -728,6 +672,11 @@ public class DataManager : SingletonComponent<DataManager>
         }
 
         return null;
+    }
+
+    public List<LTaskEntry> GetYesterdayTasks()
+    {
+        return yesterdayTasks;
     }
 
     public List<LVillager> GetInitVillager()
@@ -789,100 +738,90 @@ public class DataManager : SingletonComponent<DataManager>
         return result;
     }
 
-    public BuildingsCategory GetBuilding(int buildingID)
+    public void GetEmailWithUserName(string username, System.Action<bool, string, string> callback)
     {
-        return BuildingsCategoryData.category.Find(it => it.GetId() == buildingID);
+        ServerManager.Instance.GetEmail(username, (isSuccess, errMsg, email) =>
+        {
+            if (isSuccess)
+            {
+                email = email.Replace("\"", "");
+            }
+            callback(isSuccess, errMsg, email);
+        });
     }
 
-    public void CheckUsername(string username, System.Action<bool, string, FUser, LUser> callback)
+    public CBuilding GetBuilding(int buildingID)
     {
-        FirestoreManager.Instance.ExistUser(username, callback);
+        return initCBuildings.Find(it => it.id == buildingID.ToString());
     }
 
-    public void GetDataList<T>(string collectionId, System.Action<bool, string, List<T>> callback) where T : FData
+    public void GetInvitations(System.Action<bool, string, List<FInvitation>> callback)
     {
-        FirestoreManager.Instance.GetDataList<T>(collectionId, callback);
+        ServerManager.Instance.GetInvitations(CurrentFUser.id, callback);
     }
 
-    public void GetDataList<T>(string collectionId, string fieldName, string value, System.Action<bool, string, List<T>> callback) where T : FData
+    public void GetTradeInvitations(System.Action<bool, string, List<FTradeInvitation>> callback)
     {
-        FirestoreManager.Instance.GetList<T>(collectionId, fieldName, value, callback);
+        ServerManager.Instance.GetTradeInvites(CurrentFUser.id, callback);
     }
 
-    public void GetTaskList<T>(EntryType type, System.Action<bool, string, List<T>> callback) where T: FTask
+    public void GetSentTrades(System.Action<bool, string, List<FTrade>> callback)
     {
-        FirestoreManager.Instance.GetTaskList<T>(type.ToString(), "Pid", currentUser.id, callback);
+        if (currentTrades.Count == 0)
+        {
+            ServerManager.Instance.GetTrades(CurrentFUser.id, (isSuccess, errMsg, list) =>
+            {
+                if (isSuccess)
+                {
+                    currentTrades = list;
+                    callback?.Invoke(isSuccess, errMsg, currentTrades.FindAll((item) => item.sender == CurrentFUser.id));
+                }
+                else
+                {
+                    callback?.Invoke(isSuccess, errMsg, list);
+                }
+            });
+        }
+        else
+        {
+            callback?.Invoke(true, "Success", currentTrades.FindAll((item) => item.sender == CurrentFUser.id));
+        }
+        
     }
 
-    public void GetTaskList<T>(EntryType type, string Pid, System.Action<bool, string, List<T>> callback) where T : FTask
+    public void GetReceiveTrades(System.Action<bool, string, List<FTrade>> callback)
     {
-        FirestoreManager.Instance.GetTaskList<T>(type.ToString(), "Pid", Pid, callback);
+        if (currentTrades.Count == 0)
+        {
+            ServerManager.Instance.GetTrades(CurrentFUser.id, (isSuccess, errMsg, list) =>
+            {
+                if (isSuccess)
+                {
+                    currentTrades = list;
+                    callback?.Invoke(isSuccess, errMsg, currentTrades.FindAll((item) => item.receiver == CurrentFUser.id));
+                }
+                else
+                {
+                    callback?.Invoke(isSuccess, errMsg, list);
+                }
+            });
+        }
+        else
+        {
+            callback?.Invoke(true, "Success", currentTrades.FindAll((item) => item.receiver == CurrentFUser.id));
+        }
     }
 
-    public void GetSubTasks(ESubEntryType type, string parentTaskId, System.Action<bool, string, List<FTask>> callback)
+    public void CancelTrades(string tradeId, System.Action<bool, string> callback = null)
     {
-        FirestoreManager.Instance.GetSubTaskList<FTask>(type.ToString(), "Pid", parentTaskId, callback);
-    }
-
-    public void GetPublicMessages(string groupName, System.Action<bool, string, List<FMessage>> callback)
-    {
-        FirestoreManager.Instance.GetMessages("Messages", groupName, EMessageType.Public.ToString(), callback);
-    }
-
-    public void GetPrivateMessages(List<string> list, System.Action<bool, string, List<FMessage>> callback)
-    {
-        FirestoreManager.Instance.GetMessages("Messages", list, EMessageType.Private.ToString(), callback);
-    }
-
-
-    public void GetInvitations(string userId, System.Action<bool, string, List<FInvitation>> callback)
-    {
-        FirestoreManager.Instance.GetInvitations("Invitation", userId, callback);
-    }
-
-    public void GetInvitations(string userId, string type,  System.Action<bool, string, List<FInvitation>> callback)
-    {
-        FirestoreManager.Instance.GetInvitations("Invitation", userId, type, callback);
-    }
-
-    public void GetTradeInvitations(string userId, System.Action<bool, string, List<FTradeInvitation>> callback)
-    {
-        FirestoreManager.Instance.GetInvitations("Trade_Invitation", userId, callback);
-    }
-
-    public void GetSentTrades(string userId, System.Action<bool, string, List<FTrade>> callback)
-    {
-        FirestoreManager.Instance.GetTrades("Trade", userId, "Pid", callback);
-    }
-
-    public void GetReceiveTrades(string userId, System.Action<bool, string, List<FTrade>> callback)
-    {
-        FirestoreManager.Instance.GetTrades("Trade", userId, "receiver_Id", callback);
-    }
-
-    public void GetTrades(string created_at, System.Action<bool, string, List<FTrade>> callback)
-    {
-        FirestoreManager.Instance.GetTrades("Trade", created_at, "created_at", callback);
-    }
-
-    public void GetReceiveTradeItems(string userId, System.Action<bool, string, List<FTradeItem>> callback)
-    {
-        FirestoreManager.Instance.GetTradeItems("receiver_Id", userId, callback);
-    }
-
-    public void GetSentTradeItems(string userId, System.Action<bool, string, List<FTradeItem>> callback)
-    {
-        FirestoreManager.Instance.GetTradeItems("Pid", userId, callback);
-    }
-
-    public void UpdateTrades(List<FTrade> rTrades, List<FTrade> sTrades, List<FTradeItem> tradeItemList, System.Action<bool, string> callback)
-    {
-        FirestoreManager.Instance.UpdateTrades("Trade", rTrades, sTrades, tradeItemList, callback);
-    }
-
-    public void UpdateData<T>(T data, System.Action<bool, string> callback) where T : FData
-    {
-        FirestoreManager.Instance.UpdateData(data, callback);
+        ServerManager.Instance.CancelTrades(CurrentFUser.id, tradeId, (isSuccess, errMsg, list) =>
+        {
+            if (isSuccess)
+            {
+                currentTrades = list;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
     }
 
     public LTaskEntry GetTaskEntry(string id)
@@ -926,10 +865,6 @@ public class DataManager : SingletonComponent<DataManager>
         return GetTasks(idList, CurrentSubTasks);
     }
 
-    public CArtwork GetCArtwork(LArtwork lArtwork)
-    {
-        return Artifact_Data.artworks.Find(item => item.id == lArtwork.id);
-    }
 
     public Sprite GetSprite(EResources resource)
     {
@@ -990,205 +925,114 @@ public class DataManager : SingletonComponent<DataManager>
         return ResourcesCategoryData.GetTempleBuildingName(currentUser.Religion_Name);
     }
 
-    public void CreateVillager(LVillager villager)
+    public void LoadInitCResources(System.Action<bool, string> callback)
     {
-        currentVillagers.Add(villager);
-        //DBHandler.SaveToJSON(currentVillagers, villagerFN);
-    }
-
-    public void LoadUserData(System.Action<bool, string, List<LUser>> callback)
-    {
-        FirestoreManager.Instance.GetInitData("User", (isSuccess, errMsg, snapshotList) =>
-        {
-            if (isSuccess)
+        ServerManager.Instance.LoadCResources((isSuccess, errMsg, list) =>
+        {            
+            if(isSuccess && list.Count > 0)
             {
-                this.currentFUserList.Clear();
-                this.currentUserList.Clear();
-                foreach (DocumentSnapshot snapshot in snapshotList)
-                {
-                    FUser user = snapshot.ConvertTo<FUser>();
-                    this.currentFUserList.Add(user);
-                    this.currentUserList.Add(JsonConvert.DeserializeObject<LUser>(user.User));
-                }
+                initCResources = list;
             }
-            callback(isSuccess, errMsg, this.currentUserList);
+            callback?.Invoke(isSuccess, errMsg);
         });
     }
 
-    public void LoadCoalitionData(System.Action<bool, string, List<FCoalition>> callback)
+    public void LoadInitCBuildings(System.Action<bool, string> callback)
     {
-        if (this.currentCoalitions.Count == 0)
+        ServerManager.Instance.LoadCBuildings((isSuccess, errMsg, list) =>
         {
-            FirestoreManager.Instance.GetCoalitions("Coalition", (isSuccess, errMsg, snapshotList) =>
+            if (isSuccess && list.Count > 0)
             {
-                if (isSuccess)
-                {
-                    this.currentCoalitions.Clear();
-                    foreach (DocumentSnapshot snapshot in snapshotList)
-                    {
-                        FCoalition coalition = snapshot.ConvertTo<FCoalition>();
-                        this.currentCoalitions.Add(coalition);
-                    }
-                }
-                callback(isSuccess, errMsg, this.currentCoalitions);
-            });
-        }
-        else
-        {
-            callback(true, "", this.currentCoalitions);
-        }
+                initCBuildings = list;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
 
+    public void LoadInitCVillagers(System.Action<bool, string> callback)
+    {
+        ServerManager.Instance.LoadCVillagers((isSuccess, errMsg, list) =>
+        {
+            if (isSuccess && list.Count > 0)
+            {
+                initCVillagers = list;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
+    public void LoadCoalitionData(System.Action<bool, string> callback)
+    {
+        ServerManager.Instance.LoadCoalitions((isSuccess, errMsg,list) =>
+        {
+            if (isSuccess)
+            {
+                this.currentCoalitions = list;
+            }
+
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
+    public void LoadInvitations(System.Action<bool, string, List<FInvitation>> callback = null)
+    {
+        ServerManager.Instance.LoadInvitations(callback);
+    }
+    public void LoadCArtworks(System.Action<bool, string, List<CArtwork>> callback)
+    {
+        ServerManager.Instance.LoadCArtworks(callback);
+    }
+
+    public void LoadCArtifacts(System.Action<bool, string, List<CArtifact>> callback)
+    {
+        ServerManager.Instance.LoadCArtifacts(callback);
     }
 
     public void LoadInitialData()
     {
-        InitData data = Resources.Load<InitData>(Constants.PATH_FOR_INIT_DATA_ASSET_LOAD);
-
-        initVillagers.Clear();
-        foreach(LVillager villager in data.villagers)
-        {
-            var newVillager = new LVillager();
-            newVillager.id = villager.id;
-            newVillager.live_at = villager.live_at;
-            newVillager.work_at = villager.work_at;
-            newVillager.UID = villager.UID;
-            initVillagers.Add(newVillager);
-        }
-
-        initBuildings.Clear();
-        foreach (LBuilding building in data.buildings)
-        {
-            var newBuilding = new LBuilding();
-            newBuilding.id = building.id;
-            newBuilding.progress = building.progress;
-            newBuilding.bID = building.bID;
-            newBuilding.bTime = building.bTime;
-            initBuildings.Add(newBuilding);
-        }
-
-        initResources.Clear();
-        foreach (LResource resource in data.resources)
-        {
-            var newResource = new LResource();
-            newResource.id = resource.id;
-            newResource.current_amount = resource.current_amount;
-            initResources.Add(newResource);
-        }
-
-        if (CurrentResources.Count == 0)
-        {
-            CurrentResources = new List<LResource>(initResources);
-        }
-        else
-        {
-            foreach(LResource resource in CurrentResources)
-            {
-                var cResource = ResourcesCategoryData.resources.Find(res => res.id == resource.id);
-                if (cResource != null && cResource.bCleanMode == true)
-                {
-                    initResources.Remove(initResources.Find(item => item.id == resource.id));
-                }
-            }
-            UpdateResource(initResources);
-        }
-
-        //var galleryBuilding = CurrentBuildings.Find(item => item.bID == "")
-        CurrentVillagers = new List<LVillager>(initVillagers);
-        CurrentBuildings = new List<LBuilding>(initBuildings);
-
-        UpdateUser();
     }
 
     public void LoadLocalData()
     {
-        LoadInitialData();
-
-        currentVillagers = DBHandler.ReadListFromJSON<LVillager>(villagerFN);
-        currentBuildings = DBHandler.ReadListFromJSON<LBuilding>(buildingFN);
-        currentAutoBuildings = DBHandler.ReadListFromJSON<LAutoBuilding>(autoFN);
-        currentResources = DBHandler.ReadListFromJSON<LResource>(resourceFN);
-        CurrentDailyTasks = DBHandler.ReadListFromJSON<LTaskEntry>(dailyTaskFN);
-        CurrentSubTasks = DBHandler.ReadListFromJSON<LSubTask>(subTaskFN);
-        CurrentToDos = DBHandler.ReadListFromJSON<LToDoEntry>(toDOFN);
-        CurrentProjects = DBHandler.ReadListFromJSON<LProjectEntry>(projectGoalFN);
-        currentUser = DBHandler.ReadFromJSON<LUser>(userFN);
-        currentSetting = DBHandler.ReadFromJSON<LSetting>(settingFN);
-        currentHabits = DBHandler.ReadListFromJSON<LHabitEntry>(habitFN);
-        CurrentAutoToDos = DBHandler.ReadListFromJSON<LAutoToDo>(autoTodoFN);
-        CurrentAutoGoals = DBHandler.ReadListFromJSON<LAutoGoal>(autoGoalFN);
-        CurrentArtifacts = DBHandler.ReadListFromJSON<LArtifact>(artifactFN);
-        CurrentArtworks = DBHandler.ReadListFromJSON<LArtwork>(artworkFN);
-
-        UpdateUser();
+        
     }
 
-    public void LoadData(string userId, System.Action<bool, string> callback)
+    public void LoadData()
     {
-        currentFUser.Id = userId;
-
-        currentVillagers = DBHandler.ReadListFromJSON<LVillager>(villagerFN);
-        currentBuildings = DBHandler.ReadListFromJSON<LBuilding>(buildingFN);
-        currentAutoBuildings = DBHandler.ReadListFromJSON<LAutoBuilding>(autoFN);
-        currentResources = DBHandler.ReadListFromJSON<LResource>(resourceFN);
-        CurrentDailyTasks = DBHandler.ReadListFromJSON<LTaskEntry>(dailyTaskFN);
-        CurrentSubTasks = DBHandler.ReadListFromJSON<LSubTask>(subTaskFN);
-        CurrentToDos = DBHandler.ReadListFromJSON<LToDoEntry>(toDOFN);
-        CurrentProjects = DBHandler.ReadListFromJSON<LProjectEntry>(projectGoalFN);
-        currentUser = DBHandler.ReadFromJSON<LUser>(userFN);
-        currentSetting = DBHandler.ReadFromJSON<LSetting>(settingFN);
-        currentHabits = DBHandler.ReadListFromJSON<LHabitEntry>(habitFN);
-        CurrentAutoToDos = DBHandler.ReadListFromJSON<LAutoToDo>(autoTodoFN);
-        CurrentAutoGoals = DBHandler.ReadListFromJSON<LAutoGoal>(autoGoalFN);
-        CurrentArtifacts = DBHandler.ReadListFromJSON<LArtifact>(artifactFN);
-        CurrentArtworks = DBHandler.ReadListFromJSON<LArtwork>(artworkFN);
-
-        SerializeUser(false, callback);
+        CurrentVillagers = currentFUser.villager;
+        CurrentBuildings = currentFUser.building;
+        CurrentAutoBuildings = currentFUser.autoBuilding;
+        CurrentResources = currentFUser.resource;
+        CurrentDailyTasks = currentFUser.dailyTask;
+        CurrentSubTasks = currentFUser.subTask;
+        CurrentToDos = currentFUser.toDo;
+        CurrentProjects = currentFUser.project;
+        currentUser = currentFUser.user;
+        currentSetting = currentFUser.setting;
+        CurrentHabits = currentFUser.habit;
+        CurrentAutoToDos = currentFUser.autoToDo;
+        CurrentAutoGoals = currentFUser.autoGoal;
+        CurrentArtifacts = currentFUser.artifact;
+        CurrentArtworks = currentFUser.artwork;
+        yesterdayTasks = currentFUser.uncompletedDailyTasks;
+        Debug.LogError("Loadedd Data" + yesterdayTasks.Count);
+        GetToken();
+        OnDataUpdated(true);
     }
 
     public void LoadData(System.Action<bool, string> callback)
     {
-        CurrentVillagers = JsonHelper.FromJson<LVillager>(currentFUser.Villager).ToList();
-        CurrentBuildings = JsonHelper.FromJson<LBuilding>(currentFUser.Building).ToList();
-        CurrentAutoBuildings = JsonHelper.FromJson<LAutoBuilding>(currentFUser.AutoBuilding).ToList();
-        CurrentResources = JsonHelper.FromJson<LResource>(currentFUser.Resource).ToList();
-        CurrentDailyTasks = JsonHelper.FromJson<LTaskEntry>(currentFUser.DailyTask).ToList();
-        CurrentSubTasks = JsonHelper.FromJson<LSubTask>(currentFUser.SubTask).ToList();
-        CurrentToDos = JsonHelper.FromJson<LToDoEntry>(currentFUser.ToDo).ToList();
-        CurrentProjects = JsonHelper.FromJson<LProjectEntry>(currentFUser.Project).ToList();
-        CurrentHabits = JsonHelper.FromJson<LHabitEntry>(currentFUser.Habit).ToList();
-        CurrentAutoToDos = JsonHelper.FromJson<LAutoToDo>(currentFUser.AutoToDo).ToList();
-        CurrentAutoGoals = JsonHelper.FromJson<LAutoGoal>(currentFUser.AutoGoal).ToList();
-        currentUser = JsonConvert.DeserializeObject<LUser>(currentFUser.User);
-        currentSetting = JsonConvert.DeserializeObject<LSetting>(currentFUser.Setting);
-        CurrentArtifacts = JsonHelper.FromJson<LArtifact>(currentFUser.Artifact).ToList();
-        CurrentArtworks = JsonHelper.FromJson<LArtwork>(currentFUser.Artwork).ToList();
-
+        
+        CurrentVillagers = currentFUser.villager;
+        
         currentUser.Save();
         currentSetting.Save();
         SerializeUser(false, callback);
     }
 
-    public void LoadInitData<T>(string collectionId, System.Action<bool, string, List<T>> callback) where T: FData
-    {
-        FirestoreManager.Instance.GetList<T>(collectionId, "Pid", currentUser.id, callback);
-    }
-
-    public void LoadInitData<T>(string collectionId, string Pid, System.Action<bool, string, List<T>> callback) where T : FData
-    {
-        FirestoreManager.Instance.GetList<T>(collectionId, "Pid", Pid, callback);
-    }
-
     public void SerializeUser(bool bForce = false, System.Action<bool, string> callback = null)
     {
-        if (currentUser == null || currentUser.id.Equals(""))
-        {
-            callback(false, "Can't Login");
-        }
-        else
-        {
-            UpdateUser();
-            currentFUser.Serialize(bForce, callback);
-        }
+        SaveFUser(callback);
     }
 
     public void UpdateUser(LUser user)
@@ -1205,9 +1049,17 @@ public class DataManager : SingletonComponent<DataManager>
 
     public void UpdateUser(FUser user, System.Action<bool, string> callback)
     {
-        currentFUser = user;
-        PlayerPrefs.SetString("UpdatedTime", user.updated_at);
-        LoadData(callback);
+        try
+        {
+            this.CurrentFUser = user;
+            PlayerPrefs.SetString("UpdatedTime", user.updated_at);
+            LoadData(callback);
+
+        }catch (Exception e)
+        {
+            Debug.LogError(e.ToString());
+        }
+        
     }
 
     public void UpdateNewUser(FUser user)
@@ -1217,97 +1069,81 @@ public class DataManager : SingletonComponent<DataManager>
         LoadInitialData();
     }
 
-    public void UpdateUser(string fUserId, System.Action<bool, string> callback)
+    public void CreateFUser(string email, string password, string username,  System.Action<bool, string> callback)
     {
-        currentFUser = new FUser();
-        currentFUser.Id = fUserId;
-        LoadData(fUserId, callback);
+        ServerManager.Instance.CreateFUser(email, password, username, (isSuccess, errrMsg, fUser) =>
+        {
+            if (isSuccess)
+            {
+                this.CurrentFUser = fUser;
+                LoadData();
+            }
+            callback(isSuccess, errrMsg);
+        });
+
     }
 
-    public void UpdateUser()
+    public void GetFUser(string fUserId, System.Action<bool, string> callback)
     {
-        if (currentUser == null)
+        ServerManager.Instance.GetFUser(fUserId, (isSuccess, errrMsg, fUser) =>
         {
-            return;
-        }
-        var strBuilding = JsonHelper.ToJson(CurrentBuildings.ToArray());
-        var strVillager = JsonHelper.ToJson(CurrentVillagers.ToArray());
-        var strResource = JsonHelper.ToJson(CurrentResources.ToArray());
-        var strAutoBuilding = JsonHelper.ToJson(CurrentAutoBuildings.ToArray());
-        var strDailyTasks = JsonHelper.ToJson(CurrentDailyTasks.ToArray());
-        var strToDo = JsonHelper.ToJson(CurrentToDos.ToArray());
-        var strProject = JsonHelper.ToJson(CurrentProjects.ToArray());
-        var strSubTasks = JsonHelper.ToJson(CurrentSubTasks.ToArray());
-        var strUser = JsonConvert.SerializeObject(currentUser);
-        var strSetting = JsonConvert.SerializeObject(currentSetting);
-        var strHabit = JsonHelper.ToJson(CurrentHabits.ToArray());
-        var strAutoTodo = JsonHelper.ToJson(CurrentAutoToDos.ToArray());
-        var strAutoGoal = JsonHelper.ToJson(CurrentAutoGoals.ToArray());
-        var strArtifact = JsonHelper.ToJson(CurrentArtifacts.ToArray());
-        var strArtwork = JsonHelper.ToJson(CurrentArtworks.ToArray());
-
-        currentFUser.Update(currentUser.id, strUser, strSetting, strBuilding, strVillager, strResource, strAutoBuilding,strDailyTasks, strToDo, strProject, strSubTasks, strHabit, strAutoTodo, strAutoGoal, strArtifact, strArtwork);
-    }
-
-    public void UpdateUser(string firstName, string secondName, string villageName, bool isVegetarian, bool hasReligion, System.Action<bool, string> callback)
-    {
-        LoadUserData((isSuccess, errMsg, userlist) =>
-        {
-            var sameVillage = userlist.Find(item => item.Village_Name.ToLower() == villageName.ToLower());
-            if (sameVillage != null)
+            if (isSuccess)
             {
-                callback(false, "Village name already exists. Please choose another name.");
-                return;
+                currentFUser = fUser;
+                LoadData();
             }
-
-            var sameUserName = userlist.Find(item => (item.First_Name.ToLower() == firstName.ToLower() && item.Last_Name.ToLower() == secondName.ToLower()));
-            if (sameUserName != null)
-            {
-                callback(false, "Mayor name already exists. Please choose another name.");
-                return;
-            }
-
-            currentUser.Update(firstName, secondName, villageName, isVegetarian, hasReligion);
-            callback(true, "");
+            callback(isSuccess, errrMsg);
         });
         
     }
 
+    public void UpdateUser(string firstName, string secondName, string villageName, bool isVegetarian, bool hasReligion, System.Action<bool, string> callback)
+    {
+        ServerManager.Instance.UpdatePersonalInfo(currentFUser.id, currentFUser.user.AvatarId, firstName, secondName, villageName, isVegetarian, hasReligion, (isSuccess, errMsg, user) =>
+        {
+            if (isSuccess)
+            {
+                this.CurrentFUser = user;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
     public void UpdateUser(string created_coalition, string joined_coalition, System.Action<bool, string> callback)
     {
-        currentUser.Update(created_coalition, joined_coalition, callback);
+        CurrentFUser.user.Update(created_coalition, joined_coalition, callback);
     }
 
     public void UpdateReligion(string religion)
     {
-        currentUser.UpdateReligion(religion);
+        CurrentFUser.user.UpdateReligion(religion);
     }
 
     public void UpdateUserAvatarId(int nId)
     {
-        currentUser.UpdateAvatarId(nId);
+        CurrentFUser.user.UpdateAvatarId(nId);
     }
 
     public void UpdateSalaryDate(System.DateTime dateTime)
     {
-        currentUser.updateSalaryDate(dateTime);
+        CurrentFUser.user.updateSalaryDate(dateTime);
     }
 
     public void UpdateMaintenanceDate(System.DateTime dateTime)
     {
-        currentUser.updateMaintenanceDate(dateTime);
+        CurrentFUser.user.updateMaintenanceDate(dateTime);
     }
 
     public void UpdateMealDate(System.DateTime dateTime)
     {
-        currentUser.updateMealDate(dateTime);
+        CurrentFUser.user.updateMealDate(dateTime);
     }
 
     public void UpdateCoalition(FCoalition coalition, System.Action<bool, string> callback)
     {
         foreach(FCoalition fCoalition in currentCoalitions)
         {
-            if (fCoalition.Id == coalition.Id)
+            if (fCoalition.id == coalition.id)
             {
                 currentCoalitions.Remove(fCoalition);
                 break;
@@ -1316,12 +1152,373 @@ public class DataManager : SingletonComponent<DataManager>
 
         currentCoalitions.Add(coalition);
 
-        FirestoreManager.Instance.UpdateData(coalition.collectionId, coalition, callback);
     }
 
-    public void UpdateInvitation(FInvitation invitation, FUser user, System.Action<bool, string> callback)
+    public void CreateDailyTask(LTaskEntry entry, List<LSubTask> subTasks, System.Action<bool, string> callback)
     {
-        FirestoreManager.Instance.UpdateInvitation(invitation, user, callback);
+        ServerManager.Instance.CreateDailyTask(CurrentFUser.id, entry, subTasks, (isSuccess, errMsg, user) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = user;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
+    public void RemoveDailyTask(LTaskEntry entry, System.Action<bool, string> callback)
+    {
+        var subTasks = GetSubTasks(entry.subTasks);
+        ServerManager.Instance.RemoveDailyTask(CurrentFUser.id, entry, subTasks, (isSuccess, errMsg, user) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = user;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
+    public void CompleteDailyTask(LTaskEntry entry, System.Action<bool, string, Dictionary<EResources, float>> callback = null)
+    {
+        var subTasks = GetSubTasks(entry.subTasks);
+
+        ServerManager.Instance.CompleteDailyTask(CurrentFUser.id, entry, subTasks, (isSuccess, errMsg, result) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = result.fUser;
+                callback?.Invoke(isSuccess, errMsg, result.reward);
+            }
+            else
+            {
+                callback?.Invoke(isSuccess, errMsg, null);
+            }
+        });
+    }
+
+    public void CancelDailyTaskComplete(LTaskEntry entry, System.Action<bool, string, Dictionary<EResources, float>> callback = null)
+    {
+        var subTasks = GetSubTasks(entry.subTasks);
+
+        ServerManager.Instance.CancelDailyTaskComplete(CurrentFUser.id, entry, subTasks, (isSuccess, errMsg, result) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = result.fUser;
+                callback?.Invoke(isSuccess, errMsg, result.reward);
+            }
+            else
+            {
+                callback?.Invoke(isSuccess, errMsg, null);
+            }
+        });
+    }
+
+    public void ArrangeDailyTask(List<LTaskEntry> entryList, System.Action<bool, string> callback = null)
+    {
+        ServerManager.Instance.ArrangeDailyTask(CurrentFUser.id, entryList, (isSuccess, errMsg, user) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = user;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
+    public void CheckOffYesterdayTask(List<LTaskEntry> entryList, System.Action<bool, string> callback = null)
+    {
+        ServerManager.Instance.CheckOffYesterdayTask(CurrentFUser.id, entryList, (isSuccess, errMsg, user) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = user;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
+    public void CompleteSubTask(LSubTask subTask, System.Action<bool, string, Dictionary<EResources, float>> callback = null)
+    {
+        ServerManager.Instance.CompleteSubTask(CurrentFUser.id, subTask, (isSuccess, errMsg, result) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = result.fUser;
+                callback?.Invoke(isSuccess, errMsg, result.reward);
+            }
+            else
+            {
+                callback?.Invoke(isSuccess, errMsg, null);
+            }
+        });
+    }
+
+    public void CancelSubTaskComplete(LSubTask subTask, System.Action<bool, string, Dictionary<EResources, float>> callback = null)
+    {
+        ServerManager.Instance.CancelSubTaskComplete(CurrentFUser.id, subTask, (isSuccess, errMsg, result) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = result.fUser;
+                callback?.Invoke(isSuccess, errMsg, result.reward);
+            }
+            else
+            {
+                callback?.Invoke(isSuccess, errMsg, null);
+            }
+        });
+    }
+
+    public void CreateToDo(LToDoEntry entry, List<LSubTask> subTasks, System.Action<bool, string> callback)
+    {
+        ServerManager.Instance.CreateToDo(CurrentFUser.id, entry, subTasks, (isSuccess, errMsg, user) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = user;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
+    public void RemoveToDo(LToDoEntry entry, System.Action<bool, string> callback)
+    {
+        var subTasks = GetSubTasks(entry.checkList);
+        ServerManager.Instance.RemoveToDo(CurrentFUser.id, entry, subTasks, (isSuccess, errMsg, user) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = user;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
+    public void CompleteToDo(LToDoEntry entry, System.Action<bool, string, Dictionary<EResources, float>> callback = null)
+    {
+        var subTasks = GetSubTasks(entry.checkList);
+
+        ServerManager.Instance.CompleteToDo(CurrentFUser.id, entry, subTasks, (isSuccess, errMsg, result) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = result.fUser;
+                callback?.Invoke(isSuccess, errMsg, result.reward);
+            }
+            else
+            {
+                callback?.Invoke(isSuccess, errMsg, null);
+            }
+        });
+    }
+
+    public void CompleteAutoToDo(string todoId, System.Action<bool, string, Dictionary<EResources, float>> callback = null)
+    {
+        ServerManager.Instance.CompleteAutoToDo(CurrentFUser.id, todoId, (isSuccess, errMsg, result) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = result.fUser;
+                callback?.Invoke(isSuccess, errMsg, result.reward);
+            }
+            else
+            {
+                callback?.Invoke(isSuccess, errMsg, null);
+            }
+        });
+    }
+
+    public void ArrangeToDo(List<LToDoEntry> entryList, System.Action<bool, string> callback = null)
+    {
+        ServerManager.Instance.ArrangeToDo(CurrentFUser.id, entryList, (isSuccess, errMsg, user) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = user;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
+    public void CreateHabit(LHabitEntry entry, System.Action<bool, string> callback)
+    {
+        ServerManager.Instance.CreateHabit(CurrentFUser.id, entry, (isSuccess, errMsg, user) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = user;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
+    public void RemoveHabit(LHabitEntry entry, System.Action<bool, string> callback)
+    {
+        ServerManager.Instance.RemoveHabit(CurrentFUser.id, entry, (isSuccess, errMsg, user) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = user;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
+    public void CompleteHabit(LHabitEntry entry, System.Action<bool, string, Dictionary<EResources, float>> callback = null)
+    {
+        ServerManager.Instance.CompleteHabit(CurrentFUser.id, entry, (isSuccess, errMsg, result) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = result.fUser;
+                callback?.Invoke(isSuccess, errMsg, result.reward);
+            }
+            else
+            {
+                callback?.Invoke(isSuccess, errMsg, null);
+            }
+        });
+    }
+
+    public void CancelHabitComplete(LHabitEntry entry, System.Action<bool, string, Dictionary<EResources, float>> callback = null)
+    {
+        ServerManager.Instance.CancelHabitComplete(CurrentFUser.id, entry, (isSuccess, errMsg, result) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = result.fUser;
+                callback?.Invoke(isSuccess, errMsg, result.reward);
+            }
+            else
+            {
+                callback?.Invoke(isSuccess, errMsg, null);
+            }
+        });
+    }
+
+    public void ArrangeHabit(List<LHabitEntry> entryList, System.Action<bool, string> callback = null)
+    {
+        ServerManager.Instance.ArrangeHabit(CurrentFUser.id, entryList, (isSuccess, errMsg, user) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = user;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
+    public void CreateProject(LProjectEntry entry, List<LSubTask> subTasks, System.Action<bool, string> callback)
+    {
+        ServerManager.Instance.CreateProject(CurrentFUser.id, entry, subTasks, (isSuccess, errMsg, user) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = user;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
+    public void CompleteProject(LProjectEntry entry, System.Action<bool, string, Dictionary<EResources, float>> callback = null)
+    {
+        var subTasks = GetSubTasks(entry.subProjects);
+
+        ServerManager.Instance.CompleteProject(CurrentFUser.id, entry, subTasks, (isSuccess, errMsg, result) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = result.fUser;
+                callback?.Invoke(isSuccess, errMsg, result.reward);
+            }
+            else
+            {
+                callback?.Invoke(isSuccess, errMsg, null);
+            }
+        });
+    }
+
+
+    public void RemoveProject(LProjectEntry entry, System.Action<bool, string> callback)
+    {
+        var subTasks = GetSubTasks(entry.subProjects);
+        ServerManager.Instance.RemoveProject(CurrentFUser.id, entry, subTasks, (isSuccess, errMsg, user) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = user;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+    
+    public void ArrangeProject(List<LProjectEntry> entryList, System.Action<bool, string> callback = null)
+    {
+        ServerManager.Instance.ArrangeProject(CurrentFUser.id, entryList, (isSuccess, errMsg, user) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = user;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
+    public void SaveFUser(System.Action<bool, string> callback = null)
+    {
+        ServerManager.Instance.SaveFUser(CurrentFUser, (isSuccess, errMsg, user) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = user;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
+    public void SetToken(string token)
+    {
+        ServerManager.Instance.SetToken(CurrentFUser.id, token, (isSuccess, errMsg, user) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = user;
+                bTokenRegister = true;
+            }
+        });
+    }
+
+    public void GetToken()
+    {
+#if !UNITY_EDITOR
+        StartCoroutine("GetTokenAsync");
+#endif
+    }
+
+    private IEnumerator GetTokenAsync()
+    {
+        var task = Firebase.Messaging.FirebaseMessaging.GetTokenAsync();
+        yield return new WaitUntil(() => task.IsCompleted);
+
+        if (task.Exception != null)
+        {
+            Debug.LogError("GetToken encountered an error: " + task.Exception);
+        }
+        else
+        {
+            SetTokenValue(task.Result);
+        }
+    }
+
+    public void SetTokenValue(string token)
+    {
+        if (PlayerPrefs.GetString("TToken") != token)
+        {
+            PlayerPrefs.SetString("TToken", token);
+            SetToken(token);
+        }
     }
 
     public void UpdateEntry(LTaskEntry entry, List<LSubTask> subTasks)
@@ -1566,28 +1763,23 @@ public class DataManager : SingletonComponent<DataManager>
         currentUser.resetDates(dateTime);
     }
 
-    public void UpdateSetting(LSetting setting)
+    public void UpdateSetting(Game_Mode mode, System.Action<bool, string> callback)
     {
-        currentSetting = setting;
-        currentSetting.Save();
-    }
-
-    public void UpdateSetting(Game_Mode mode)
-    {
-        currentSetting.Update(mode);
-        currentUser.UpdateModeDate(System.DateTime.Now);
-        ChangeMode(mode);
+        ServerManager.Instance.ChangeGameMode(currentFUser.id, mode, (isSuccess, errMsg, user) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = user;
+                LoadData();
+                //dailyReportStrList.Clear();
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
     }
 
     public void UpdateSetting(Interaction_Mode mode)
     {
         currentSetting.Update(mode);
-    }
-
-    public void UpdateSetting(Game_Mode game_mode, Interaction_Mode interaction_mode)
-    {
-        currentSetting.Update(game_mode, interaction_mode);
-        currentUser.UpdateModeDate(System.DateTime.Now);
     }
 
     public void UpdateSetting(bool shelter_storm)
@@ -1634,7 +1826,7 @@ public class DataManager : SingletonComponent<DataManager>
         var updateResList = new List<LResource>();
         foreach (string key in resourceDic.Keys)
         {
-            CResource cResource = ResourcesCategoryData.resources.ToList().Find(cRes => cRes.type.ToString() == key);
+            CResource cResource = initCResources.ToList().Find(cRes => cRes.type.ToString() == key);
             if (cResource != null)
             {
                 var res = currentResources.ToList().Find(item => item.id == cResource.id);
@@ -1646,7 +1838,7 @@ public class DataManager : SingletonComponent<DataManager>
                     if (key == EResources.Happiness.ToString())//Happiness
                     {
                         res.current_amount = Mathf.Min(100f, res.current_amount);
-                        if (GetCurrentSetting().current_mode == (int)Game_Mode.Game_Only)
+                        if (GetCurrentSetting().game_mode == (int)Game_Mode.Game_Only)
                         {
                             AITaskManager.Instance.CheckOnCompleteWithHappiness(res.current_amount);
                         }
@@ -1677,7 +1869,7 @@ public class DataManager : SingletonComponent<DataManager>
         {
             foreach (LResource res in currentResources.ToList())
             {
-                CResource cResource = ResourcesCategoryData.resources.ToList().Find(cRes => cRes.id == res.id);
+                CResource cResource = initCResources.ToList().Find(cRes => cRes.id == res.id);
                 if (cResource.type == key)
                 {
                     res.current_amount += resourceDic[key];
@@ -1686,7 +1878,7 @@ public class DataManager : SingletonComponent<DataManager>
                     if (key == EResources.Happiness)
                     {
                         res.current_amount = Mathf.Min(100f, res.current_amount);
-                        if (GetCurrentSetting().current_mode == (int)Game_Mode.Game_Only)
+                        if (GetCurrentSetting().game_mode == (int)Game_Mode.Game_Only)
                         {
                             AITaskManager.Instance.CheckOnCompleteWithHappiness(res.current_amount);
                         }
@@ -1712,7 +1904,7 @@ public class DataManager : SingletonComponent<DataManager>
         if (PlayerPrefs.GetString("DailyReport") == Convert.DateTimeToFDate(System.DateTime.Now) && dailyReportStrList.Count > 0)
         {
             var list = dailyReportStrList.ToList();
-            list.AddRange(tempReport.ToList());
+            list.AddRange(GetLocalReportList(System.DateTime.Now));
             callback(list);
             return;
         }
@@ -1721,28 +1913,19 @@ public class DataManager : SingletonComponent<DataManager>
         {
             PlayerPrefs.SetString("DailyReport", Convert.DateTimeToFDate(System.DateTime.Now));
             var list = strList.ToList();
-            list.AddRange(tempReport.ToList());
+            list.AddRange(GetLocalReportList(System.DateTime.Now));
             callback(list);
         });
     }
 
     public void AddDailyReport(string s)
     {
-        if (PlayerPrefs.GetString("TempDailyReport") != Convert.DateTimeToFDate(System.DateTime.Now))
+        var date = Convert.DateTimeToFDate(System.DateTime.Now);
+        var samereport = tempReport.Find(x => x.date == date && x.report == s);
+        if (samereport == null)
         {
-            tempReport.Clear();
-            PlayerPrefs.SetString("TempDailyReport", Convert.DateTimeToFDate(System.DateTime.Now));
+            tempReport.Add(new LocalReport(s, date));
         }
-
-        if (!tempReport.Contains(s))
-        {
-            tempReport.Add(s);
-        }
-    }
-
-    private List<LBuilding> GetBuiltLBuildings(System.DateTime dateTime)
-    {
-        return currentBuildings.FindAll(item => item.created_at == Convert.DateTimeToFDate(dateTime) && item.progress == 1.0f);
     }
 
     private List<LBuilding> GetAllBuiltLBuildings()
@@ -1755,78 +1938,362 @@ public class DataManager : SingletonComponent<DataManager>
         var buildingCategory = GetBuilding(int.Parse(lBuilding.id));
         if (buildingCategory != null)
         {
-            return buildingCategory.GetName();
+            return buildingCategory.name;
         }
         return "Unknown Building";
     }
 
-    public void CreateVillagers(List<FVillager> villagerList, System.Action<bool, string> callback)
-    {
-        FirestoreManager.Instance.createDataList<FVillager>(villagerList, callback);
-    }
-
-    public void CreateBuildings(List<LBuilding> buildingList, System.Action<bool, string> callback)
-    {
-        currentBuildings.AddRange(buildingList);
-    }
-
-    public void CreateResources(List<FResource> resourceList, System.Action<bool, string> callback)
-    {
-        FirestoreManager.Instance.createDataList<FResource>(resourceList, callback);
-    }
-
     
-    public void CreateCoalition(FCoalition coalition, System.Action<bool, string> callback)
+    public void CreateCoalition(string coalitionName, string timeZone, System.Action<bool, string> callback)
     {
-        FirestoreManager.Instance.createData(coalition.collectionId, coalition.Id, coalition, callback);
+        ServerManager.Instance.CreateCoalition(CurrentFUser.id, coalitionName, timeZone, (isSuccess, errMsg, fUser) =>
+        {
+            if (isSuccess)
+            {
+                this.CurrentFUser = fUser;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+
+        });
     }
 
-    public void CreateInvitation(FInvitation invitation, System.Action<bool, string> callback)
+    public void GetCoalitionMembers(System.Action<bool, string, List<LUser>> callback)
     {
-        FirestoreManager.Instance.createData(invitation.collectionId, invitation, callback);
+        ServerManager.Instance.GetCoalitionMembers(currentFUser.id, (isSuccess, errMsg, list) =>
+        {
+            if (isSuccess)
+            {
+                currentFUserList.Clear();
+                currentUserList.Clear();
+                foreach(FUser fUser in list)
+                {
+                    currentFUserList.Add(fUser);
+                    currentUserList.Add(fUser.user);
+                }
+            }
+            callback?.Invoke(isSuccess, errMsg, currentUserList);
+        });
     }
 
-    public void CreateInvitation(FTradeInvitation invitation, System.Action<bool, string> callback)
+    public List<LUser> GetCurrentMemberList()
     {
-        FirestoreManager.Instance.createData(invitation.collectionId, invitation, callback);
+        return currentUserList;
     }
 
-    public void CreateTrade(FTrade trade, System.Action<bool, string> callback)
+    public void LeaveCoalition(System.Action<bool, string> callback)
     {
-        FirestoreManager.Instance.createData(trade.collectionId, trade, callback);
+        ServerManager.Instance.LeaveCoalition(CurrentFUser.id, (isSuccess, errMsg, fUser) =>
+        {
+            if (isSuccess)
+            {
+                this.CurrentFUser = fUser;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+
+        });
     }
 
-    public void CreateTrade(FArtTrade trade, System.Action<bool, string> callback)
+    public void OpenCoalition(System.Action<bool, string> callback)
     {
-        FirestoreManager.Instance.createData(trade.collectionId, trade, callback);
+        ServerManager.Instance.OpenCoalition(CurrentFUser.id, (isSuccess, errMsg, list) =>
+        {
+            if (isSuccess)
+            {
+                this.currentCoalitions = list;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+
+        });
     }
 
-    public void CreateTradeItem(List<FTradeItem> tradelist, System.Action<bool, string> callback)
+    public void CloseCoalition(System.Action<bool, string> callback)
     {
-        FirestoreManager.Instance.createDataList(tradelist, callback);
+        ServerManager.Instance.CloseCoalition(CurrentFUser.id, (isSuccess, errMsg, list) =>
+        {
+            if (isSuccess)
+            {
+                this.currentCoalitions = list;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+
+        });
     }
 
-    public void CreateMessages(FMessage fMessage, System.Action<bool, string> callback)
+    public void SendJoinInvite(string coalitionName, System.Action<bool, string> callback = null)
     {
-        FirestoreManager.Instance.createData(fMessage.collectionId, fMessage, callback);
+        ServerManager.Instance.SendJoinInvite(CurrentFUser.id, coalitionName, (isSuccess, errMsg, fUser) =>
+        {
+            if (isSuccess)
+            {
+                this.CurrentFUser = fUser;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+
+        });
     }
 
-    public void CreateBuilding(FBuilding building, System.Action<bool, string> callback)
+    public void InviteVillagerToCoalition(string villagerName, System.Action<bool, string> callback = null)
     {
-        FirestoreManager.Instance.createData(building.collectionId, building, callback);
+        ServerManager.Instance.InviteVillagerToCoalition(CurrentFUser.id, villagerName, (isSuccess, errMsg, fUser) =>
+        {
+            if (isSuccess)
+            {
+                this.CurrentFUser = fUser;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+
+        });
     }
 
-    public void RemoveData(FData data, System.Action<bool, string> callback)
+    public void InviteUserToCoalition(string invitee, System.Action<bool, string> callback = null)
     {
-        FirestoreManager.Instance.RemoveData(data, callback);
+        ServerManager.Instance.InviteUserToCoalition(CurrentFUser.id, invitee, (isSuccess, errMsg, fUser) =>
+        {
+            if (isSuccess)
+            {
+                this.CurrentFUser = fUser;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+
+        });
     }
 
-    public void RemoveData(List<FData> dataList, System.Action<bool, string> callback)
+    public void AcceptCoalitionInvite(string inviteId, System.Action<bool, string> callback = null)
     {
-        FirestoreManager.Instance.RemoveData(dataList, callback);
+        ServerManager.Instance.AcceptCoalitionInvite(CurrentFUser.id, inviteId, (isSuccess, errMsg, fUser) =>
+        {
+            if (isSuccess)
+            {
+                this.CurrentFUser = fUser;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+
+        });
     }
 
-    public void UpdateVillagers(List<LVillager> fVillagers)
+    public void RejectCoalitionInvite(string inviteId, System.Action<bool, string> callback = null)
+    {
+        ServerManager.Instance.RejectCoalitionInvite(CurrentFUser.id, inviteId, (isSuccess, errMsg, fUser) =>
+        {
+            if (isSuccess)
+            {
+                this.CurrentFUser = fUser;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+
+        });
+    }
+
+    public void KickCoalitionMember(string memberId, System.Action<bool, string> callback = null)
+    {
+        ServerManager.Instance.KickCoalitionMember(CurrentFUser.id, memberId, (isSuccess, errMsg, fUser) =>
+        {
+            if (isSuccess)
+            {
+                this.CurrentFUser = fUser;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+
+        });
+    }
+
+    public void Excavate(System.Action<bool, string> callback = null)
+    {
+        ServerManager.Instance.Excavate(CurrentFUser.id, (isSuccess, errMsg, fUser) =>
+        {
+            if (isSuccess)
+            {
+                this.CurrentFUser = fUser;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+
+        });
+    }
+
+    public void CompleteExcavate(string artifactId, System.Action<bool, string> callback = null)
+    {
+        ServerManager.Instance.CompleteExcavate(CurrentFUser.id, artifactId, (isSuccess, errMsg, fUser) =>
+        {
+            if (isSuccess)
+            {
+                this.CurrentFUser = fUser;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+
+        });
+    }
+
+    public void PickArtwork(LArtwork artwork, System.Action<bool, string> callback = null)
+    {
+        ServerManager.Instance.PickArtwork(CurrentFUser.id, JsonUtility.ToJson(artwork), (isSuccess, errMsg, fUser) =>
+        {
+            if (isSuccess)
+            {
+                this.CurrentFUser = fUser;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+
+        });
+    }
+
+    public void GetCoalitionMessage(string coalition, System.Action<bool, string, List<FMessage>> callback = null)
+    {
+        ServerManager.Instance.GetCoalitionMessage(coalition, callback);
+    }
+
+    public void GetPrivateMessage(System.Action<bool, string, List<FMessage>> callback = null)
+    {
+        ServerManager.Instance.GetPrivateMessage(CurrentFUser.id, callback);
+    }
+
+    public void SendCoalitionMessage(string content, System.Action<bool, string, FMessage> callback = null)
+    {
+        ServerManager.Instance.SendCoalitionMessage(CurrentFUser.id, content, callback);
+    }
+
+    public void SendPrivateMessage(string receiver, string content, System.Action<bool, string, FMessage> callback = null)
+    {
+        ServerManager.Instance.SendPrivateMessage(CurrentFUser.id, receiver, content, callback);
+    }
+
+    public void SendTradeInvite(string receiver, EResources resource1, float amount1, EResources resource2, float amount2, ETradeRepeat repeat, ETradeInviteType type, System.Action<bool, string, FInvitation> callback = null)
+    {
+        ServerManager.Instance.SendTradeInvite(CurrentFUser.id, receiver, resource1.ToString(), amount1, resource2.ToString(), amount2, (int)repeat, type, callback);
+    }
+
+    public void AcceptTradeInvite(string inviteId, System.Action<bool, string, FInvitation> callback = null)
+    {
+        ServerManager.Instance.AcceptTradeInvite(CurrentFUser.id, inviteId, callback);
+    }
+
+    public void RejectTradeInvite(string inviteId, System.Action<bool, string, FInvitation> callback = null)
+    {
+        ServerManager.Instance.RejectTradeInvite(CurrentFUser.id, inviteId, callback);
+    }
+
+    public void GetTradeInvites(System.Action<bool, string, List<FTradeInvitation>> callback = null)
+    {
+        ServerManager.Instance.GetTradeInvites(CurrentFUser.id, callback);
+    }
+
+    public void PostArtTrades(string paint, string artist1, string artist2, System.Action<bool, string, FArtTrade> callback = null)
+    {
+        ServerManager.Instance.PostArtTrades(CurrentFUser.id, paint, artist1, artist2, callback);
+    }
+
+    public void SubmitArtTrades( string tradeId, string paint, string artist, System.Action<bool, string, FArtTrade> callback = null)
+    {
+        ServerManager.Instance.SubmitArtTrades(CurrentFUser.id, tradeId, paint, artist, callback);
+    }
+
+    public void AcceptArtTrades( string tradeId, System.Action<bool, string> callback = null)
+    {
+        ServerManager.Instance.AcceptArtTrades(CurrentFUser.id, tradeId, (isSuccess, errMsg, user) =>
+        {
+            if (isSuccess)
+            {
+                this.CurrentFUser = user;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
+    public void RejectArtTrades( string tradeId, System.Action<bool, string, FArtTrade> callback = null)
+    {
+        ServerManager.Instance.RejectArtTrades(CurrentFUser.id, tradeId, callback);
+    }
+
+    public void RemoveArtTrades( string tradeId, System.Action<bool, string, FArtTrade> callback = null)
+    {
+        ServerManager.Instance.RemoveArtTrades(CurrentFUser.id, tradeId, callback);
+    }
+
+    public void GetAllArtTrades(System.Action<bool, string, List<FArtTrade>> callback = null)
+    {
+        ServerManager.Instance.GetAllArtTrades(callback);
+    }
+
+    public void GetSendArtTrades( System.Action<bool, string, List<FArtTrade>> callback = null)
+    {
+        ServerManager.Instance.GetSendArtTrades(CurrentFUser.id, callback);
+    }
+
+    public void GetReceiveArtTrades(System.Action<bool, string, List<FArtTrade>> callback = null)
+    {
+        ServerManager.Instance.GetReceiveArtTrades(CurrentFUser.id, callback);
+    }
+
+    public void GetPublicMessages(string coalitionName, System.Action<bool, string, List<FMessage>> callback)
+    {
+        ServerManager.Instance.GetCoalitionMessage(coalitionName, callback);
+    }
+
+    public void GetPrivateMessages(System.Action<bool, string, List<FMessage>> callback)
+    {
+        ServerManager.Instance.GetPrivateMessage(CurrentFUser.id, callback);
+    }
+
+    public void StartToBuild(string bId, string cBuildingId, bool bQuick, string createdAt, System.Action<bool, string> callback = null)
+    {
+        ServerManager.Instance.StartToBuild(CurrentFUser.id, bId, cBuildingId, bQuick, createdAt, (isSuccess, errMsg, fUser) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = fUser;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
+    public void CompleteBuilding(string bId, string createdAt, System.Action<bool, string> callback = null)
+    {
+        ServerManager.Instance.CompleteBuilding(CurrentFUser.id, bId, createdAt, (isSuccess, errMsg, fUser) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = fUser;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
+    public void CancelBuilding(string bId, string cBuildingId, System.Action<bool, string> callback = null)
+    {
+        ServerManager.Instance.CancelBuilding(CurrentFUser.id, bId, cBuildingId, (isSuccess, errMsg, fUser) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = fUser;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
+    public void ConvertQuickBuilding(string bId, string cBuildingId, string createdAt, System.Action<bool, string> callback = null)
+    {
+        ServerManager.Instance.ConvertQuickBuilding(CurrentFUser.id, bId, cBuildingId, createdAt, (isSuccess, errMsg, fUser) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = fUser;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
+    public void ExchangeResource(EResources type1, float amount1, EResources type2, float amount2, System.Action<bool, string> callback = null)
+    {
+        ServerManager.Instance.ExchangeResource(CurrentFUser.id, type1, amount1, type2, amount2, (isSuccess, errMsg, fUser) =>
+        {
+            if (isSuccess)
+            {
+                CurrentFUser = fUser;
+            }
+            callback?.Invoke(isSuccess, errMsg);
+        });
+    }
+
+        public void UpdateVillagers(List<LVillager> fVillagers)
     {
         foreach(LVillager villager in fVillagers)
         {
@@ -1885,32 +2352,14 @@ public class DataManager : SingletonComponent<DataManager>
         
     }
 
-    public void ChangeMode(Game_Mode mode)
-    {
-        LoadInitialData();
-        CurrentAutoBuildings.Clear();
-        CurrentDailyTasks.Clear();
-        CurrentHabits.Clear();
-        CurrentSubTasks.Clear();
-        CurrentProjects.Clear();
-        currentUser.ClearAllExports();
-        if (mode == Game_Mode.Game_Only)
-        {
-            AITaskManager.Instance.CreateEntries();
-        }
-        dailyReportStrList.Clear();
-        PlayerPrefs.SetString("DRemind", "");
-        SaveData();
-    }
+#endregion
 
-    #endregion
-
-    #region Private Members
+#region Private Members
 
     private List<CResource> GetBuyResourceFromRepublic()
     {
         List<CResource> resultList = new List<CResource>();
-        foreach(CResource resource in ResourcesCategoryData.resources)
+        foreach(CResource resource in initCResources)
         {
             if (resource.buy_price_from_republic > 0)
             {
@@ -1924,7 +2373,7 @@ public class DataManager : SingletonComponent<DataManager>
     private List<CResource> GetBuyResourceFromMerchant()
     {
         List<CResource> resultList = new List<CResource>();
-        foreach (CResource resource in ResourcesCategoryData.resources)
+        foreach (CResource resource in initCResources)
         {
             if (resource.buy_price_from_merchant > 0)
             {
@@ -1938,7 +2387,7 @@ public class DataManager : SingletonComponent<DataManager>
     private List<CResource> GetBuyResourceFromCoalition()
     {
         List<CResource> resultList = new List<CResource>();
-        foreach (CResource resource in ResourcesCategoryData.resources)
+        foreach (CResource resource in initCResources)
         {
             if (resource.buy_price_from_coalition > 0)
             {
@@ -1952,7 +2401,7 @@ public class DataManager : SingletonComponent<DataManager>
     private List<CResource> GetBuyResourceFromSpecialist()
     {
         List<CResource> resultList = new List<CResource>();
-        foreach (CResource resource in ResourcesCategoryData.resources)
+        foreach (CResource resource in initCResources)
         {
             if (resource.buy_price_from_specialist > 0)
             {
@@ -1966,7 +2415,7 @@ public class DataManager : SingletonComponent<DataManager>
     private List<CResource> GetSellResourceToRepublic()
     {
         List<CResource> resultList = new List<CResource>();
-        foreach (CResource resource in ResourcesCategoryData.resources)
+        foreach (CResource resource in initCResources)
         {
             if (resource.sell_price_to_republic > 0)
             {
@@ -1980,7 +2429,7 @@ public class DataManager : SingletonComponent<DataManager>
     private List<CResource> GetSellResourceToMerchant()
     {
         List<CResource> resultList = new List<CResource>();
-        foreach (CResource resource in ResourcesCategoryData.resources)
+        foreach (CResource resource in initCResources)
         {
             if (resource.sell_price_to_merchant > 0)
             {
@@ -1994,7 +2443,7 @@ public class DataManager : SingletonComponent<DataManager>
     private List<CResource> GetSellResourceToCoalition()
     {
         List<CResource> resultList = new List<CResource>();
-        foreach (CResource resource in ResourcesCategoryData.resources)
+        foreach (CResource resource in initCResources)
         {
             if (resource.sell_price_to_coalition > 0)
             {
@@ -2004,10 +2453,10 @@ public class DataManager : SingletonComponent<DataManager>
 
         return resultList;
     }
-    #endregion
+#endregion
 
 
-    #region Firestore Events
+#region Firestore Events
     private void OnCoalitionUpdated(List<FCoalition> coalitions)
     {
         this.currentCoalitions.Clear();
@@ -2033,6 +2482,20 @@ public class DataManager : SingletonComponent<DataManager>
         currentUser.UpdateJoinCoalition(coalition.name);
     }
 
+    private List<string> GetLocalReportList(System.DateTime dateTime)
+    {
+        var result = new List<string>();
+        var date = Convert.DateTimeToFDate(dateTime);
+        tempReport.RemoveAll(x => x.date != date);
+
+        foreach (LocalReport rt in tempReport)
+        {
+            result.Add(rt.report);
+        }
+
+        return result;
+    }
+
     private void GetDailyReportString(System.Action<List<string>> callback)
     {
 
@@ -2047,7 +2510,7 @@ public class DataManager : SingletonComponent<DataManager>
             dailyReportStrList.Add("Merchant will not be docking today.");
         }
 
-        var mode = (Game_Mode)currentSetting.current_mode;
+        var mode = (Game_Mode)currentSetting.game_mode;
         var bTodayGoal = false;
         if (mode == Game_Mode.Task_Only)
         {
@@ -2160,23 +2623,39 @@ public class DataManager : SingletonComponent<DataManager>
                     dailyReportStrList.Add("You have new trade offers (check 'Member Offers' under 'Trade')");
                 }
 
-                ArtworkSystem.Instance.LoadArtTrade((isSuccess, errMsg, tradeList) =>
+                TradeViewController.Instance.LoadSentTrades((isSuccess, errMsg, tradeList) =>
                 {
                     if (tradeList != null && tradeList.Count > 0)
                     {
-                        foreach(FArtTrade trade in tradeList)
+                        foreach (FTrade trade in tradeList)
                         {
-                            if (trade.state == EState.Created.ToString())
+                            int result = trade.created_at.CompareTo(Convert.DateTimeToFDate(DateTime.Now.AddDays(-1)));
+                            if ((result == 0) /*|| (result < 0 && trade.update_at.Equals(string.Empty))*/)
                             {
-                                dailyReportStrList.Add("Your art exchange has been accepted. See ‘notifications’under 'Connections'");
+                                dailyReportStrList.Add("Your trade offer has been accepted.  See ‘members offer’under 'Trade'");
                                 break;
                             }
                         }
                     }
-                    callback(dailyReportStrList);
+                    ArtworkSystem.Instance.LoadSendArtTrades((isSuccess, errMsg, tradeList) =>
+                    {
+                        if (tradeList != null && tradeList.Count > 0)
+                        {
+                            foreach (FArtTrade trade in tradeList)
+                            {
+                                if (trade.state == EState.Created.ToString())
+                                {
+                                    dailyReportStrList.Add("Your art exchange has been accepted. See ‘notifications’under 'Connections'");
+                                    break;
+                                }
+                            }
+                        }
+                        callback(dailyReportStrList);
+                    });
                 });
+                
             });
         });
     }
-    #endregion
+#endregion
 }

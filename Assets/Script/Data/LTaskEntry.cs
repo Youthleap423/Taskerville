@@ -50,6 +50,11 @@ public class LTaskEntry : LEntry
         System.DateTime begin_date_DT = Convert.FDateToDateTime(begin_date);
         if (repeatition == (int)Repeatition.Daily)
         {
+            if (repeat_every < 1)
+            {
+                return false;
+            }
+
             for (System.DateTime day = begin_date_DT.Date; day.Date <= dateTime.Date; day = day.AddDays(repeat_every))
             {
                 if (day.Date == dateTime.Date)
@@ -79,6 +84,13 @@ public class LTaskEntry : LEntry
             {
                 return false;
             }
+
+            if (repeat_every < 1)
+            {
+                return false;
+            }
+
+
             for (System.DateTime day = begin_date_DT.Date; day.Date <= dateTime.Date; day = day.AddMonths(repeat_every))
             {
                 if (day.Date == dateTime.Date)
@@ -94,6 +106,12 @@ public class LTaskEntry : LEntry
             {
                 return false;
             }
+
+            if (repeat_every < 1)
+            {
+                return false;
+            }
+
             for (System.DateTime day = begin_date_DT.Date; day.Date <= dateTime.Date; day = day.AddMonths(repeat_every))
             {
                 if (day.Date == dateTime.Date)
@@ -259,20 +277,7 @@ public class LTaskEntry : LEntry
 
     public override void CancelComplete()
     {
-        var todayStr = Convert.DateTimeToFDate(System.DateTime.Now);
-        if (completed_Week.Contains(todayStr))
-        {
-            completed_Week.Remove(todayStr);
-        }
-
-        if (completed_Week.Count > 0)
-        {
-            completedDate = completed_Week.Last();
-        }
-        else
-        {
-            completedDate = "";
-        }
+        completedDate = "";
         NotificationManager.Instance.ReScheduleLocalNotification(this);
     }
 

@@ -6,8 +6,6 @@ using UnityEngine.Serialization;
 [Serializable]
 public class ResourceData : ScriptableObject
 {
-	[FormerlySerializedAs("Resource")]
-	public List<CResource> resources;
 	[FormerlySerializedAs("Religions")]
 	public List<CReligion> religions;
 

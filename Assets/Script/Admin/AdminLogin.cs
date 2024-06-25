@@ -5,7 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Firebase.Firestore;
 using UnityEditor;
-
+using UnityEngine.Networking;
+using UIControllersAndData.Store.Categories.Buildings;
 public class AdminLogin : MonoBehaviour
 {
     [Space]
@@ -19,19 +20,25 @@ public class AdminLogin : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        LoadCSVFile();
+        /*LoadCSVFile();
         var item = DataManager.Instance.Artifact_Data.artworks[0];
         StartCoroutine(ImageLoader.Start(item.image_path, (sprite =>
         {
             backgroundImage.sprite = sprite;
-        })));
+        })));*/
+
+        DownloadManager.instance.AddQueue("http://159.65.171.191:3000/uploads/artwork/1745204958.jpg", (path, texture) =>
+        {
+            Debug.LogError("Success to download: " + path);
+            backgroundImage.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+        });
     }
     #endregion
 
     #region Public_Members
     public void OnLogin()
     {
-        FAuth.Instance.SignIn("test@test.com", "123456", (isSuccess, errMsg, userId) =>
+        FAuth.Instance.SignIn("ronniilene@aol.com", "isitg0nnaworkornot", (isSuccess, errMsg, userId) =>
         {
             if (isSuccess)
             {
@@ -44,11 +51,26 @@ public class AdminLogin : MonoBehaviour
         });
     }
     #endregion
-    
+    int index = 0;
     public void CreateInitialDatabase()
     {
-        UpdateDB();
+        //UploadCBuildingData();
         //CreateABuildingDB();
+    }
+
+    private IEnumerator ECallPostAPI(string path, WWWForm form)
+    {
+        using UnityWebRequest www = UnityWebRequest.Post(path, form);
+        yield return www.SendWebRequest();
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError("ERROR" + www.downloadHandler.text == "" ? "Server Connection Error: " + www.error : www.downloadHandler.text);
+        }
+        else
+        {
+            Debug.LogError("Success" + www.downloadHandler.text);
+        }
+        www.Dispose();
     }
 
     private void LoadCSVFile()
@@ -69,7 +91,7 @@ public class AdminLogin : MonoBehaviour
             newArt.name = name;
             newArt.artist_name = artist_name;
             newArt.contactInfo = "www.enelsonduran.com";
-            newArt.image_path = path.Trim();
+            newArt.imageURL = path.Trim();
 
             DataManager.Instance.Artifact_Data.artworks.Add(newArt);
             //print("PAINTING_NAME " + name + " " +
@@ -90,140 +112,23 @@ public class AdminLogin : MonoBehaviour
             res.Id = resName;
             resList.Add(res);
         }
-        FirestoreManager.Instance.createDataList(resList, (isSuccess, errMsg) =>
-        {
-            if (isSuccess)
-            {
-                Debug.LogError("Success!!!");
-            }
-            else
-            {
-                Debug.LogError(errMsg);
-            }
-        });
-    }
-
-    private void CreateBuildingDB()
-    {
-        string[] buildingNames = Enum.GetNames(typeof(EBuildingType));
-        List<FBuilding> buildingList = new List<FBuilding>();
-        foreach (string buildingName in buildingNames)
-        { 
-            FBuilding building = new FBuilding();
-            building.type = buildingName;
-            building.collectionId = "Init_Building";
-            building.Id = buildingName;
-            buildingList.Add(building);
-        }
-        FirestoreManager.Instance.createDataList(buildingList, (isSuccess, errMsg) =>
-        {
-            if (isSuccess)
-            {
-                Debug.LogError("Success!!!");
-            }
-            else
-            {
-                Debug.LogError(errMsg);
-            }
-        });
-    }
-
-    private void CreateABuildingDB()
-    {
-        List<FBuilding> buildingList = new List<FBuilding>();
-        
-            FBuilding building = new FBuilding();
-            building.type = EBuildingType.Obelisk.ToString();
-            building.collectionId = "Init_Building";
-            building.Id = "Obelisk";
-            buildingList.Add(building);
-        
-        FirestoreManager.Instance.createDataList(buildingList, (isSuccess, errMsg) =>
-        {
-            if (isSuccess)
-            {
-                Debug.LogError("Success!!!");
-            }
-            else
-            {
-                Debug.LogError(errMsg);
-            }
-        });
-    }
-
-    private void CreateVillagerDB()
-    {
-        string[] villagerNames = Enum.GetNames(typeof(EVillagerType));
-        List<FVillager> villagerList = new List<FVillager>();
-        foreach (string villagerName in villagerNames)
-        {
-            FVillager villager = new FVillager();
-            villager.type = villagerName;
-            villager.collectionId = "Init_Villager";
-            villager.Id = villagerName;
-            villagerList.Add(villager);
-        }
-        FirestoreManager.Instance.createDataList(villagerList, (isSuccess, errMsg) =>
-        {
-            if (isSuccess)
-            {
-                Debug.LogError("Success!!!");
-            }
-            else
-            {
-                Debug.LogError(errMsg);
-            }
-        });
-    }
-
-    private void AddToVillagerDB()
-    {
-        string[] villagerNames = new string[] { EVillagerType.Charger.ToString(), EVillagerType.Merchant.ToString()};
-        List<FVillager> villagerList = new List<FVillager>();
-        foreach (string villagerName in villagerNames)
-        {
-            FVillager villager = new FVillager();
-            villager.type = villagerName;
-            villager.collectionId = "Init_Villager";
-            villager.Id = villagerName;
-            villagerList.Add(villager);
-        }
-        FirestoreManager.Instance.createDataList(villagerList, (isSuccess, errMsg) =>
-        {
-            if (isSuccess)
-            {
-                Debug.LogError("Success!!!");
-            }
-            else
-            {
-                Debug.LogError(errMsg);
-            }
-        });
-    }
-
-    private void UpdateDB()
-    {
-        List<FBuilding> fResources = new List<FBuilding>();
-        FirestoreManager.Instance.GetInitData("Init_Building", (isSuccess, errMsg, snapshotList) =>
-        {
-            if (isSuccess)
-            {
-                long index = 0;
-                foreach (DocumentSnapshot snapshot in snapshotList)
-                {
-                    FBuilding resource = snapshot.ConvertTo<FBuilding>();
-                    resource.Pid = "FEbTT5jNcUVHN0CLUv3v7xLJviy1";
-                    resource.Id = "FEbTT5jNcUVHN0CLUv3v7xLJviy1" + "_" + resource.Id;
-                    resource.collectionId = "Buildings";
-                    fResources.Add(resource);
-                }
-
-                FirestoreManager.Instance.createDataList<FBuilding>(fResources, (isSuccess, errMsg) =>
-                {
-                    Debug.LogError("Success:>>>" + isSuccess.ToString());
-                });
-            }
-            Debug.LogError(errMsg);
-        });
     }
 }
+
+public class WResponse
+{
+    public string type = "";
+    public string errcode = "";
+    public string errmsg = "";
+    public WResponse()
+    {
+        type = "";
+        errcode = "";
+        errmsg = "";
+    }
+}
+
+
+
+
+

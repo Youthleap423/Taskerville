@@ -79,6 +79,11 @@ public class LHabitEntry : LEntry
         {
             if (repeatition == (int)Repeatition.Daily)
             {
+                if (repeat_every < 1)
+                {
+                    return false;
+                }
+
                 for (System.DateTime day = begin_date_DT.Date; day.Date <= dateTime.Date; day = day.AddDays(repeat_every))
                 {
                     if (day.Date == dateTime.Date)
@@ -108,6 +113,12 @@ public class LHabitEntry : LEntry
                 {
                     return false;
                 }
+
+                if (repeat_every < 1)
+                {
+                    return false;
+                }
+
                 for (System.DateTime day = begin_date_DT.Date; day.Date <= dateTime.Date; day = day.AddMonths(repeat_every))
                 {
                     if (day.Date == dateTime.Date)
@@ -123,6 +134,12 @@ public class LHabitEntry : LEntry
                 {
                     return false;
                 }
+
+                if (repeat_every < 1)
+                {
+                    return false;
+                }
+
                 for (System.DateTime day = begin_date_DT.Date; day.Date <= dateTime.Date; day = day.AddMonths(repeat_every))
                 {
                     if (day.Date == dateTime.Date)
@@ -289,7 +306,12 @@ public class LHabitEntry : LEntry
     public void Update()
     {
         NotificationManager.Instance.ReScheduleLocalNotification(this);
-        DataManager.Instance.UpdateEntry(this);
+        var list = new List<LHabitEntry>();
+        list.Add(this);
+        DataManager.Instance.ArrangeHabit(list, (isSuccess, errMsg)=>
+        {
+            Debug.LogError(string.Format("{0}: {1}", isSuccess, errMsg));
+        });
     }
 
     public override bool isCompleted()

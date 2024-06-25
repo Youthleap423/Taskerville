@@ -195,6 +195,12 @@ public class Convert
         return (dateTime - startDateTime).TotalSeconds;
     }
 
+    public static string GetTimeStringForServer(System.DateTime dateTime)
+    {
+        string formatString = "yyyy-MM-ddTHH:mm:ss.000Z";
+        return dateTime.ToString(formatString);
+    }
+
     public static string GetTimeString(string startTime, int hours, int minutes)
     {
         System.Globalization.CultureInfo provider = System.Globalization.CultureInfo.InvariantCulture;

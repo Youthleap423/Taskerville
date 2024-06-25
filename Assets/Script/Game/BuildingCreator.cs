@@ -43,6 +43,7 @@ public class BuildingCreator : MonoBehaviour
 
 	private void OnApplicationFocus(bool focus)
 	{
+#if !UNITY_EDITOR
 		if (focus)
 		{
 			if (gBuilding != null)
@@ -52,6 +53,7 @@ public class BuildingCreator : MonoBehaviour
 				progress = Mathf.Clamp01((float)(passedSeconds) / 60.0f / (float)(buildingTime));
 			}
 		}
+#endif
 	}
 
 	void FixedUpdate()

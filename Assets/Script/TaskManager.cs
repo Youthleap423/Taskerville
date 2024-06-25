@@ -37,38 +37,25 @@ public class TaskManager : SingletonComponent<TaskManager>
 
     public void CheckAllDailyUpdate()
     {
-        if (isupdating)
+        //ResourceViewController.Instance.CheckDailyMission(); -- done on the server
+        //TradeViewController.Instance.CheckTrades();
+        TaskViewController.Instance.CheckDaily();
+        //ArtifactSystem.Instance.CheckArtifacts();
+        ArtworkSystem.Instance.CheckArtwork();
+        UIManager.Instance.ShowDailyReminder();
+        //2023/07/18 by pooh
+        var lastOpenDate = PlayerPrefs.GetString("LastOpenTime");
+        if (lastOpenDate != "" && lastOpenDate != Convert.DateTimeToFDate(System.DateTime.Now))
         {
-            return;
-        }
-
-        UIManager.Instance.ShowLoadingBar(true);
-        isupdating = true;
-        DataManager.Instance.SerializeUser(false, (isSuccess, err) =>
-        {
-            UIManager.Instance.ShowLoadingBar(false);
-            ResourceViewController.Instance.CheckDailyMission();
-            TradeViewController.Instance.CheckTrades();
-            TaskViewController.Instance.CheckDaily();
-            //ArtifactSystem.Instance.CheckArtifacts();
-            ArtworkSystem.Instance.CheckArtwork();
-            UIManager.Instance.ShowDailyReminder();
-            //2023/07/18 by pooh
-            var lastOpenDate = PlayerPrefs.GetString("LastOpenTime");
-            if (lastOpenDate != "" && lastOpenDate != Convert.DateTimeToFDate(System.DateTime.Now))
+            var days = Utilities.GetDays(Convert.FDateToDateTime(lastOpenDate), System.DateTime.Now);
+            if (days >= 2)
             {
-                var days = Utilities.GetDays(Convert.FDateToDateTime(lastOpenDate), System.DateTime.Now);
-                if (days >= 2)
-                {
-                    RewardSystem.Instance.GiveSkipOpenReward((int)(days - 1));
-                }
+                RewardSystem.Instance.GiveSkipOpenReward((int)(days - 1));
             }
-            PlayerPrefs.SetString("LastOpenTime", Convert.DateTimeToFDate(System.DateTime.Now));
-            ////////////////////
-            isupdating = false;
-        });
+        }
+        PlayerPrefs.SetString("LastOpenTime", Convert.DateTimeToFDate(System.DateTime.Now));
 
-        
+
     }
 
     private void OnApplicationFocus(bool focus)

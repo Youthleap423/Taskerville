@@ -17,8 +17,8 @@ public class TradeOfferItem : MonoBehaviour
     {
         if (this.invitation != null)
         {
-            resNameTF.text = invitation.resource;
-            repeatTF.text = invitation.repeat;
+            resNameTF.text = invitation.receiver_res.ToString(); ;
+            repeatTF.text = invitation.repeat.ToString(); ;
         }
     }
 

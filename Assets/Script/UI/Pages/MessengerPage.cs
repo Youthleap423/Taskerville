@@ -129,7 +129,7 @@ public class MessengerPage : Page
     private void LoadPrivateMessages(string userId)
     {
         UIManager.Instance.ShowLoadingBar(true);
-        CommunicationViewController.Instance.LoadPrivateMessages(new List<string> { me.id, userId }, (isSuccess, errMsg, messageList) =>
+        CommunicationViewController.Instance.LoadPrivateMessages(userId, (isSuccess, errMsg, messageList) =>
         {
             UIManager.Instance.ShowLoadingBar(false);
 
@@ -173,9 +173,9 @@ public class MessengerPage : Page
 
         foreach(FMessage fMessage in messageList)
         {
-            LUser sender = userList.Find(x => x.id == fMessage.Pid);
+            LUser sender = userList.Find(x => x.id == fMessage.sender);
             GameObject obj = null;
-            if (fMessage.Pid == me.id)
+            if (fMessage.sender == me.id)
             {
                 obj = Instantiate(myMessageItemPrefab, messageList_Transform);
                 sender = me;
@@ -199,7 +199,7 @@ public class MessengerPage : Page
     {
         UIManager.Instance.ShowLoadingBar(true);
 
-        CommunicationViewController.Instance.SendFMessageToCoalition(userList, message_IF.text, (isSuccess, errMsg, fMessage) =>
+        CommunicationViewController.Instance.SendFMessageToCoalition(message_IF.text, (isSuccess, errMsg, fMessage) =>
         {
             UIManager.Instance.ShowLoadingBar(false);
             if (isSuccess)

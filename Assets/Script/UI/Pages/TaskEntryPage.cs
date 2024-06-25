@@ -238,24 +238,22 @@ public class TaskEntryPage : EntryPage
                     newTaskEntry.subTasks.Add(task.id);
                 }
             }
+            
+            TaskViewController.Instance.CreateDailyTask(newTaskEntry, this.subFTasks, (_) =>
+            {
+                ShowDailyTask();
+            });
         }
         else
         {
-            newTaskEntry.SetRemoved(true);
-
-            this.subFTasks = taskDic.Values.ToList();
-            newTaskEntry.subTasks.Clear();
-
-            foreach (LTask task in this.subFTasks)
+            TaskViewController.Instance.RemoveDailyTask(newTaskEntry, (_) =>
             {
-                task.SetRemoved(true);
-                task.begin_date = Convert.DateTimeToFDate(System.DateTime.Now);
-                newTaskEntry.subTasks.Add(task.id);
-            }
+                ShowDailyTask();
+            });
         }
 
-        newTaskEntry.Update(this.subFTasks);
-        ShowDailyTask();
+        //newTaskEntry.Update(this.subFTasks);
+        
     }
 
     public void ShowAdvanced()
@@ -378,7 +376,11 @@ public class TaskEntryPage : EntryPage
         taskNameIF.text = this.newTaskEntry.taskName;
         Difficulty_Toggles[this.newTaskEntry.diffculty].isOn = true;
         repeatition_dropdown.value = this.newTaskEntry.repeatition;
-        foreach(int id in this.newTaskEntry.repeatDays)
+        foreach (Toggle toggle in Week_Toggles)
+        {
+            toggle.isOn = false;
+        }
+        foreach (int id in this.newTaskEntry.repeatDays)
         {
             Week_Toggles[id].isOn = true;
         }

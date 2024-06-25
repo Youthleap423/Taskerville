@@ -399,13 +399,18 @@ public class NotificationManager : SingletonComponent<NotificationManager>
         }
 
 
-        if (entry == null || entry.id == "" || entry.IsRemoved() || entry.isCompleted())
+        if (entry == null || entry.id == "")
         {
             return;
         }
 
-        CancelPendingLocalNotification(entry,(result) =>
+        CancelPendingLocalNotification(entry, (result) =>
         {
+            if (entry.IsRemoved() || entry.isCompleted())
+            {
+                return;
+            }
+
             if (entry.remindAlarm.Trim().Equals(String.Empty))
             {
                 return;

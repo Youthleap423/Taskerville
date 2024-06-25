@@ -28,7 +28,7 @@ public class ArtExchangeSubmitPage : Page
             Destroy(child.gameObject);
         }
 
-        var artTrades = ArtworkSystem.Instance.GetSelectedArtTrades().FindAll(item => item.readers[0] != UserViewController.Instance.GetCurrentUser().GetFullName() && item.state == EState.Posted.ToString());
+        var artTrades = ArtworkSystem.Instance.GetSelectedArtTrades().FindAll(item => item.senderName != UserViewController.Instance.GetCurrentUser().GetFullName() && item.state == EState.Posted.ToString());
 
         foreach (FArtTrade trade in artTrades)
         {
@@ -39,10 +39,8 @@ public class ArtExchangeSubmitPage : Page
 
     public void Submit(FArtTrade trade, CArtwork artwork)
     {
-        trade.Submit(artwork.name, artwork.artist_name);
-        trade.readers.Add(UserViewController.Instance.GetCurrentUser().GetFullName());
         UIManager.Instance.ShowLoadingBar(true);
-        DataManager.Instance.UpdateData(trade, (isSuccess, errMsg) =>
+        DataManager.Instance.SubmitArtTrades(trade.id, artwork.name, artwork.artist_name, (isSuccess, errMsg, _) =>
         {
             UIManager.Instance.ShowLoadingBar(false);
             if (isSuccess)

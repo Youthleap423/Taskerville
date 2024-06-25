@@ -7,5 +7,10 @@ public class CArtifact : CData
 {
     public string date = "unknown";
     public EResources type = EResources.Artifact_Common;
-    public Sprite image;
+    public string imageURL;
+
+    public string GetImagePath()
+    {
+        return ServerManager.Instance.GetServerBasePath() + "uploads" + imageURL;
+    }
 }

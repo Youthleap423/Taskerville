@@ -25,36 +25,13 @@ public class FTradeItem : FData
 
     public FTradeItem(FTrade trade, string pid, string receiverId, System.DateTime dateTime)
     {
-        Id = trade.Id;
+        Id = trade.id;
         collectionId = "TradeItem";
         Pid = pid;
         type = trade.type;
-        resource = trade.resource;
+        resource = trade.sender_res.ToString();
         receiver_Id = receiverId;
         state = EState.Created.ToString();
         created_at = Convert.DateTimeToFDate(dateTime);
-    }
-
-
-    public void Buy()
-    {
-        EResources eResource = (EResources)Enum.Parse(typeof(EResources), resource);
-        CResource cResource = ResourceViewController.Instance.GetCResource(eResource);
-        var currentResValue = ResourceViewController.Instance.GetCurrentResourceValue(EResources.Gold);
-        if (currentResValue >= cResource.buy_price_from_coalition)
-        {
-            var resourceDic = new Dictionary<EResources, float>();
-            UIManager.LogError("FTrade Buy Done:" + cResource.buy_price_from_coalition);
-            resourceDic.Add(eResource, cResource.market_amount);
-            resourceDic.Add(EResources.Gold, -cResource.buy_price_from_coalition);
-            ResourceViewController.Instance.UpdateResource(resourceDic, (isSuccuess, errMsg) =>
-            {
-                if (isSuccuess)
-                {
-                    UserViewController.Instance.GetCurrentUser().updateBuy(System.DateTime.Now, -cResource.buy_price_from_coalition);
-                    RewardSystem.Instance.GivesTradeReward(eResource);
-                }
-            });
-        }
     }
 }

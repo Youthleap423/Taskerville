@@ -8,12 +8,19 @@ public class ArtworkSystem : SingletonComponent<ArtworkSystem>
     public event System.Action<bool, LArtwork, string> artwork_picked = delegate { };
     private List<string> _artistList = new List<string>();
     private List<FArtTrade> _fArtTrades = new List<FArtTrade>();
-    public string selectedArtist = ""; 
-         
+    public string selectedArtist = "";
+
+    private List<CArtwork> allArtworks = new List<CArtwork>();
     // Start is called before the first frame update
     void Start()
     {
+        DataManager.OnDataUpdated += DataManager_OnDataUpdated;
+        LoadArtworks();
+    }
 
+    private void DataManager_OnDataUpdated(bool obj)
+    {
+        CheckHappinessMilestone(ResourceViewController.Instance.GetResourceValue(EResources.Happiness));
     }
 
     private void OnEnable()
@@ -21,21 +28,38 @@ public class ArtworkSystem : SingletonComponent<ArtworkSystem>
         
     }
 
-    private void Test()
+    private List<CArtwork> GetAllCArtworks()
     {
-        var resData = DataManager.Instance.Artifact_Data.artworks;
-        var cartwork = resData.Find(item => item.id == "423");
-        var lartwork = new LArtwork(cartwork, EArtworkReason.Trade.ToString());
-        UpdateArt(lartwork);
-        artwork_picked(true, lartwork, "");
+        if (allArtworks.Count == 0)
+        {
+            LoadArtworks();
+        }
+        return allArtworks;
+    }
+
+    private void LoadArtworks()
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.LoadCArtworks((isSuccess, errMsg, list) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (isSuccess)
+            {
+                allArtworks = list;
+            }
+            else
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+        });
     }
 
     private CArtwork SelectArtwork()
     {
         var allData = GetAllArtworks();
+        var resData = GetAllCArtworks();
 
-        var resData = DataManager.Instance.Artifact_Data.artworks;
-        
+
         var selectableData = new List<CArtwork>();
 
         foreach (CArtwork data in resData)
@@ -171,7 +195,7 @@ public class ArtworkSystem : SingletonComponent<ArtworkSystem>
     public void Pick(EArtworkReason reason)
     {
         var allData = GetAllArtworks();
-        var resData = DataManager.Instance.Artifact_Data.artworks;
+        var resData = GetAllCArtworks();
 
         if (allData.Count == resData.Count)
         {
@@ -192,61 +216,30 @@ public class ArtworkSystem : SingletonComponent<ArtworkSystem>
 
         var cartwork = SelectArtwork();
         var lartwork = new LArtwork(cartwork, reason.ToString());
-        UpdateArt(lartwork);
-        DataManager.Instance.UpdateResource(EResources.Culture, 1.0f);
-        artwork_picked(true, lartwork, "");
-
-        var artCount = 0;
-        foreach (LArtwork artwork in GetAllArtworks())
+        DataManager.Instance.PickArtwork(lartwork, (isSuccess, errMsg) =>
         {
-            var cArtwork = GetCArtwork(artwork);
-            if (cartwork.artist_name == cArtwork.artist_name)
+            if (isSuccess)
             {
-                artCount = artCount + 1;
+                artwork_picked(true, lartwork, "");
             }
-        }
-
-        if (artCount % 4 == 0)
-        {
-            int nTime = artCount / 4;
-            DataManager.Instance.UpdateResource(EResources.Culture, (float)(nTime * 16));
-            DataManager.Instance.UpdateResource(EResources.Ruby, 2.0f);
-        }
+        });
     }
 
     public void Trade(FArtTrade artTrade)
     {
-        CArtwork tradedCArtwork = DataManager.Instance.Artifact_Data.artworks.Find(item => item.artist_name == artTrade.artistName1 && item.name == artTrade.painting1);
-        LArtwork tradedLArtwork = GetAllArtworks().Find(item => item.id == tradedCArtwork.id);
-        RemoveArt(tradedLArtwork);
-
-        CArtwork cArtwork = DataManager.Instance.Artifact_Data.artworks.Find(item => item.artist_name == artTrade.artistName2 && item.name == artTrade.painting2);
+        CArtwork cArtwork = GetAllCArtworks().Find(item => item.artist_name == artTrade.artist2 && item.name == artTrade.paint2);
         var lartwork = new LArtwork(cArtwork, EArtworkReason.Trade.ToString());
-        UpdateArt(lartwork);
         artwork_picked(true, lartwork, "");
     }
 
     public CArtwork GetCArtwork(LArtwork lArtwork)
     {
-        var allCArtData = DataManager.Instance.Artifact_Data.artworks;
-
-        return allCArtData.Find(item => item.id == lArtwork.id);
+        return GetAllCArtworks().Find(item => item.id == lArtwork.id);
     }
 
     public List<LArtwork> GetAllArtworks()
     {
         return DataManager.Instance.CurrentArtworks.ToList();
-    }
-
-    public List<CArtwork> GetAllCArtworks()
-    {
-        var result = new List<CArtwork>();
-        foreach(LArtwork artwork in DataManager.Instance.CurrentArtworks.ToList())
-        {
-            result.Add(GetCArtwork(artwork));
-        }
-
-        return result;
     }
 
     public List<CArtwork> GetSelectedCArtworks(string artist)
@@ -266,7 +259,7 @@ public class ArtworkSystem : SingletonComponent<ArtworkSystem>
         {
             return _artistList;
         }
-        foreach(CArtwork cArtwork in DataManager.Instance.Artifact_Data.artworks)
+        foreach(CArtwork cArtwork in GetAllCArtworks())
         {
             if (cArtwork.artist_name == "Willem van Leen")
             {
@@ -300,12 +293,7 @@ public class ArtworkSystem : SingletonComponent<ArtworkSystem>
     /// </summary>
     public void LoadArtTrades(System.Action<bool, string> callback)
     {
-        //if (_fArtTrades.Count > 0)
-        //{
-        //    callback(true, "");
-        //    return;
-        //}
-        DataManager.Instance.GetDataList<FArtTrade>("ArtTrade", (isSuccess, errMsg, tradeList) =>
+        DataManager.Instance.GetAllArtTrades((isSuccess, errMsg, tradeList) =>
         {
             if (isSuccess)
             {
@@ -315,9 +303,14 @@ public class ArtworkSystem : SingletonComponent<ArtworkSystem>
         });
     }
 
-    public void LoadArtTrade(System.Action<bool, string, List<FArtTrade>> callback)
+    public void LoadReceiveArtTrades(System.Action<bool, string, List<FArtTrade>> callback)
     {
-        DataManager.Instance.GetDataList("ArtTrade", "Pid", UserViewController.Instance.GetCurrentUser().id, callback);
+        DataManager.Instance.GetReceiveArtTrades(callback);
+    }
+
+    public void LoadSendArtTrades(System.Action<bool, string, List<FArtTrade>> callback)
+    {
+        DataManager.Instance.GetSendArtTrades(callback);
     }
 
     public List<FArtTrade> GetAllArtTrades()
@@ -327,12 +320,12 @@ public class ArtworkSystem : SingletonComponent<ArtworkSystem>
 
     public List<FArtTrade> GetSelectedArtTrades()
     {
-        return _fArtTrades.FindAll(item => item.artistName1 == selectedArtist).ToList();
+        return _fArtTrades.FindAll(item => item.artist1 == selectedArtist).ToList();
     }
 
     public void RemoveArtTrade(FArtTrade trade, System.Action<bool, string> callback)
     {
-        DataManager.Instance.RemoveData(trade, (isSuccess, errMsg) =>
+        DataManager.Instance.RemoveArtTrades(trade.id, (isSuccess, errMsg, _) =>
         {
             if (isSuccess)
             {
@@ -348,12 +341,10 @@ public class ArtworkSystem : SingletonComponent<ArtworkSystem>
     public void PostToNexus(LArtwork artwork, string seekArtistName, System.Action<bool, string> callback)
     {
         var cArtwork = GetCArtwork(artwork);
-        var newPost = new FArtTrade(cArtwork);
-        var currentUser = UserViewController.Instance.GetCurrentUser();
-        newPost.Pid = currentUser.id;
-        newPost.artistName2 = seekArtistName;
-        newPost.readers.Add(currentUser.GetFullName());
-        DataManager.Instance.CreateTrade(newPost, callback);
+        DataManager.Instance.PostArtTrades(cArtwork.name, cArtwork.artist_name, seekArtistName, (isSuccess, errMsg, _) =>
+        {
+            callback?.Invoke(isSuccess, errMsg);
+        });
     }
 
 }

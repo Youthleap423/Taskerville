@@ -5,25 +5,45 @@ using UnityEngine;
 
 public class ArtifactSystem : SingletonComponent<ArtifactSystem>
 {
-    [HideInInspector]public Dictionary<EResources, float> artifactRes = new Dictionary<EResources, float>();
-
     private int completeMins = 720;
     private LArtifact currentArtifact = null;
     private float currentProgress = 0f;
+
+    private List<CArtifact> allArtifacts = new List<CArtifact>();
     // Start is called before the first frame update
     void Start()
     {
-        artifactRes.Add(EResources.Gold, -30f);
-        artifactRes.Add(EResources.Meal, -60f);
-        artifactRes.Add(EResources.Lumber, -2f);
-        artifactRes.Add(EResources.Iron, -2f);
-        artifactRes.Add(EResources.Stone, -2f);
-
+        LoadArtifacts();
         currentArtifact = GetCurrentArtifact();
+    }
+
+    private List<CArtifact> GetAllCArtifacts()
+    {
+        if (allArtifacts.Count == 0)
+        {
+            LoadArtifacts();
+        }
+        return allArtifacts;
+    }
+
+    private void LoadArtifacts()
+    {
+        DataManager.Instance.LoadCArtifacts((isSuccess, errMsg, list) =>
+        {
+            if (isSuccess)
+            {
+                allArtifacts = list;
+            }
+            else
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+        });
     }
 
     void Update()
     {
+        /*
         if (currentArtifact != null)
         {
             var mins = (float)((System.DateTime.Now - Convert.DetailedStringToDateTime(currentArtifact.created_at)).TotalMinutes);
@@ -36,23 +56,15 @@ public class ArtifactSystem : SingletonComponent<ArtifactSystem>
         else
         {
             currentProgress = 0f;
-        }
+        }*/
     }
 
     private CArtifact SelectArtifact(EResources type)
     {
         var allData = GetAllArtifacts();
 
-        var resData = DataManager.Instance.Artifact_Data.commonList;
-        if (type == EResources.Artifact_UnCommon)
-        {
-            resData = DataManager.Instance.Artifact_Data.uncommonList;
-        }
-        else if (type == EResources.Artifact_Rare)
-        {
-            resData = DataManager.Instance.Artifact_Data.rareList;
-        }
-
+        var resData = GetAllCArtifacts().FindAll(item => item.type == type).ToList() ;
+        
         var selectableData = new List<CArtifact>();
 
         foreach (CArtifact data in resData)
@@ -72,53 +84,6 @@ public class ArtifactSystem : SingletonComponent<ArtifactSystem>
         return selectableData.ElementAt(rndIndex);
     }
 
-    private void AutoChangeFromCommonToUnCommon()
-    {
-        var allData = GetAllArtifacts().FindAll(item => item.progress >= 1.0f);
-        var commonData = allData.FindAll(item => int.Parse(item.id) <= 150);
-        if (commonData.Count >= 4)
-        {
-            var unCommonArtifact = SelectArtifact(EResources.Artifact_UnCommon);
-            if (unCommonArtifact != null)
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    commonData[i].isExchanged = true;
-                    UpdateArt(commonData[i]);
-                }
-            }
-            var lartifact = new LArtifact(unCommonArtifact);
-
-            lartifact.created_at = Convert.DateTimeToDetailedString(System.DateTime.Now);
-            lartifact.progress = 1.0f;
-            UpdateArt(lartifact);
-        }
-        AutoChangeFromUnCommonToRare();
-    }
-
-    private void AutoChangeFromUnCommonToRare()
-    {
-        var allData = GetAllArtifacts().FindAll(item => item.progress >= 1.0f);
-        var uncommonData = allData.FindAll(item => int.Parse(item.id) >= 151 && int.Parse(item.id) <= 250);
-        if (uncommonData.Count >= 2)
-        {
-            var rareArtifact = SelectArtifact(EResources.Artifact_Rare);
-            if (rareArtifact != null)
-            {
-                for (int i = 0; i < 2; i++)
-                {
-                    uncommonData[i].isExchanged = true;
-                    UpdateArt(uncommonData[i]);
-                }
-            }
-            var lartifact = new LArtifact(rareArtifact);
-
-            lartifact.created_at = Convert.DateTimeToDetailedString(System.DateTime.Now);
-            lartifact.progress = 1.0f;
-            UpdateArt(lartifact);
-        }
-
-    }
 
     public void CheckArtifacts()
     {
@@ -138,8 +103,7 @@ public class ArtifactSystem : SingletonComponent<ArtifactSystem>
                 CompleteExcavate(artifact);
                 UIManager.Instance.ShowExcavationDlg();
             }
-        }
-        
+        }        
     }
 
     public float GetCurrentProgress()
@@ -147,62 +111,21 @@ public class ArtifactSystem : SingletonComponent<ArtifactSystem>
         return currentProgress;
     }
 
-    public void Excavate()
+    public void Excavate(System.Action<bool> callback = null)
     {
-        var allData = GetAllArtifacts();
-
-        if (allData.Count == 300)
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.Excavate((isSuccess, errMsg) =>
         {
-            UIManager.Instance.ShowErrorDlg("You've excavated all artifacts.");
-            return;
-        }
-
-        var commonData = allData.FindAll(item => int.Parse(item.id) <= 150);
-
-        var cartifact = new CArtifact();
-        
-        if (commonData.Count >= 20 && commonData.Count % 20 == 0)
-        {
-            if (commonData.Count >= 100 && commonData.Count % 100 == 0)
-            {
-                cartifact = SelectArtifact(EResources.Artifact_Rare);
-            }
-            else
-            {
-                cartifact = SelectArtifact(EResources.Artifact_UnCommon);
-            }
-        }else 
-        {
-            cartifact = SelectArtifact(EResources.Artifact_Common);
-        }
-
-        if (cartifact == null)
-        {
-            UIManager.Instance.ShowErrorDlg("We've not found which artifact to excavate");
-            return;
-        }
-
-        var lartifact = new LArtifact(cartifact);
-
-        lartifact.created_at = Convert.DateTimeToDetailedString(System.DateTime.Now);
-
-        if (ResourceViewController.Instance.CheckResource(artifactRes) == false)
-        {
-            UIManager.Instance.ShowErrorDlg("Not enough resources to excavate an artifact.");
-            return;
-        }
-
-        ResourceViewController.Instance.UpdateResource(artifactRes, (isSuccess, errMsg) =>
-        {
-            if (isSuccess)
-            {
-                UpdateArt(lartifact);
-                //BuildManager.Instance.ExcavateArchealogicalDig(lartifact.dig);
-            }
-            else
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
             {
                 UIManager.Instance.ShowErrorDlg(errMsg);
             }
+            else
+            {
+                currentArtifact = GetCurrentArtifact();
+            }
+            callback?.Invoke(isSuccess);
         });
     }
 
@@ -213,11 +136,7 @@ public class ArtifactSystem : SingletonComponent<ArtifactSystem>
 
     public CArtifact GetCArtifact(LArtifact lArtifact)
     {
-        var allCArtData = DataManager.Instance.Artifact_Data.commonList;
-        allCArtData.AddRange(DataManager.Instance.Artifact_Data.uncommonList);
-        allCArtData.AddRange(DataManager.Instance.Artifact_Data.rareList);
-        
-        return allCArtData.Find(item => item.id == lArtifact.id);
+        return GetAllCArtifacts().Find(item => item.id == lArtifact.id);
     }
 
     public LArtifact GetLastestCompletedArtifact()
@@ -297,23 +216,23 @@ public class ArtifactSystem : SingletonComponent<ArtifactSystem>
         return EActionState.Wait;
     }
 
-    public void UpdateArt(LArtifact artifact)
-    {
-        UserViewController.Instance.GetCurrentUser().updateDates(EDates.Artifact.ToString(), Convert.DateTimeToFDate(System.DateTime.Now));
-        DataManager.Instance.UpdateArt(artifact);
-        currentArtifact = GetCurrentArtifact();
-    }
-
     public void CompleteExcavate(LArtifact artifact)
     {
-        artifact.Completed();
-        UpdateArt(artifact);
-        AutoChangeFromCommonToUnCommon();
-        if (GameManager.Instance != null)
+        DataManager.Instance.CompleteExcavate(artifact.id, (isSuccess, errMsg) =>
         {
-            GameManager.Instance.CompletedExcavate();
-        }
-        UIManager.Instance.ShowExcavationDlg();
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            else
+            {
+                if (GameManager.Instance != null)
+                {
+                    GameManager.Instance.CompletedExcavate();
+                }
+                UIManager.Instance.ShowExcavationDlg();
+            }
+        });
     }
 
     public void CheckAutoExcavate()

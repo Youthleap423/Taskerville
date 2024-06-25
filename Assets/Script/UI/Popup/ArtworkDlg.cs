@@ -14,25 +14,34 @@ public class ArtworkDlg :PopUpDlg
 
     [SerializeField] GameObject DescObj;
     [SerializeField] GameObject DetailObj;
-
+    [SerializeField] GameObject loadingBar;
     private LArtwork artwork = null;
 
     private void ShowDetailView()
     {
+        image.sprite = null;
+        if (ArtworkSystem.Instance.GetAllArtworks().Count == 0)
+        {
+            OnDetailClose();
+            return;
+        }
         this.artwork = ArtworkSystem.Instance.GetAllArtworks().Last();
         if (artwork == null)
         {
             OnDetailClose();
+            return;
         }
 
         DescObj.SetActive(false);
         DetailObj.SetActive(true);
         
         var item = ArtworkSystem.Instance.GetCArtwork(artwork);
-        StartCoroutine(ImageLoader.Start(item.image_path, (sprite =>
+        loadingBar.SetActive(true);
+        DownloadManager.instance.AddQueue(item.GetImagePath(), (_, texture) =>
         {
-            image.sprite = sprite;
-        })));
+            loadingBar.SetActive(false);
+            image.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+        });
 
         var reason = (EArtworkReason)Enum.Parse(typeof(EArtworkReason), artwork.reason);
         var prefix = "You've been awarded a work of art for ";

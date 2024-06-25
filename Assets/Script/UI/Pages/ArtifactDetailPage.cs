@@ -7,7 +7,7 @@ public class ArtifactDetailPage : Page
 {
     [SerializeField] private GameObject prebBtnObj;
     [SerializeField] private GameObject nextBtnObj;
-
+    [SerializeField] private GameObject loadingBar;
     [Space]
     [SerializeField] private ImageOutline image;
     [SerializeField] private Text nameTF;
@@ -55,7 +55,13 @@ public class ArtifactDetailPage : Page
         {
             str = "RA";
         }
-        image.sprite = cArtifact.image;
+
+        loadingBar.SetActive(true);
+        DownloadManager.instance.AddQueue(cArtifact.GetImagePath(), (_, texture) =>
+        {
+            loadingBar.SetActive(false);
+            image.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+        });
         nameTF.text = cArtifact.name;
         dateTF.text = cArtifact.date + "(" + str + ")";
     }

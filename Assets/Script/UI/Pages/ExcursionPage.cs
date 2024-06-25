@@ -61,17 +61,14 @@ public class ExcursionPage : MonoBehaviour
         var currentArtifact = ArtifactSystem.Instance.GetCurrentArtifact();
         if (currentArtifact == null)
         {
-            if (ResourceViewController.Instance.CheckResource(ArtifactSystem.Instance.artifactRes))
+            ArtifactSystem.Instance.Excavate((isSuccess) =>
             {
-                ArtifactSystem.Instance.Excavate();
-            }
-            else
-            {
-                UIManager.Instance.ShowErrorDlg("Not enough resource to excavate");
-            }
+                if (isSuccess)
+                {
+                    ShowProgressPage();
+                }
+            });
         }
-
-        ShowProgressPage();
     }
 
     public void ShowProgressPage()

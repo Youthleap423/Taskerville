@@ -27,12 +27,6 @@ public class FToDoEntry : FEntry
         checkList = new List<string>();
     }
 
-    public void Update(List<FTask> subTaskList, System.Action<bool, string> callback)
-    {
-        this.subTaskList = subTaskList;
-        FirestoreManager.Instance.CreateEntry(this, subTaskList, callback);
-    }
-
     public override bool isCompleted()
     {
         if (completedDate != "")

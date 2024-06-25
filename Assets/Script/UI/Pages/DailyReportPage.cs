@@ -31,10 +31,10 @@ public class DailyReportPage : PopUpDlg
 
         var user = UserViewController.Instance.GetCurrentUser();
 
-        if (user.created_at == Convert.DateTimeToFDate(System.DateTime.Now))
-        {
-            return;
-        }
+        //if (user.created_at == Convert.DateTimeToFDate(System.DateTime.Now))
+        //{
+        //    return;
+        //}
 
         UIManager.Instance.ShowLoadingBar(true);
         DataManager.Instance.GetDailyReport(strList =>

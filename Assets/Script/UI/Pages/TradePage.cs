@@ -27,7 +27,7 @@ public class TradePage : Page
         filteredRequestDic = new Dictionary<string, List<FTrade>>();
         foreach (FTrade trade in list)
         {
-            string key = trade.Pid + "_" + trade.receiver_Id;
+            string key = trade.sender + "_" + trade.receiver;
 
             if (trade.type == ETradeInviteType.Offer.ToString())
             {

@@ -43,29 +43,15 @@ public class TradeOfferPage : Page
             UIManager.Instance.ShowErrorDlg("You've not joined any coalition!!!");
             return;
         }
-
-        UIManager.Instance.ShowLoadingBar(true);
-
-        UserViewController.Instance.LoadCurrentUserList((isSuccess, errMsg) =>
+        coalitionUserList.Clear();
+        UserViewController.Instance.GetCurrentUserList((isSuccess, list) =>
         {
-            UIManager.Instance.ShowLoadingBar(false);
             if (isSuccess)
             {
-                coalitionUserList.Clear();
-                Debug.LogError(UserViewController.Instance.GetCurrentUserList().Count);
-                foreach(LUser fUser in UserViewController.Instance.GetCurrentUserList())
-                {
-                    if (fUser.joined_coalition.Equals(currentUser.joined_coalition) && !fUser.id.Equals(currentUser.id))
-                    {
-                        coalitionUserList.Add(fUser);
-                    }
-                }
-                LoadCoalitionUsers();
+                coalitionUserList = list;
+
             }
-            else
-            {
-                UIManager.Instance.ShowErrorDlg(errMsg);
-            }
+            LoadCoalitionUsers();
         });
     }
 

@@ -1,20 +1,14 @@
-using Firebase.Firestore;
+
 using System.Collections.Generic;
 
-[FirestoreData]
-public class FCoalition : FData
+[System.Serializable]
+public class FCoalition: CData
 {
-    [FirestoreProperty]
-    public string name { get; set; }
 
-    [FirestoreProperty]
-    public bool isOpen { get; set; }
-
-    [FirestoreProperty]
-    public string timeZone { get; set; }
-
-    [FirestoreProperty]
-    public List<string> members { get; set; }
+    public bool isOpen = true;
+    public string timeZone = "";
+    public List<string> members = new List<string>();
+    public string creator = "";
 
     public FCoalition()
     {
@@ -26,10 +20,9 @@ public class FCoalition : FData
 
     public FCoalition(LUser user, string name)
     {
-        Id = user.id;
+        id = user.id;
         this.name = name;
-        Pid = user.id; //createor Id
-        collectionId = "Coalition";
+        creator = user.id; //createor Id
         isOpen = true;
         members = new List<string>();
         members.Add(user.id);

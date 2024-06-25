@@ -1,36 +1,47 @@
 {
+  "project_info": {
+    "project_number": "843165110104",
+    "firebase_url": "https://carilson-designs-default-rtdb.firebaseio.com",
+    "project_id": "carilson-designs",
+    "storage_bucket": "carilson-designs.appspot.com"
+  },
   "client": [
     {
-      "services": {
-        "appinvite_service": {
-          "status": 1
-        }, 
-        "analytics_service": {
-          "status": 0
-        }
-      }, 
-      "oauth_client": [
-        {
-          "client_id": "843165110104-0ebqcqbng970rl3c56panrjbr52c02ov.apps.googleusercontent.com"
-        }
-      ], 
-      "api_key": [
-        {
-          "current_key": "AIzaSyCL-vARDtJUqnOrrgrqUDr9PXtEXUKKOVM"
-        }
-      ], 
       "client_info": {
-        "mobilesdk_app_id": "1:843165110104:ios:0cd36d978513bf6e4edf2d", 
+        "mobilesdk_app_id": "1:843165110104:android:f101af3b34c3def14edf2d",
         "android_client_info": {
           "package_name": "com.carilson.taskerville"
         }
+      },
+      "oauth_client": [
+        {
+          "client_id": "843165110104-6jiek0basi5bmbv9n402uh266ij6d2ip.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCC6UEBRwCog9JCkists6bpfgFI0Au4mGQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "843165110104-6jiek0basi5bmbv9n402uh266ij6d2ip.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "843165110104-0ebqcqbng970rl3c56panrjbr52c02ov.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.carilson.taskerville"
+              }
+            }
+          ]
+        }
       }
     }
-  ], 
-  "configuration_version": "1", 
-  "project_info": {
-    "storage_bucket": "carilson-designs.appspot.com", 
-    "project_id": "carilson-designs", 
-    "project_number": "843165110104"
-  }
+  ],
+  "configuration_version": "1"
 }

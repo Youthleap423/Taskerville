@@ -33,14 +33,16 @@ public class ToDoItem : EntryItem
         {
             if (subTaskList.Count == 0)
             {
-                if (UserViewController.Instance.GetCurrentSetting().current_mode != (int)Game_Mode.Game_Only && toDo != null)
+                if (UserViewController.Instance.GetCurrentSetting().game_mode != (int)Game_Mode.Game_Only && toDo != null)
                 {
+                    Debug.Log(">>>>>>>>>>>>1");
                     this.subTaskList = TaskViewController.Instance.GetSubTasks(toDo);
                 }
                 else
                 {
                     if (autoToDo != null)
                     {
+                        Debug.Log(">>>>>>>>>>>>");
                         this.subTaskList = TaskViewController.Instance.GetSubTasks(autoToDo);
                     }
                     
@@ -66,12 +68,25 @@ public class ToDoItem : EntryItem
 
     public override void ReloadUI()
     {
-        this.subTaskList = TaskViewController.Instance.GetSubTasks(toDo);
-        UpdateTodoTitle(false);
-        float ratio = UnityEngine.Screen.height / (float)UnityEngine.Screen.width;
-        taskNameIF.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(1330.0f / ratio, 0f);
-        complete_Toggle.isOn = this.toDo.isCompleted();
-        UpdateCanvasGroup(this.toDo.isEnabled());
+        if (this.toDo != null)
+        {
+            this.subTaskList = TaskViewController.Instance.GetSubTasks(toDo);
+            UpdateTodoTitle(false);
+            float ratio = UnityEngine.Screen.height / (float)UnityEngine.Screen.width;
+            taskNameIF.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(1330.0f / ratio, 0f);
+            complete_Toggle.isOn = this.toDo.isCompleted();
+            UpdateCanvasGroup(this.toDo.isEnabled());
+        }
+
+        if (this.autoToDo != null)
+        {
+            this.subTaskList = TaskViewController.Instance.GetSubTasks(autoToDo);
+            UpdateTodoTitle(false);
+            float ratio = UnityEngine.Screen.height / (float)UnityEngine.Screen.width;
+            taskNameIF.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(1330.0f / ratio, 0f);
+            complete_Toggle.isOn = this.autoToDo.isCompleted();
+            UpdateCanvasGroup(this.autoToDo.isEnabled());
+        }
     }
 
     public void SetAutoToDo(LAutoToDo ftoDo, ChecklistPage parentPage)
@@ -88,7 +103,7 @@ public class ToDoItem : EntryItem
 
     public void EditToDo()
     {
-        if (UserViewController.Instance.GetCurrentSetting().current_mode != (int)Game_Mode.Game_Only)
+        if (UserViewController.Instance.GetCurrentSetting().game_mode != (int)Game_Mode.Game_Only)
         {
             transform.GetComponentInParent<NavigationPage>().Show<ToDoEntryPage>("todo_entry", this.toDo);
         }
@@ -105,18 +120,39 @@ public class ToDoItem : EntryItem
     {
         var titleStr = "";
         var unCompletedTasks = this.subTaskList.FindAll(item => item.isCompleted() == false).ToList();
-        if (this.toDo.checkList.Count > 0)
+        if (this.toDo != null)
         {
-            titleStr = this.toDo.taskName + " {" + unCompletedTasks.Count + "}";
+            if (this.toDo.checkList.Count > 0)
+            {
+                titleStr = this.toDo.taskName + " {" + unCompletedTasks.Count + "}";
+            }
+            else
+            {
+                titleStr = this.toDo.taskName;
+            }
+            if (bshowEndDate)
+            {
+                titleStr += string.Format("\n(Due date: {0})", Convert.FDateToEntryDate(this.toDo.dueDate));
+            }
         }
-        else
+
+        if (this.autoToDo != null)
         {
-            titleStr = this.toDo.taskName;
+            if (this.autoToDo.checkList.Count > 0)
+            {
+                titleStr = this.autoToDo.taskName + " {" + unCompletedTasks.Count + "}";
+            }
+            else
+            {
+                titleStr = this.autoToDo.taskName;
+            }
+            if (bshowEndDate)
+            {
+                titleStr += string.Format("\n(Due date: {0})", Convert.FDateToEntryDate(this.autoToDo.dueDate));
+            }
         }
-        if (bshowEndDate)
-        {
-            titleStr += string.Format("\n(Due date: {0})", Convert.FDateToEntryDate(this.toDo.dueDate));
-        }
+        
+        
         taskNameIF.text = titleStr;
     }
 
@@ -127,7 +163,7 @@ public class ToDoItem : EntryItem
 
     private void OnComplete(Toggle toggle)
     {
-        if (UserViewController.Instance.GetCurrentSetting().current_mode == (int)Game_Mode.Game_Only)
+        if (UserViewController.Instance.GetCurrentSetting().game_mode == (int)Game_Mode.Game_Only)
         {
             if (toggle.isOn && autoToDo.isEnabled() == true)
             {
@@ -145,15 +181,24 @@ public class ToDoItem : EntryItem
                     dic.Add(EResources.Lumber, -costWood);
                     dic.Add(EResources.Iron, -costIron);
 
-                    ResourceViewController.Instance.UpdateResource(dic, (isSuccess, errMsg) =>
+                    TaskViewController.Instance.CompleteToDo(toDo, (isSuccess) =>
                     {
-                        TaskViewController.Instance.OnComplete(autoToDo);
-                        if (parentPage != null)
+                        if (!isSuccess)
                         {
-                            parentPage.Reload();
+                            UpdateCanvasGroup(false);
+                        }
+                        else
+                        {
+                            NotificationManager.Instance.CancelPendingLocalNotification(toDo, (result) =>
+                            {
+                            });
+                            toDo.OnComplete();
+                            if (parentPage != null)
+                            {
+                                parentPage.Reload();
+                            }
                         }
                     });
-                    
                 }
                 else
                 {
@@ -166,13 +211,24 @@ public class ToDoItem : EntryItem
         {
             if (toggle.isOn && toDo.isEnabled() == true)
             {
-                toDo.OnComplete();
-                TaskViewController.Instance.OnComplete(toDo);
-
-                if (parentPage != null)
+                TaskViewController.Instance.CompleteToDo(toDo, (isSuccess) =>
                 {
-                    parentPage.Reload();
-                }
+                    if (!isSuccess)
+                    {
+                        UpdateCanvasGroup(false);
+                    }
+                    else
+                    {
+                        NotificationManager.Instance.CancelPendingLocalNotification(toDo, (result) =>
+                        {
+                        });
+                        toDo.OnComplete();
+                        if (parentPage != null)
+                        {
+                            parentPage.Reload();
+                        }
+                    }
+                });
             }
         }
         

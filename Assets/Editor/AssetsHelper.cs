@@ -110,10 +110,10 @@ public class AssetsHelper : MonoBehaviour
 			newArt.name = name;
 			newArt.artist_name = artist_name;
 			newArt.contactInfo = "www.enelsonduran.com";
-			newArt.image_path = path.Trim();
+			newArt.imageURL = path.Trim();
 
 			artifactData.artworks.Add(newArt);
-			str = str + string.Format("- name: {0}\n  id: {1}\n  artist_name: {2}\n  contact info: {3}\n image_path: {4}\n", newArt.id, newArt.name, newArt.artist_name, newArt.contactInfo, newArt.image_path);
+			str = str + string.Format("- name: {0}\n  id: {1}\n  artist_name: {2}\n  contact info: {3}\n image_path: {4}\n", newArt.id, newArt.name, newArt.artist_name, newArt.contactInfo, newArt.imageURL);
 			//print("PAINTING_NAME " + name + " " +
 			//       "ARTIST_NAME " + artist_name + " " +
 			//       "PAINTING_IMAGE_PATH " + path);

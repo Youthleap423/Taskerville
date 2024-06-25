@@ -125,11 +125,6 @@ public class TaskViewController : SingletonComponent<TaskViewController>
         return DataManager.Instance.CurrentAutoGoals.OrderBy(t => t.endDate).ToList();
     }
 
-    public void GetSubTasks(ESubEntryType type, string parentTaskId, System.Action<bool, string, List<FTask>> callback)
-    {
-        DataManager.Instance.GetSubTasks(type, parentTaskId, callback);
-    }
-
     public void UpdateEntries(List<LTaskEntry> list)
     {
         var oldList = DataManager.Instance.CurrentDailyTasks.ToList();
@@ -186,64 +181,6 @@ public class TaskViewController : SingletonComponent<TaskViewController>
         DataManager.Instance.UpdateEntry(entry);
     }
 
-    public void OnComplete(LSubTask entry, bool hasReward = true)
-    {
-        entry.OnComplete();
-        UpdateEntry(entry);
-        if (hasReward)
-        {
-            RewardSystem.Instance.OnComplete(entry);
-        }
-    }
-
-    public void CancelComplete(LSubTask entry)
-    {
-        entry.CancelComplete();
-        RewardSystem.Instance.CancelComplete(entry);
-        UpdateEntry(entry);
-    }
-
-    public void OnComplete(LTaskEntry entry, bool hasReward)
-    {
-        entry.OnComplete(System.DateTime.Now);
-        var subTasks = GetSubTasks(entry);
-        foreach (LTask fTask in subTasks)
-        {
-            if (fTask.isCompleted() == false)
-            {
-                if (hasReward)
-                {
-                    RewardSystem.Instance.OnComplete(fTask);
-                }
-                fTask.OnComplete();
-            }
-        }
-
-        UpdateEntry(entry, subTasks);
-
-        if (hasReward)
-        {
-            RewardSystem.Instance.OnComplete(entry);
-            /*
-            if (entry.IsCompletedInAWeek())
-            {
-                RewardSystem.Instance.OnWeekTaskComplete();
-            }*/
-
-        }
-
-        LUser currentUser = DataManager.Instance.GetCurrentUser();
-        currentUser.completed_Tasks += 1;
-
-        if (currentUser.completed_Tasks >= 5)
-        {
-            currentUser.completed_Tasks -= 5;
-            //RewardSystem.Instance.OnFiveTaskComplete();
-        }
-
-        DataManager.Instance.UpdateUser(currentUser);
-    }
-
     public void OnComplete(LHabitEntry entry)
     {
         entry.OnComplete(System.DateTime.Now);
@@ -252,43 +189,16 @@ public class TaskViewController : SingletonComponent<TaskViewController>
 
     public void OnComplete(List<LTaskEntry> fTaskEntries, System.DateTime dateTime)
     {
-        //TODO
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.CheckOffYesterdayTask(fTaskEntries, (isSuccess, errMsg) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+        });
         
-        foreach (LTaskEntry fTaskEntry in fTaskEntries)
-        {
-            fTaskEntry.OnComplete(dateTime);
-        }
-
-        foreach (LTaskEntry fTaskEntry in fTaskEntries)
-        {
-            if (fTaskEntry.skip_Dates.Contains(Convert.DateTimeToFDate(dateTime)))
-            {
-                //failed to dailytask
-                RewardSystem.Instance.OnFailed(fTaskEntry);
-            }
-            else
-            {
-                RewardSystem.Instance.OnComplete(fTaskEntry);
-                foreach (string fTaskId in fTaskEntry.subTasks)
-                {
-                    RewardSystem.Instance.OnComplete(1);
-                }
-            }
-
-        }
-        UpdateEntries(fTaskEntries);
-
-        if (IsAllTaskCompleted(System.DateTime.Now.AddDays(-1)))
-        {
-            if (AppManager.Instance.GetCurrentMode() == (int)Game_Mode.Task_Only)
-            {
-                UserViewController.Instance.UpdateSetting(false);
-            }
-
-            DataManager.Instance.GetCurrentUser().updateDailyTaskDate(System.DateTime.Now.AddDays(-1));
-
-            RewardSystem.Instance.OnAllDailyTaskComplete();
-        }
     }
 
     public void OnComplete(LToDoEntry entry)
@@ -309,6 +219,7 @@ public class TaskViewController : SingletonComponent<TaskViewController>
 
         RewardSystem.Instance.OnComplete(entry); //2023/05/23 by pooh
 
+        /*
         LUser currentUser = DataManager.Instance.GetCurrentUser();
         currentUser.completed_ToDos += 1;
 
@@ -316,7 +227,7 @@ public class TaskViewController : SingletonComponent<TaskViewController>
         {
             currentUser.completed_ToDos -= 3;
             //RewardSystem.Instance.OnThreeToDoComplete();
-        }
+        }*/
     }
 
     public void OnComplete(LAutoToDo entry)
@@ -421,17 +332,10 @@ public class TaskViewController : SingletonComponent<TaskViewController>
         entry.Update(subTasks, taskEntryList);
     }
 
-    public void CancelComplete(LTaskEntry entry)
-    {
-        
-        RewardSystem.Instance.CancelComplete(entry);
-        entry.CancelComplete();
-
-        UpdateEntry(entry, new List<LSubTask>());
-    }
-
     public List<LTaskEntry> GetUnCheckedTasks(System.DateTime dateTime)
     {
+        return DataManager.Instance.GetYesterdayTasks();
+        /*
         List<LTaskEntry> taskList = new List<LTaskEntry>();
 
         var dailyTasks = GetDailyTasks();
@@ -454,7 +358,7 @@ public class TaskViewController : SingletonComponent<TaskViewController>
             }
         }
 
-        return taskList;
+        return taskList;*/
     }
 
     public void CheckHabits(System.DateTime dateTime)
@@ -524,8 +428,336 @@ public class TaskViewController : SingletonComponent<TaskViewController>
         CheckHabits(System.DateTime.Now.AddDays(-1));
     }
 
-    
 
+    public void CreateDailyTask(LTaskEntry entry, List<LSubTask> subTasks, System.Action<bool> callback)
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.CreateDailyTask(entry, subTasks, (isSuccess, errMsg) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);            
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            callback?.Invoke(isSuccess);
+        });
+    }
+
+    public void RemoveDailyTask(LTaskEntry entry, System.Action<bool> callback)
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.RemoveDailyTask(entry, (isSuccess, errMsg) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            callback?.Invoke(isSuccess);
+        });
+    }
+
+    public void CompleteDailyTask(LTaskEntry entry, System.Action<bool> callback = null)
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.CompleteDailyTask(entry, (isSuccess, errMsg, reward) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            else
+            {
+                UIManager.Instance.ShowReward(reward);
+            }
+            callback?.Invoke(isSuccess);
+        });
+    }
+
+    public void CancelDailyTaskComplete(LTaskEntry entry, System.Action<bool> callback = null)
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.CancelDailyTaskComplete(entry, (isSuccess, errMsg, reward) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            else
+            {
+                UIManager.Instance.ShowReward(reward);
+            }
+            callback?.Invoke(isSuccess);
+        });
+    }
+
+    public void ArrangeDailyTask(List<LTaskEntry> entryList, System.Action<bool> callback = null)
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.ArrangeDailyTask(entryList, (isSuccess, errMsg) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            callback?.Invoke(isSuccess);
+        });
+    }
+
+    public void CompleteSubTask(LSubTask subTask, System.Action<bool> callback = null)
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.CompleteSubTask(subTask, (isSuccess, errMsg, reward) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            else
+            {
+                UIManager.Instance.ShowReward(reward);
+            }
+            callback?.Invoke(isSuccess);
+        });
+    }
+
+    public void CancelSubTaskComplete(LSubTask subTask, System.Action<bool> callback = null)
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.CancelSubTaskComplete(subTask, (isSuccess, errMsg, reward) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            else
+            {
+                UIManager.Instance.ShowReward(reward);
+            }
+            callback?.Invoke(isSuccess);
+        });
+    }
+
+    public void CreateToDo(LToDoEntry entry, List<LSubTask> subTasks, System.Action<bool> callback)
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.CreateToDo(entry, subTasks, (isSuccess, errMsg) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            callback?.Invoke(isSuccess);
+        });
+    }
+
+    public void RemoveToDo(LToDoEntry entry, System.Action<bool> callback)
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.RemoveToDo(entry, (isSuccess, errMsg) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            callback?.Invoke(isSuccess);
+        });
+    }
+
+    public void CompleteToDo(LToDoEntry entry, System.Action<bool> callback = null)
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.CompleteToDo(entry, (isSuccess, errMsg, reward) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            else
+            {
+                UIManager.Instance.ShowReward(reward);
+            }
+            callback?.Invoke(isSuccess);
+        });
+    }
+
+    public void CompleteAutoToDo(LAutoToDo entry, System.Action<bool> callback = null)
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.CompleteAutoToDo(entry.id, (isSuccess, errMsg, reward) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            else
+            {
+                UIManager.Instance.ShowReward(reward);
+            }
+            callback?.Invoke(isSuccess);
+        });
+    }
+
+    public void ArrangeToDo(List<LToDoEntry> entryList, System.Action<bool> callback = null)
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.ArrangeToDo(entryList, (isSuccess, errMsg) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            callback?.Invoke(isSuccess);
+        });
+    }
+
+    public void CreateHabit(LHabitEntry entry, System.Action<bool> callback)
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.CreateHabit(entry, (isSuccess, errMsg) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            callback?.Invoke(isSuccess);
+        });
+    }
+
+    public void RemoveHabit(LHabitEntry entry, System.Action<bool> callback)
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.RemoveHabit(entry, (isSuccess, errMsg) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            callback?.Invoke(isSuccess);
+        });
+    }
+
+    public void CompleteHabit(LHabitEntry entry, System.Action<bool> callback = null)
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.CompleteHabit(entry, (isSuccess, errMsg, reward) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            else
+            {
+                UIManager.Instance.ShowReward(reward);
+            }
+            callback?.Invoke(isSuccess);
+        });
+    }
+
+    public void CancelHabitComplete(LHabitEntry entry, System.Action<bool> callback = null)
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.CancelHabitComplete(entry, (isSuccess, errMsg, reward) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            else
+            {
+                UIManager.Instance.ShowReward(reward);
+            }
+            callback?.Invoke(isSuccess);
+        });
+    }
+
+    public void ArrangeHabit(List<LHabitEntry> entryList, System.Action<bool> callback = null)
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.ArrangeHabit(entryList, (isSuccess, errMsg) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            callback?.Invoke(isSuccess);
+        });
+    }
+
+    public void CreateProject(LProjectEntry entry, List<LSubTask> subTasks, System.Action<bool> callback)
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.CreateProject(entry, subTasks, (isSuccess, errMsg) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            callback?.Invoke(isSuccess);
+        });
+    }
+
+    public void RemoveProject(LProjectEntry entry, System.Action<bool> callback)
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.RemoveProject(entry, (isSuccess, errMsg) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            callback?.Invoke(isSuccess);
+        });
+    }
+
+    public void CompleteProject(LProjectEntry entry, System.Action<bool> callback = null)
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.CompleteProject(entry, (isSuccess, errMsg, reward) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            else
+            {
+                UIManager.Instance.ShowReward(reward);
+            }
+            callback?.Invoke(isSuccess);
+        });
+    }
+
+    public void ArrangeProject(List<LProjectEntry> entryList, System.Action<bool> callback = null)
+    {
+        UIManager.Instance.ShowLoadingBar(true);
+        DataManager.Instance.ArrangeProject(entryList, (isSuccess, errMsg) =>
+        {
+            UIManager.Instance.ShowLoadingBar(false);
+            if (!isSuccess)
+            {
+                UIManager.Instance.ShowErrorDlg(errMsg);
+            }
+            callback?.Invoke(isSuccess);
+        });
+    }
     #endregion
 
     #region Private Members
@@ -538,6 +770,7 @@ public class TaskViewController : SingletonComponent<TaskViewController>
                 return;
             }
         }
+
         foreach(LHabitEntry entry in GetHabits())
         {
             if (!entry.IsCompletedInAWeek())
@@ -563,40 +796,16 @@ public class TaskViewController : SingletonComponent<TaskViewController>
 
         if (UserViewController.Instance.GetCurrentUser().mode_at != Convert.DateTimeToFDate(System.DateTime.Now))
         {
-            if (IsAllTaskCompleted(System.DateTime.Now.AddDays(-1)))
+            var yesterdayTaskList = DataManager.Instance.GetYesterdayTasks();
+            Debug.LogError(yesterdayTaskList.Count);
+            if (yesterdayTaskList.Count > 0)
             {
-                if (mode == (int)Game_Mode.Task_Only)
-                {
-                    UserViewController.Instance.UpdateSetting(false);
-                }
-
-                DataManager.Instance.GetCurrentUser().updateDailyTaskDate(System.DateTime.Now.AddDays(-1));
-
-                RewardSystem.Instance.OnAllDailyTaskComplete();
-
-            }
-            else
-            {
-                var yesterdayTaskList = GetUnCheckedTasks(System.DateTime.Now.AddDays(-1));
-
-                if (yesterdayTaskList.Count > 0)
-                {
-                    if (mode == (int)Game_Mode.Task_Only)
-                    {
-                        var dailyTasks = GetDailyTasks();
-                        var uncompleteness = (float)(yesterdayTaskList.Count) / (float)(dailyTasks.Count);
-                        if (uncompleteness > 0.5f)
-                        {
-                            UserViewController.Instance.UpdateSetting(true);
-                        }
-                    }
-                    UIManager.Instance.ShowUncheckedTaskDlg();
-                }
+                UIManager.Instance.ShowUncheckedTaskDlg();
             }
         }
         
 
-        UIManager.Instance.ShowReport();
+        //UIManager.Instance.ShowReport();
 
         if (System.DateTime.Now.DayOfWeek == System.DayOfWeek.Sunday && DataManager.Instance.GetCurrentUser().GetDailyTaskDate() != Convert.DateTimeToFDate(System.DateTime.Now)) 
         {

@@ -143,7 +143,7 @@ public class ProjectEntryPage : EntryPage
 
         if (taskDic.ContainsKey(task.id))
         {
-            taskDic[task.id] = task;
+            taskDic.Remove(task.id);
         }
     }
 
@@ -153,7 +153,7 @@ public class ProjectEntryPage : EntryPage
 
         if (entryDic.ContainsKey(task.id))
         {
-            entryDic[task.id] = task;
+            entryDic.Remove(task.id);
         }
 
         task.linkedGoalId = "";
@@ -166,7 +166,7 @@ public class ProjectEntryPage : EntryPage
 
         if (habitEntryDic.ContainsKey(habit.id))
         {
-            habitEntryDic[habit.id] = habit;
+            habitEntryDic.Remove(habit.id);
         }
 
         habit.linkedGoalId = "";
@@ -237,7 +237,7 @@ public class ProjectEntryPage : EntryPage
                 }
             }
 
-            newProjectEntry.linkedTasks.Clear();
+            newProjectEntry.linkedHabits.Clear();
             this.linkedHabits = habitEntryDic.Values.ToList();
             foreach (LHabitEntry task in this.linkedHabits)
             {
@@ -246,36 +246,24 @@ public class ProjectEntryPage : EntryPage
                     newProjectEntry.linkedHabits.Add(task.id);
                 }
             }
+            TaskViewController.Instance.CreateProject(newProjectEntry, this.subFTasks, (isSuccess) =>
+            {
+                if (isSuccess)
+                {
+                    ShowProjectGoal();
+                }
+            });
         }
         else
         {
-            newProjectEntry.SetRemoved(true);
-
-            this.subFTasks = taskDic.Values.ToList();
-            newProjectEntry.subProjects.Clear();
-            foreach (LTask task in this.subFTasks)
+            TaskViewController.Instance.RemoveProject(newProjectEntry, (isSuccess) =>
             {
-                task.SetRemoved(true);
-            }
-
-            newProjectEntry.linkedTasks.Clear();
-            this.linkedFTasks = entryDic.Values.ToList();
-            foreach (LTaskEntry task in this.linkedFTasks)
-            {
-                task.linkedGoalId = "";
-                DataManager.Instance.UpdateEntry(task, new List<LSubTask>());
-            }
-
-            this.linkedHabits = habitEntryDic.Values.ToList();
-            foreach (LHabitEntry task in this.linkedHabits)
-            {
-                task.linkedGoalId = "";
-                DataManager.Instance.UpdateEntry(task);
-            }
+                if (isSuccess)
+                {
+                    ShowProjectGoal();
+                }
+            });
         }
-
-        newProjectEntry.Update(this.subFTasks, linkedFTasks);
-        ShowProjectGoal();
     }
 
     public void ShowTaskListPanel()

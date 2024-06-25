@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731713, g: 0.13414736, b: 0.121078536, a: 1}
+  m_IndirectSpecularColor: {r: 0.12733805, g: 0.13418633, b: 0.12118639, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -345,8 +345,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   avatar_Images: []
-  religion_list: []
-  religion_perfab_list: []
   gold_Sprite: {fileID: 0}
   happy_Sprite: {fileID: 0}
   set_Sprite: {fileID: 0}
@@ -372,6 +370,7 @@ MonoBehaviour:
   autoTodoFN: autoToDO
   autoGoalFN: autoGoal
   artifactFN: artifact
+  artworkFN: artwork
   laborTypeGroup: 020000000400000007000000200000000c000000160000000e000000060000000300000005000000
   guardTypeGroup: 190000001a0000001d0000001b000000
   staffTypeGroup: 00000000010000000f0000001c000000
@@ -1973,6 +1972,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1500142260}
+  - component: {fileID: 1500142261}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -1997,6 +1997,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1500142261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500142259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6486951f44f144540ae76416c843a66d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  apiURL: http://159.65.171.191:3000/
+  debugMode: 0
 --- !u!1 &1598862826
 GameObject:
   m_ObjectHideFlags: 0
@@ -2135,7 +2149,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1779908426
 MonoBehaviour:
   m_ObjectHideFlags: 0

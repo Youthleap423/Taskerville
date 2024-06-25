@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using EasyMobile;
+using System.Linq;
 
 public class UIManager : SingletonComponent<UIManager>
 {
@@ -46,7 +47,16 @@ public class UIManager : SingletonComponent<UIManager>
 
     void Start()
     {
-        
+        DataManager.OnDataUpdated += DataManager_OnDataUpdated;
+    }
+
+    private void DataManager_OnDataUpdated(bool obj)
+    {
+        if (obj)
+        {
+            NotificationManager.Instance.RescheduleAllTaskNotification();
+            UpdateTopProfile();
+        }
     }
 
     private void OnDestroy()
@@ -102,6 +112,40 @@ public class UIManager : SingletonComponent<UIManager>
         crestPage.SetActive(isActive);
     }
 
+    public void ShowReward(Dictionary<EResources, float> dic)
+    {
+        if (dic == null)
+        {
+            return;
+        }
+
+        if (dic.Keys.Count == 1)
+        {
+            var resource = dic.ElementAt(0).Key;
+            var amount = dic.ElementAt(0).Value;
+            if (amount > 0)
+            {
+                ShowRewardMessage("You've got ", resource.ToString().ToLower(), DataManager.Instance.GetSprite(resource), amount);
+            }
+            else if (amount < 0)
+            {
+                ShowRewardMessage("You've lost ", resource.ToString().ToLower(), DataManager.Instance.GetSprite(resource), amount);
+            }
+        }
+        else if(dic.Keys.Count > 1)
+        {
+            var amount = dic.ElementAt(0).Value;
+            if (amount > 0)
+            {
+                ShowRewardMessage("You've got", "a set of reward", DataManager.Instance.set_Sprite, 1);
+            }
+            else if (amount < 0)
+            {
+                ShowRewardMessage("You've lost", "a set of reward", DataManager.Instance.set_Sprite, 1);
+            }
+        }        
+    }
+
     public void ShowRewardMessage(string prefixStr)
     {
         ShowRewardMessage(prefixStr, "", null, 0);
@@ -115,15 +159,18 @@ public class UIManager : SingletonComponent<UIManager>
 
     public void UpdateTopProfile()
     {
-        if (happinessTF != null)
-        {
-            happinessTF.text = string.Format("{0:0.0}%", ResourceViewController.Instance.GetCurrentResourceValue(EResources.Happiness));
-        }
+        try { 
+            if (happinessTF != null)
+            {
+                happinessTF.text = string.Format("{0:0.0}%", ResourceViewController.Instance.GetCurrentResourceValue(EResources.Happiness));
+            }
 
-        if (goldCoinTF != null)
-        {
-            goldCoinTF.text = string.Format(" {0:0.0}", ResourceViewController.Instance.GetCurrentResourceValue(EResources.Gold));
-        }   
+            if (goldCoinTF != null)
+            {
+                goldCoinTF.text = string.Format(" {0:0.0}", ResourceViewController.Instance.GetCurrentResourceValue(EResources.Gold));
+            }
+        }
+        catch { }
     }
 
     public void ShowLoadingBar(bool isActive)

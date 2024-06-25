@@ -98,15 +98,6 @@ public class CommunicationPage : Page
             UIManager.Instance.ShowLoadingBar(false);
             if (isSuccess)
             {
-                var fCoalition = CommunicationViewController.Instance.FindMyCoalition();
-                if (fCoalition != null)
-                {
-                    CommunicationViewController.Instance.JoinedCoalition(fCoalition);
-                }
-                else
-                {
-                    CommunicationViewController.Instance.LeaveCoalition();
-                }
                 LoadPage();
             }
             else
@@ -146,10 +137,8 @@ public class CommunicationPage : Page
 
     public void ChangePublic(bool isOpen)
     {
-        coalition = CommunicationViewController.Instance.GetCurrentCoalition();
-        coalition.isOpen = isOpen;
         UIManager.Instance.ShowLoadingBar(true);
-        CommunicationViewController.Instance.ChangePublic(coalition, (isSuccess, errMsg) =>
+        CommunicationViewController.Instance.ChangePublic(isOpen, (isSuccess, errMsg) =>
         {
             UIManager.Instance.ShowLoadingBar(false);
             if (!isSuccess)
@@ -171,6 +160,7 @@ public class CommunicationPage : Page
         CommunicationViewController.Instance.CreateCoalition(coalition_creation_IF.text.Trim(), (isSuccess, errMsg) =>
         {
             UIManager.Instance.ShowLoadingBar(false);
+            Debug.LogError(errMsg);
             Initialize();
             if (!isSuccess)
             {
@@ -222,7 +212,7 @@ public class CommunicationPage : Page
             }
             else
             {
-                if (fCoalition.Id == UserViewController.Instance.GetCurrentUser().id)
+                if (fCoalition.id == UserViewController.Instance.GetCurrentUser().id)
                 {
                     UIManager.Instance.ShowErrorDlg("I can't leave a coalition I created, but instead I am no longer a member of my own coalition");
                 }
@@ -230,7 +220,7 @@ public class CommunicationPage : Page
                 {
                     UIManager.Instance.ShowErrorDlg("You've left coalition successfully.");
                 }
-                
+
                 Initialize();
             }
         });
@@ -245,7 +235,7 @@ public class CommunicationPage : Page
         }
 
         UIManager.Instance.ShowLoadingBar(true);
-        InvitationViewController.Instance.SendInvitation(player_search_IF.text.Trim(), EInviteType.Invite_Coalition, (isSuccess, errMsg) =>
+        CommunicationViewController.Instance.InviteUserToCoalition(player_search_IF.text.Trim(), (isSuccess, errMsg) =>
         {
             UIManager.Instance.ShowLoadingBar(false);
             if (!isSuccess)
@@ -268,7 +258,7 @@ public class CommunicationPage : Page
         }
 
         UIManager.Instance.ShowLoadingBar(true);
-        InvitationViewController.Instance.SendInvitationToVillage(player_search_IF.text, EInviteType.Invite_Coalition, (isSuccess, errMsg) =>
+        CommunicationViewController.Instance.InviteVillagerToCoalition(player_search_IF.text, (isSuccess, errMsg) =>
         {
             UIManager.Instance.ShowLoadingBar(false);
             if (!isSuccess)

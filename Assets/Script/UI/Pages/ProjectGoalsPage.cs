@@ -41,7 +41,7 @@ public class ProjectGoalsPage : Page
 
         infoGlowEffectObj.SetActive(UserViewController.Instance.GetCurrentUser().GetPlayerAgesAsDays() < 7);
 
-        if (UserViewController.Instance.GetCurrentSetting().current_mode == (int)Game_Mode.Game_Only)
+        if (UserViewController.Instance.GetCurrentSetting().game_mode == (int)Game_Mode.Game_Only)
         {
             newButton.SetActive(false);
             var projectList = TaskViewController.Instance.GetAutoGoals();
@@ -83,7 +83,7 @@ public class ProjectGoalsPage : Page
             entryList.Add(entry);
         }
 
-        TaskViewController.Instance.UpdateEntries(entryList);
+        TaskViewController.Instance.ArrangeProject(entryList);
     }
 
     public void ShowInfoPage()

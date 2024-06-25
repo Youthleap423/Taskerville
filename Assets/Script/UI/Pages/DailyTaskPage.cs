@@ -49,7 +49,7 @@ public class DailyTaskPage : Page
 
         infoGlowEffectObj.SetActive(UserViewController.Instance.GetCurrentUser().GetPlayerAgesAsDays() < 7);
         
-        if (UserViewController.Instance.GetCurrentSetting().current_mode == (int)Game_Mode.Game_Only)
+        if (UserViewController.Instance.GetCurrentSetting().game_mode == (int)Game_Mode.Game_Only)
         {
             newButton.SetActive(false);
         }
@@ -85,8 +85,7 @@ public class DailyTaskPage : Page
             entry.orderId = itemIndex;
             entryList.Add(entry);
         }
-
-        TaskViewController.Instance.UpdateEntries(entryList);
+        TaskViewController.Instance.ArrangeDailyTask(entryList);
     }
 
     public void ShowInfoPage()
@@ -115,11 +114,6 @@ public class DailyTaskPage : Page
         LayoutRebuilder.ForceRebuildLayoutImmediate(taskListGroup.transform.GetComponent<RectTransform>());
     }
 
-    public void SerializeToJson()
-    {
-        
-    }
-
     private void DeleteTaskList()
     {
         foreach (Transform child in taskListGroup.transform)
@@ -132,10 +126,12 @@ public class DailyTaskPage : Page
 
     private void OnApplicationFocus(bool focus)
     {
+#if !UNITY_EDITOR
         if (focus)
         {
             Initialize();
         }
+#endif
     }
-    #endregion
+#endregion
 }

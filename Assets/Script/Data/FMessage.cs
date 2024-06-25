@@ -1,61 +1,20 @@
-using Firebase.Firestore;
+using System;
 using System.Collections.Generic;
 
-[FirestoreData]
-public class FMessage : FData
+[Serializable]
+public class FMessage : Data
 {
-    [FirestoreProperty]
-    public string receiver_Id { get; set; }
+    public string receiver = "";
+    public string sender = "";
+    public string content = "";
+    public string created_at = "";
+    public EMessageType type = EMessageType.Public;
+    public bool isRead = false;
+    public List<string> members = new List<string>();
 
-    [FirestoreProperty]
-    public string type { get; set; }
-
-    [FirestoreProperty]
-    public string content { get; set; }
-
-    [FirestoreProperty]
-    public bool isRead { get; set; }
-
-    [FirestoreProperty]
-    public List<string> members { get; set; }
+    
     public FMessage()
     {
-        receiver_Id = "";
-        type = EMessageType.Private.ToString();
-        content = "";
-        isRead = false;
-    }
 
-    public FMessage(LUser sender, LUser receiver, string msg, EMessageType type)
-    {
-        this.Pid = sender.id;
-        this.receiver_Id = receiver.id;
-        this.members = new List<string>();
-        members.Add(sender.id);
-        members.Add(receiver.id);
-        this.content = msg;
-        this.created_at = Utilities.SystemTicks.ToString();
-        this.type = type.ToString();
-        this.collectionId = "Messages";
-    }
-
-    public FMessage(LUser sender, List<LUser> receiverList, string msg, EMessageType type)
-    {
-        this.Pid = sender.id;
-        this.receiver_Id = sender.joined_coalition;
-        this.members = new List<string>();
-        members.Add(sender.id);
-        foreach(LUser receiver in receiverList)
-        {
-            if (!members.Contains(receiver.id))
-            {
-                members.Add(receiver.id);
-            }
-        }
-        
-        this.content = msg;
-        this.created_at = Utilities.SystemTicks.ToString();
-        this.type = type.ToString();
-        this.collectionId = "Messages";
     }
 }

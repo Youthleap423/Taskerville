@@ -35,8 +35,7 @@ public class NotificationPage : Page
         {
             if (invitation.isOutOfDate())
             {
-                InvitationViewController.Instance.RemoveInvitation(invitation);
-                return;
+                continue;
             }
 
             if (invitation.state == EState.Created.ToString())
@@ -125,7 +124,7 @@ public class NotificationPage : Page
         });
 
         UIManager.Instance.ShowLoadingBar(true);
-        ArtworkSystem.Instance.LoadArtTrade((isSuccess, errMsg, tradeList) =>
+        ArtworkSystem.Instance.LoadReceiveArtTrades((isSuccess, errMsg, tradeList) =>
         {
             UIManager.Instance.ShowLoadingBar(false);
             if (isSuccess)

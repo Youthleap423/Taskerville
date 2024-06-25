@@ -83,12 +83,7 @@ public class SettingPage : Page
 
     public void OnSignout()
     {
-        UIManager.Instance.ShowLoadingBar(true);
-        UserViewController.Instance.SerializeUser(true, (isSuccess, err) =>
-        {
-            UIManager.Instance.ShowLoadingBar(false);
-            AppManager.Instance.SignOut();
-        });
+        AppManager.Instance.SignOut();
     }
 
     public void OnBack()

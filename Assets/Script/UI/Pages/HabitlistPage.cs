@@ -46,7 +46,7 @@ public class HabitlistPage : Page
 
         infoGlowEffectObj.SetActive(UserViewController.Instance.GetCurrentUser().GetPlayerAgesAsDays() < 7);
 
-        if (UserViewController.Instance.GetCurrentSetting().current_mode == (int)Game_Mode.Game_Only)
+        if (UserViewController.Instance.GetCurrentSetting().game_mode == (int)Game_Mode.Game_Only)
         {
             newButton.SetActive(false);
         }
@@ -101,7 +101,7 @@ public class HabitlistPage : Page
             entryList.Add(entry);
         }
         
-        TaskViewController.Instance.UpdateEntries(entryList);
+        TaskViewController.Instance.ArrangeHabit(entryList);
     }
 
     public void ShowInfoPage()

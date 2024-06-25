@@ -12,94 +12,7 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
     public List<LResource> fResources = new List<LResource>();
     public List<LBuilding> fBuildings = new List<LBuilding>();
     public List<EResources> specialItems = new List<EResources> {EResources.Clothes, EResources.Fine_Clothes, EResources.Garlic, EResources.Jewelry, EResources.Onion, EResources.Spices };
-    public void ClearData()
-    {
-        fVillagers.Clear();
-        fResources.Clear();
-        fBuildings.Clear();
-        DataManager.Instance.CurrentVillagers = fVillagers;
-        DataManager.Instance.CurrentBuildings = fBuildings;
-        DataManager.Instance.CurrentResources = fResources;
-    }
-
-    public void CheckDailyMission()
-    {
-        CheckProduction();
-        CheckHappinessReward();
-        Assistance();
-        PayMeal();
-
-        float currentGold = GetCurrentResourceValue(EResources.Gold);
-        float dailyGold = GetDailyMaintenance() + GetDailySalary();
-        if (currentGold > dailyGold && currentGold < dailyGold * 2)
-        {
-            DataManager.Instance.AddDailyReport("Mayor, funds are dangerously low.");
-        }
-        
-        PaySalary();
-        PayMaintenance();
-
-    }
-
-    public void CheckProduction()
-    {
-        foreach (LBuilding building in GetCurrentBuildings())
-        {
-            if (building.progress >= 1.0f)
-            {
-                building.CheckProduce();
-            }
-        }
-    }
-
-    public void CheckHappinessReward()
-    {
-        List<LResource> fResources = GetUserResource();
-        Dictionary<string, float> dic = new Dictionary<string, float>();
-        string happyId = DataManager.Instance.HappyId;
-        foreach (LResource lResource in fResources)
-        {
-            CResource resource = GetCResource(lResource.id); 
-            EResources key = resource.type;
-            int days = lResource.Effect_Out();
-            if (days > 0)
-            {
-                if (dic.ContainsKey(lResource.id))
-                {
-                    dic[lResource.id] -= (days * resource.market_amount);
-                }
-                else
-                {
-                    dic[lResource.id] = -(days * resource.market_amount);
-                }
-
-                
-
-                if (dic.ContainsKey(happyId))
-                {
-                    dic[happyId] -= (days * resource.effect_amount_per_day);
-                }
-                else
-                {
-                    dic[happyId] = -(days * resource.effect_amount_per_day);
-                }
-            }
-
-            if (lResource.purchasedAt.Count == 0 && resource.marketable_count > 0)
-            {
-                dic[lResource.id] = -lResource.current_amount;
-            }
-        }
-        
-
-        
-        UpdateResource(dic, (isSuccess, errMsg) =>
-        {
-            RewardSystem.Instance.GiveHappinessReward(GetGoldFromHappiness());
-        });
-        
-    }
-
+    
     public float GetGoldFromHappiness()
     {
         LUser currentUser = DataManager.Instance.GetCurrentUser();
@@ -213,16 +126,6 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
         }
     }
 
-    public List<LResource> GetInitialResource()
-    {
-        return DataManager.Instance.GetInitResource().ToList();
-    }
-
-    public List<LVillager> GetInitialVillagers()
-    {
-        return DataManager.Instance.GetInitVillager().ToList();
-    }
-
     public List<CResource> GetMarketResource(EMarketType type)
     {
         return DataManager.Instance.GetMarketResourceDic(type).ToList();
@@ -243,7 +146,7 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
 
     public List<CVillager> GetHirelVillagers()
     {
-        return DataManager.Instance.VillagersCategoryData.villagers.Where(vil => vil.hire_price > 0).ToList();
+        return DataManager.Instance.InitCVillagers.Where(vil => vil.hire_price > 0).ToList();
     }
 
     public List<LBuilding> GetCurrentBuildings(LUser user = null)
@@ -259,48 +162,6 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
         
     }
 
-    public List<LBuilding> GetInitBuildings()
-    {
-        return DataManager.Instance.GetInitBuilding().ToList();
-    }
-
-    public List<EResources> GetStandardFruitKeys()
-    {
-        return new List<EResources>() { EResources.Apples, EResources.Pears, EResources.Melons};
-    }
-
-    public List<EResources> GetRareFruitKeys()
-    {
-        return new List<EResources>() { EResources.Grapes, EResources.Cherries, EResources.Raspberries, EResources.Peaches };
-    }
-
-    public List<EResources> GetGrainKeys()
-    {
-        return new List<EResources>() { EResources.Bread, EResources.Corn, EResources.Fava_Beans, EResources.Eggs, EResources.Cabbage };
-    }
-
-    public List<EResources> GetStandardMeatKeys()
-    {
-        return new List<EResources>() { EResources.Beef, EResources.Deer, EResources.Fish};
-    }
-
-    public List<EResources> GetRareMeatKeys()
-    {
-        return new List<EResources>() { EResources.Lamb, EResources.Swine};
-    }
-
-    public List<EResources> GetSortedMealKeys()
-    {
-        List<EResources> eResources = new List<EResources>();
-        eResources.AddRange(GetGrainKeys());
-        eResources.AddRange(GetStandardFruitKeys());
-        eResources.AddRange(GetStandardMeatKeys());
-        eResources.AddRange(GetRareFruitKeys());
-        eResources.AddRange(GetRareMeatKeys());
-
-        return eResources;
-    }
-
     public int GetVillagePopulation(LUser user = null)
     {
         return GetCurrentVillagers(user).Count;
@@ -309,19 +170,8 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
     public int GetMealConsumeVillaerPopulation(LUser user = null)
     {
         return GetVillagePopulation(user) - 30;
-        //List<LVillager> currentVillagers = GetCurrentVillagers(user);
-        //int result = 0;
-        //foreach (LVillager villager in currentVillagers)
-        //{
-        //    CVillager cVillager = GetCVillager(villager.id);
-        //    if (cVillager.meal_amount > 0f)
-        //    {
-        //        result++;
-        //    }
-        //}
-
-        //return result;
     }
+
     public float GetAvailableMeals(LUser user = null)
     {
         return GetMealAmount(user) / GetMealConsumeVillaerPopulation(user);
@@ -381,7 +231,7 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
         float result = 0;
         foreach (LBuilding building in currentBuildings)
         {
-            BuildingsCategory cBuilding = GetCBuilding(building.id);
+            CBuilding cBuilding = GetCBuilding(building.id);
             result += (2.0f / 7);
         }
         //result += GetDailyPension();
@@ -490,22 +340,22 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
 
     public CResource GetCResource(string id)
     {
-        return DataManager.Instance.ResourcesCategoryData.resources.Find(res => res.id == id);
+        return DataManager.Instance.InitCResources.Find(res => res.id == id);
     }
 
     public CResource GetCResource(EResources type)
     {
-        return DataManager.Instance.ResourcesCategoryData.resources.Find(res => res.type == type);
+        return DataManager.Instance.InitCResources.Find(res => res.type == type);
     }
 
     public CVillager GetCVillager(string id)
     {
-        return DataManager.Instance.VillagersCategoryData.villagers.Find(vil => vil.id == id);
+        return DataManager.Instance.InitCVillagers.Find(vil => vil.id == id);
     }
 
-    public BuildingsCategory GetCBuilding(string id)
+    public CBuilding GetCBuilding(string id)
     {
-        return DataManager.Instance.BuildingsCategoryData.category.Find(building => building.GetId().ToString() == id);
+        return DataManager.Instance.InitCBuilddings.Find(building => building.id == id);
     }
 
     public List<LVillager> GetWorkers(int id)
@@ -618,7 +468,7 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
         var UID = GetCurrentVillagers().Count;
         foreach (EVillagerType type in types)
         {
-            var cVillager = DataManager.Instance.VillagersCategoryData.villagers.Find(it => it.type == type);
+            var cVillager = DataManager.Instance.InitCVillagers.Find(it => it.type == type);
             if (cVillager == null)
             {           
                 callback(false, "Cannot hire a selected specialist", vList);
@@ -634,7 +484,7 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
                 sVillager.id = "32";//laborer
                 sVillager.created_at = Utilities.GetFormattedDate(0);
                 //newLaborer.live_at = live_at;
-            }else if (type == EVillagerType.Currator)
+            }else if (type == EVillagerType.Curator)
             {
                 sVillager.id = cVillager.id;
             }
@@ -659,7 +509,8 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
         }
         else
         {
-            UpdateResource(EResources.Gold.ToString(), -hirePrice, (isSuccess, errMsg) =>
+            //this means pay hire price
+            DataManager.Instance.ExchangeResource(EResources.Gold, hirePrice, EResources.Gold, 0, (isSuccess, errMsg) =>
             {
                 callback(isSuccess, errMsg, vList);
             });
@@ -699,7 +550,7 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
         var buildingId = BuildManager.Instance.GetLiveBuildingId("33");
         foreach (EVillagerType type in types)
         {
-            var cVillager = DataManager.Instance.VillagersCategoryData.villagers.Find(it => it.type == type);
+            var cVillager = DataManager.Instance.InitCVillagers.Find(it => it.type == type);
             if (cVillager == null)
             {
                 return;
@@ -723,213 +574,6 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
     public void LoadLocalData()
     {
         DataManager.Instance.LoadLocalData();
-    }
-
-    public void PaySalary()
-    {
-        float salaryAmount = GetDailySalary();
-        float goldAmount = GetCurrentResourceValue(EResources.Gold);
-        
-        System.DateTime lastSalaryDate = Convert.FDateToDateTime(DataManager.Instance.GetSalaryDate());
-        int days = (int)Utilities.GetDays(lastSalaryDate, System.DateTime.Now);
-
-        if (days == 0)
-        {
-            return;
-        }
-        /*
-        int payableDays = (int)Mathf.Ceil(goldAmount / salaryAmount);
-        int payDays = Mathf.Min(days, payableDays);
-        float fee = (float)payDays * salaryAmount;
-        goldAmount -= fee;
-        //DataManager.Instance.UpdateSalaryDate(Utilities.GetDate(lastSalaryDate, (double)payDays));
-        DataManager.Instance.UpdateSalaryDate(System.DateTime.Now);
-        if (payDays < days)
-        {
-            //TODO - no enough gold to pay
-            UIManager.Instance.ShowErrorDlg("Not Enough Gold To Pay Salary");
-        }
-        UpdateResource(EResources.Gold.ToString(), -fee, (isSuccess, errMsg) =>
-        {
-        });
-        */
-        if (goldAmount < salaryAmount)
-        {
-            if (PlayerPrefs.GetString("Salary") != Convert.DateTimeToFDate(System.DateTime.Now))
-            {
-                UpdateResource(EResources.Gold.ToString(), -goldAmount, (isSuccess, errMsg) =>
-                {
-                    UIManager.Instance.ShowErrorDlg("Not Enough Gold To Pay Salaries");
-                    DataManager.Instance.UpdateSalaryDate(System.DateTime.Now);
-                    PlayerPrefs.SetString("Salary", Convert.DateTimeToFDate(System.DateTime.Now));
-                });
-            }
-
-            return;
-        }
-
-        UpdateResource(EResources.Gold.ToString(), -salaryAmount, (isSuccess, errMsg) =>
-        {
-            DataManager.Instance.UpdateSalaryDate(System.DateTime.Now);
-        });
-    }
-
-    public void PayMaintenance()
-    {
-        float maintenanceAmount = GetDailyMaintenance();
-        float goldAmount = GetCurrentResourceValue(EResources.Gold);
-
-        System.DateTime lastPaidDate = Convert.FDateToDateTime(DataManager.Instance.GetMaintenanceDate());
-        int days = (int)Utilities.GetDays(lastPaidDate, System.DateTime.Now);
-
-        if (days == 0)
-        {
-            return;
-        }
-        /*
-        int payableDays = (int)Mathf.Ceil(goldAmount / maintenanceAmount);
-        int payDays = Mathf.Min(days, payableDays);
-        float fee = (float)payDays * maintenanceAmount;
-        goldAmount -= fee;
-        //DataManager.Instance.UpdateMaintenanceDate(Utilities.GetDate(lastPaidDate, (double)payDays));
-        DataManager.Instance.UpdateMaintenanceDate(System.DateTime.Now);
-        if (payDays < days)
-        {
-            //TODO - no enough gold to pay
-            UIManager.Instance.ShowErrorDlg("Not Enough Gold To Pay Maintenance");
-        }
-
-        UpdateResource(EResources.Gold.ToString(), -fee, (isSuccess, errMsg) =>
-        {
-            
-        });
-        */
-        if (goldAmount < maintenanceAmount)
-        {
-            if (PlayerPrefs.GetString("DailyDropHappiness") != Convert.DateTimeToFDate(System.DateTime.Now))
-            {
-                UpdateResource(EResources.Happiness.ToString(), -8f, (isSuccess, errMsg) =>
-                {
-                    UIManager.Instance.ShowErrorDlg("Not Enough Gold To Pay Maintenance");
-                    PlayerPrefs.SetString("DailyDropHappiness", Convert.DateTimeToFDate(System.DateTime.Now));
-                });
-            }
-
-            return;
-        }
-       
-
-        UpdateResource(EResources.Gold.ToString(), -maintenanceAmount, (isSuccess, errMsg) =>
-        {
-            DataManager.Instance.UpdateMaintenanceDate(System.DateTime.Now);
-        });
-    }
-
-    public void PayMeal()
-    {
-        float mealAmount = GetDailyMeal();
-        float totalMealAmount = GetMealAmount();
-        float productionMeal = GetMealProduction();
-        if (totalMealAmount > mealAmount && totalMealAmount + productionMeal < 2 * mealAmount)
-        {
-            DataManager.Instance.AddDailyReport("Mayor, food stores are dangerously low.");
-        }
-        System.DateTime lastPaidDate = Convert.FDateToDateTime(DataManager.Instance.GetMealDate());
-        int days = (int)Utilities.GetDays(lastPaidDate, System.DateTime.Now);
-
-        if (days == 0)
-        {
-            return;
-        }
-
-        PayMeal(mealAmount);
-    }
-
-    
-
-    public void PayMeal(float amout)
-    {
-        var mealAmount = amout;
-        List<LResource> currentResources = DataManager.Instance.GetCurrentResources().ToList().OrderBy(item => item.created_at).ToList();
-        Dictionary<EResources, float> updateList = new Dictionary<EResources, float>();
-
-        foreach (LResource resource in currentResources)
-        {
-            CResource cResource = GetCResource(resource.id);
-            if (cResource != null && cResource.effect_type == EEffect_Type.Meal)
-            {
-                float meals = cResource.effect_amount_per_day * resource.current_amount;
-                if (meals <= 0)
-                {
-                    continue;
-                }
-
-                if (mealAmount >= meals)
-                {
-                    updateList.Add(cResource.type, -resource.current_amount);
-                    mealAmount -= meals;
-                }
-                else
-                {
-                    updateList.Add(cResource.type, -mealAmount / cResource.effect_amount_per_day);
-                    mealAmount = 0;
-                    break;
-                }
-            }
-        }
-
-        UpdateResource(updateList, (isSuccess, errMsg) =>
-        {
-            DataManager.Instance.UpdateMealDate(System.DateTime.Now);
-        });
-
-        PaySpeicalItems(10.0f);
-
-        if (mealAmount > 0)
-        {
-            if (PlayerPrefs.GetString("DailyDropHappiness") != Convert.DateTimeToFDate(System.DateTime.Now))
-            {
-                UpdateResource(EResources.Happiness.ToString(), -8f, (isSuccess, errMsg) =>
-                {
-                    UIManager.Instance.ShowErrorDlg("Not Enough Food");
-                    PlayerPrefs.SetString("DailyDropHappiness", Convert.DateTimeToFDate(System.DateTime.Now));
-                });
-            }
-
-            return;
-        }
-    }
-
-    public void PaySpeicalItems(float amount)
-    {
-        var totalAmount = 0f;
-        Dictionary<EResources, float> updateList = new Dictionary<EResources, float>();
-
-        foreach (EResources res in specialItems)
-        {
-            var curRes = GetCurrentResourceValue(res);
-            if (totalAmount + curRes >= amount)
-            {
-                updateList.Add(res, -(curRes - (amount - totalAmount)));
-                totalAmount = amount;
-            }
-            else
-            {
-                updateList.Add(res, -curRes);
-                totalAmount += curRes;
-            }
-        }
-
-        var curWineValue = GetCurrentResourceValue(EResources.Wine);
-        updateList.Add(EResources.Wine, curWineValue >= 10.0f ? -10.0f : -curWineValue);
-
-        var curAleValue = GetCurrentResourceValue(EResources.Ale);
-        updateList.Add(EResources.Ale, curAleValue >= 40.0f ? -40.0f : -curAleValue);
-
-        UpdateResource(updateList, (isSuccess, errMsg) =>
-        {
-            //vanish off list at 10 items per day, no matter how much is purchased 01/25/2023
-        });
     }
 
     public void CreateBuilding(LBuilding building)
@@ -981,40 +625,6 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
         DataManager.Instance.CurrentBuildings = buildings;
     }
 
-    public void OnExchange(EResources from, float fAmount, EResources to, float tAmount, System.Action<bool, string> callback = null)
-    {
-        var resourceDic = new Dictionary<EResources, float>();
-        var totalAmount = GetResourceValue(from);
-        if (totalAmount < fAmount)
-        {
-            return;
-        }
-        resourceDic.Add(from, -fAmount);
-        resourceDic.Add(to, tAmount);
-        UpdateResource(resourceDic, (isSuccess, errMsg) =>
-        {
-            if (isSuccess)
-            {
-                UIManager.Instance.ShowRewardMessage("You've got ", to.ToString().ToLower(), DataManager.Instance.GetSprite(to), tAmount);
-            }
-            if (callback != null)
-            {
-                callback(isSuccess, errMsg);
-            }
-        });
-    }
-
-    public void OnAutomaticExchange()
-    {
-        //sapphire
-        
-        if (GetResourceValue(EResources.Sapphire) >= 5.0f)
-        {
-            OnExchange(EResources.Sapphire, 5f, EResources.Ruby, 1f);
-            DataManager.Instance.AddDailyReport("Your acquisitions trader has exchanged 5 Sapphires for 1 Ruby. Keep up the great work!");
-            UIManager.Instance.ShowRewardMessage("You've got", "a ruby", DataManager.Instance.ruby_Sprite, 1);
-        }
-    }
 
     public bool CheckResource(Dictionary<EResources, float> resourceDic)
     {
@@ -1031,54 +641,11 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
         return result;
     }
 
-    public void UpdateResource(Dictionary<EResources, float> resourceDic, System.Action<bool, string> callback = null)
-    {
-        Dictionary<string, float> resourceStrDic = new Dictionary<string, float>();
-
-        foreach(EResources key in resourceDic.Keys)
-        {
-            resourceStrDic.Add(key.ToString(), resourceDic[key]);
-        }
-
-        UpdateResource(resourceStrDic, callback);
-    }
-
-    public void UpdateResource(Dictionary<string, float> resourceDic, System.Action<bool, string> callback)
-    {
-        if (resourceDic.Keys.Contains(EResources.Meal.ToString()))
-        {
-            PayMeal(Mathf.Abs(resourceDic[EResources.Meal.ToString()]));
-            resourceDic.Remove(EResources.Meal.ToString());
-        }
-
-        DataManager.Instance.UpdateResource(resourceDic, (isSuccess, errMsg) =>
-        {
-            if (isSuccess)
-            {
-                OnAutomaticExchange();
-            }
-            ArtworkSystem.Instance.CheckHappinessMilestone(GetResourceValue(EResources.Happiness));
-            UIManager.Instance.UpdateTopProfile();
-            if (callback != null)
-            {
-                callback(isSuccess, errMsg);
-            }
-        });
-    }
-
-    public void UpdateResource(string resourceName, float amount, System.Action<bool, string> callback)
-    {
-        Dictionary<string, float> resourceDic = new Dictionary<string, float>();
-        resourceDic.Add(resourceName, amount);
-        UpdateResource(resourceDic, callback);
-    }
-
-
     public (string, List<EVillagerType>) NeedToHireSpecialist(LBuilding lBuilding)
     {
         var Category = DataManager.Instance.GetBuilding(int.Parse(lBuilding.id));
         var result = new List<EVillagerType>();
-        if (Category.special_villagers.Count == 0 && Category.require_villagers.Count == 0)
+        if (Category.specialVillagers.Count == 0 && Category.requireVillagers.Count == 0)
         {
             return ("", result);
         }
@@ -1089,7 +656,7 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
         foreach (LVillager villager in workers)
         {
             var cVillager = ResourceViewController.Instance.GetCVillager(villager.id);
-            foreach (EVillagerType type in Category.special_villagers)
+            foreach (EVillagerType type in Category.specialVillagers)
             {
                 if (cVillager.type == type)
                 {
@@ -1101,42 +668,42 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
             }
         }
 
-        if (sWorkerIDs.Count < Category.special_villagers.Count)
+        if (sWorkerIDs.Count < Category.specialVillagers.Count)
         {
-            if (sWorkerIDs.Count + sWorkerIDs.Count * Category.require_villagers.Count > workers.Count)
+            if (sWorkerIDs.Count + sWorkerIDs.Count * Category.requireVillagers.Count > workers.Count)
             {
-                var value = sWorkerIDs.Count + sWorkerIDs.Count * Category.require_villagers.Count - workers.Count;
+                var value = sWorkerIDs.Count + sWorkerIDs.Count * Category.requireVillagers.Count - workers.Count;
                 for (int i = 0; i < value; i++)
                 {
-                    result.Add(Category.require_villagers[0]);
+                    result.Add(Category.requireVillagers[0]);
                 }
                 return ("Hire Laborer", result);
             }
             else
             {
-                var value = sWorkerIDs.Count + (sWorkerIDs.Count + 1) * Category.require_villagers.Count - workers.Count;
-                result.Add(Category.special_villagers[0]);
+                var value = sWorkerIDs.Count + (sWorkerIDs.Count + 1) * Category.requireVillagers.Count - workers.Count;
+                result.Add(Category.specialVillagers[0]);
                 for (int i = 0; i < value; i++)
                 {
-                    result.Add(Category.require_villagers[0]);
+                    result.Add(Category.requireVillagers[0]);
                 }
                 return ("Hire Specialist", result);
             }
         }
         else
         {
-            if (Category.special_villagers.Count + Category.special_villagers.Count * Category.require_villagers.Count > workers.Count)
+            if (Category.specialVillagers.Count + Category.specialVillagers.Count * Category.requireVillagers.Count > workers.Count)
             {
-                var value = sWorkerIDs.Count + sWorkerIDs.Count * Category.require_villagers.Count - workers.Count;
+                var value = sWorkerIDs.Count + sWorkerIDs.Count * Category.requireVillagers.Count - workers.Count;
                 for (int i = 0; i < value; i++)
                 {
-                    result.Add(Category.require_villagers[0]);
+                    result.Add(Category.requireVillagers[0]);
                 }
                 return ("Hire Laborer", result);
             }
-            else if (Category.special_villagers.Count == 0 && Category.require_villagers.Count > workers.Count)
+            else if (Category.specialVillagers.Count == 0 && Category.requireVillagers.Count > workers.Count)
             {
-                result.AddRange(Category.require_villagers);
+                result.AddRange(Category.requireVillagers);
                 return ("Hire Laborer", result);
             }
         }
@@ -1166,48 +733,5 @@ public class ResourceViewController : SingletonComponent<ResourceViewController>
     public void DestroyBuilding(LBuilding building)
     {
         //TODO-remove building data
-    }
-
-
-    public void ChangeMode(Game_Mode game_mode)
-    {
-        DataManager.Instance.ChangeMode(game_mode);
-    }
-
-
-
-    /////////////////////////////////////////////////////////////////////////////////////
-    //////////////                   Task app only mode                //////////////////
-    /////////////////////////////////////////////////////////////////////////////////////
-    public void Assistance()
-    {
-
-        if (AppManager.Instance.GetCurrentMode() == Game_Mode.Task_Only)
-        {
-            var user = UserViewController.Instance.GetCurrentUser();
-            if (user.GetAgesAsDays() > 45)
-            {
-                return;
-            }
-
-            if (user.hasGotAssist())
-            {
-                return;
-            }
-
-            var resDic = new Dictionary<EResources, float>();
-            resDic.Add(EResources.Gold, 65);
-            resDic.Add(EResources.Lumber, 25);
-            resDic.Add(EResources.Stone, 15);
-            resDic.Add(EResources.Iron, 10);
-
-            UpdateResource(resDic, (isSuccess, errMsg) =>
-            {
-                if (isSuccess)
-                {
-                    user.updateDates(EDates.Assist.ToString(), Convert.DateTimeToFDate(System.DateTime.Now));
-                }
-            });
-        }
     }
 }

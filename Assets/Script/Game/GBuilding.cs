@@ -20,7 +20,7 @@ public class GBuilding : MonoBehaviour
     [Space]
     [SerializeField] private LBuilding lBuilding = null;
     [SerializeField] private bool bQuickBuild = false;
-    private BuildingsCategory buildingsCategory = null;
+    private CBuilding buildingsCategory = null;
     private BuildingCreator bCreator = null;
     
 
@@ -37,7 +37,7 @@ public class GBuilding : MonoBehaviour
         }
     }
 
-    public BuildingsCategory Category
+    public CBuilding Category
     {
         get
         {
@@ -93,9 +93,9 @@ public class GBuilding : MonoBehaviour
         Category = DataManager.Instance.GetBuilding(int.Parse(lBuilding.id));
     }
 
-    public int GetBuildingID()
+    public string GetBuildingID()
     {
-        return int.Parse(lBuilding.id);
+        return lBuilding.id;
     }
 
     public float GetProgress()
@@ -142,7 +142,7 @@ public class GBuilding : MonoBehaviour
     {
         var sWorker = 0;
         var rWorker = 0;
-        var specialVillagers = Category.special_villagers;
+        var specialVillagers = Category.specialVillagers;
         if (specialVillagers.Count == 0)
         {
             return 0;
@@ -168,7 +168,7 @@ public class GBuilding : MonoBehaviour
         var result = 0;
         for(int i = 0; i < sWorker; i++)
         {
-            if (rWorker >= (i + 1) * Category.require_villagers.Count)
+            if (rWorker >= (i + 1) * Category.requireVillagers.Count)
             {
                 result = i + 1;
             }
@@ -183,7 +183,7 @@ public class GBuilding : MonoBehaviour
     public (string, List<EVillagerType>) NeedToHireSpecialist()
     {
         var result = new List<EVillagerType>();
-        if (Category.special_villagers.Count == 0 && Category.require_villagers.Count == 0)
+        if (Category.specialVillagers.Count == 0 && Category.requireVillagers.Count == 0)
         {
             return ("", result);
         }
@@ -193,7 +193,7 @@ public class GBuilding : MonoBehaviour
         foreach(LVillager villager in workers)
         {
             var cVillager = ResourceViewController.Instance.GetCVillager(villager.id);
-            foreach(EVillagerType type in Category.special_villagers)
+            foreach(EVillagerType type in Category.specialVillagers)
             {
                 if (cVillager.type == type)
                 {
@@ -205,39 +205,39 @@ public class GBuilding : MonoBehaviour
             }
         }
         
-        if (sWorkerIDs.Count < Category.special_villagers.Count)
+        if (sWorkerIDs.Count < Category.specialVillagers.Count)
         {
-            if (sWorkerIDs.Count + sWorkerIDs.Count * Category.require_villagers.Count > workers.Count)
+            if (sWorkerIDs.Count + sWorkerIDs.Count * Category.requireVillagers.Count > workers.Count)
             {
-                var value = sWorkerIDs.Count + sWorkerIDs.Count * Category.require_villagers.Count - workers.Count;
+                var value = sWorkerIDs.Count + sWorkerIDs.Count * Category.requireVillagers.Count - workers.Count;
                 for(int i = 0; i < value; i++)
                 {
-                    result.Add(Category.require_villagers[0]);
+                    result.Add(Category.requireVillagers[0]);
                 }
                 return ("Hire Laborer", result);
             }
             else
             {
-                var value = sWorkerIDs.Count + (sWorkerIDs.Count + 1) * Category.require_villagers.Count - workers.Count;
-                result.Add(Category.special_villagers[sWorkerIDs.Count]);
+                var value = sWorkerIDs.Count + (sWorkerIDs.Count + 1) * Category.requireVillagers.Count - workers.Count;
+                result.Add(Category.specialVillagers[sWorkerIDs.Count]);
                 for (int i = 0; i < value; i++)
                 {
-                    result.Add(Category.require_villagers[0]);
+                    result.Add(Category.requireVillagers[0]);
                 }
                 return ("Hire Specialist", result);
             }
         }else{
-            if (Category.special_villagers.Count + Category.special_villagers.Count * Category.require_villagers.Count > workers.Count)
+            if (Category.specialVillagers.Count + Category.specialVillagers.Count * Category.requireVillagers.Count > workers.Count)
             {
-                var value = sWorkerIDs.Count + sWorkerIDs.Count * Category.require_villagers.Count - workers.Count;
+                var value = sWorkerIDs.Count + sWorkerIDs.Count * Category.requireVillagers.Count - workers.Count;
                 for (int i = 0; i < value; i++)
                 {
-                    result.Add(Category.require_villagers[0]);
+                    result.Add(Category.requireVillagers[0]);
                 }
                 return ("Hire Laborer", result);
-            }else if (Category.special_villagers.Count == 0 && Category.require_villagers.Count > workers.Count)
+            }else if (Category.specialVillagers.Count == 0 && Category.requireVillagers.Count > workers.Count)
             {
-                result.AddRange(Category.require_villagers);
+                result.AddRange(Category.requireVillagers);
                 return ("Hire Laborer", result);
             }
         }
@@ -356,7 +356,7 @@ public class GBuilding : MonoBehaviour
         {
             DataManager.Instance.UpdateResource(EResources.Culture, (float)(buildingsCategory.culturePoint));
 
-            if (buildingsCategory.Description == "Unique Building")
+            if (buildingsCategory.description == "Unique Building")
             {
                 if (UserViewController.Instance.GetCurrentUser().fBU == false)
                 {
@@ -473,7 +473,7 @@ public class GBuilding : MonoBehaviour
                 CheckBuilders();
 
             }
-            lBuilding.CheckProduce();
+            //lBuilding.CheckProduce();
         }
         catch
         {

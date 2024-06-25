@@ -57,7 +57,7 @@ public class CrestPage : Page
 
         UIManager.Instance.ShowLoadingBar(true);
 
-        ResourceViewController.Instance.UpdateResource(EResources.Diamond.ToString(), -1f, (isSuccess, errMsg) =>
+        DataManager.Instance.ExchangeResource(EResources.Diamond, -1f, EResources.Culture, 0, (isSuccess, errMsg) =>
         {
             UIManager.Instance.ShowLoadingBar(false);
             if (isSuccess)
@@ -82,7 +82,7 @@ public class CrestPage : Page
         }
 
         UIManager.Instance.ShowLoadingBar(true);
-        ResourceViewController.Instance.OnExchange(EResources.Diamond, 1f, EResources.Ruby, 5f, (isSuccess, errMsg) =>
+        DataManager.Instance.ExchangeResource(EResources.Diamond, -1f, EResources.Ruby, 5f, (isSuccess, errMsg) =>
         {
             UIManager.Instance.ShowLoadingBar(false);
             if (isSuccess)
@@ -106,7 +106,7 @@ public class CrestPage : Page
         }
 
         UIManager.Instance.ShowLoadingBar(true);
-        ResourceViewController.Instance.OnExchange(EResources.Ruby, 5f, EResources.Diamond, 1f, (isSuccess, errMsg) =>
+        DataManager.Instance.ExchangeResource(EResources.Ruby, -5f, EResources.Diamond, 1f, (isSuccess, errMsg) =>
         {
             UIManager.Instance.ShowLoadingBar(false);
             if (isSuccess)
@@ -130,7 +130,7 @@ public class CrestPage : Page
         }
 
         UIManager.Instance.ShowLoadingBar(true);
-        ResourceViewController.Instance.OnExchange(EResources.Gold, 100f, EResources.Ruby, 1f, (isSuccess, errMsg) =>
+        DataManager.Instance.ExchangeResource(EResources.Gold, -100f, EResources.Ruby, 1f, (isSuccess, errMsg) =>
         {
             UIManager.Instance.ShowLoadingBar(false);
             if (isSuccess)

@@ -122,6 +122,10 @@ public class HabitEntryPage : EntryPage
     private void RecurrenceToggle_OnValueChanged(bool isOn)
     {
         recurrenceItem.SetActive(isOn);
+        foreach (Toggle toggle in Week_Toggles)
+        {
+            toggle.isOn = false;
+        }
         if (isOn)
         {
             beginDate_TF.text = Convert.FDateToEntryDate(this.newHabitEntry.begin_date);
@@ -380,16 +384,24 @@ public class HabitEntryPage : EntryPage
                 newHabitEntry.repeat_alarm = 0;
                 newHabitEntry.remindAlarm = "";
             }
-            
+            TaskViewController.Instance.CreateHabit(newHabitEntry, (isSuccess) =>
+            {
+                if (isSuccess)
+                {
+                    ShowHabitList();
+                }
+            });
         }
         else
         {
-            newHabitEntry.SetRemoved(true);
+            TaskViewController.Instance.RemoveHabit(newHabitEntry, (isSuccess) =>
+            {
+                if (isSuccess)
+                {
+                    ShowHabitList();
+                }
+            });
         }
-
-        newHabitEntry.Update();
-
-        ShowHabitList();
     }
 
     public void ShowHabitList()
@@ -570,10 +582,6 @@ public class HabitEntryPage : EntryPage
     {
         taskNameIF.text = this.newHabitEntry.taskName;
         repeatition_dropdown.value = this. newHabitEntry.repeatition;
-        foreach (int id in this.newHabitEntry.repeatDays)
-        {
-            Week_Toggles[id].isOn = true;
-        }
         beginDate_TF.text = Convert.FDateToEntryDate(this.newHabitEntry.begin_date);
         timespanStartTF.text = this.newHabitEntry.span_start;
         alarmTimeTF.text = this.newHabitEntry.remindAlarm;

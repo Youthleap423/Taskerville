@@ -300,7 +300,7 @@ MonoBehaviour:
     mAutoInit: 1
     mAutoInitDelay: 0
     mIosAuthOptions: 7
-    mPushNotificationService: 0
+    mPushNotificationService: 2
     mOneSignalAppId: 
     mFirebaseTopics: []
     mCategoryGroups: []

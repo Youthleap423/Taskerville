@@ -23,12 +23,12 @@ public class ArtworkListPage : Page
     private void OnEnable()
     {
         var artList  = ArtworkSystem.Instance.GetAllArtworks();
-
+        Debug.LogError(artList.Count);
         //sort by artist name
         var cArtList = new List<CArtwork>();
         foreach(LArtwork lartwork in artList)
         {
-            var cArtwork = DataManager.Instance.GetCArtwork(lartwork);
+            var cArtwork = ArtworkSystem.Instance.GetCArtwork(lartwork);
             if (cArtwork != null)
             {
                 cArtList.Add(cArtwork);

@@ -366,6 +366,7 @@ public class RewardSystem : SingletonComponent<RewardSystem>
     #region Private Members
     private void GivesReward(EResources resource, float amount)
     {
+        /*
         Debug.LogError("Gives Reward" + resource.ToString() + amount);
         if (DataManager.Instance.GetCurrentSetting().shelter_storm)
         {
@@ -388,11 +389,12 @@ public class RewardSystem : SingletonComponent<RewardSystem>
                     }
                 }
             });
-        }
+        }*/
     }
 
     private void GivesReward(Dictionary<EResources, float> dic)
     {
+        /*
         if (DataManager.Instance.GetCurrentSetting().shelter_storm)
         {
             UIManager.Instance.ShowErrorDlg("Take shelter from the storm.  All tasks and habits are frozen.");
@@ -407,11 +409,12 @@ public class RewardSystem : SingletonComponent<RewardSystem>
                     UIManager.Instance.ShowRewardMessage("You've got",  "a set of reward", DataManager.Instance.set_Sprite, 1);
                 }
             });
-        }
+        }*/
     }
 
     private void CheckHappiness()
     {
+        /*
         if (ResourceViewController.Instance.GetCurrentResourceValue(EResources.Happiness) < 50.0f)
         {
             AudioManager.Instance.PlayFXSound(AudioManager.Instance.angryClip);
@@ -437,7 +440,7 @@ public class RewardSystem : SingletonComponent<RewardSystem>
                         
                 }
             });
-        }
+        }*/
     }
 
     private void GiftsForAToDo(FToDoEntry entry)

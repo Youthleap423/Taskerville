@@ -27,7 +27,7 @@ public class ArtExchangeOfferListPage : Page
             Destroy(child.gameObject);
         }
 
-        var artTrades = ArtworkSystem.Instance.GetAllArtTrades().FindAll(item => item.Pid == UserViewController.Instance.GetCurrentUser().id && item.state == EState.Posted.ToString());
+        var artTrades = ArtworkSystem.Instance.GetAllArtTrades().FindAll(item => item.sender == UserViewController.Instance.GetCurrentUser().id && item.state == EState.Posted.ToString());
 
         int index = 0;
         foreach (FArtTrade trade in artTrades)

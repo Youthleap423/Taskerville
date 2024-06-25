@@ -49,12 +49,6 @@ public class FTaskEntry: FEntry
         subTaskList = new List<FTask>();
     }
 
-    public void Update(List<FTask> subTaskList, System.Action<bool, string> callback)
-    {
-        this.subTaskList = subTaskList;
-        FirestoreManager.Instance.CreateEntry(this, subTaskList, callback);
-    }
-
     public bool IsAvailable(System.DateTime dateTime)
     {
         System.DateTime begin_date_DT = Convert.FDateToDateTime(begin_date);

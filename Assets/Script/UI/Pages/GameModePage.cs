@@ -85,7 +85,7 @@ public class GameModePage : Page
     {
         confirmDlgObj.SetActive(false);
         UpdateUI(mode);
-        AppManager.Instance.ChangeMode(mode);
+        AppManager.Instance.ChangeMode(mode, true);        
     }
 
     public void OnNevermind()
